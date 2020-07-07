@@ -1,0 +1,18 @@
+// HQ Theme
+@import "_vars.scss";
+@import "customize-bootstrap.scss";
+@import "~bootstrap/scss/bootstrap";
+
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/regular.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+
+// App Layout
+
+@import 'app/components/app';
+@import 'app/components/app-header';
+@import 'app/components/app-sidebar';
+@import 'app/components/app-sidebar-mini';
+@import 'app/components/app-title';
