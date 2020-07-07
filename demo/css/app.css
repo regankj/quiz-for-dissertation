@@ -11821,3 +11821,16 @@ readers do not read off random characters that represent icons */
   font-family: 'Font Awesome 5 Free';
   font-weight: 900; }
 
+.container {
+  padding-top: 10%; }
+
+.app-header {
+  width: 100%;
+  position: fixed;
+  background-color: #6133FF;
+  color: white; }
+
+.app-header h2 {
+  padding-top: 1rem;
+  padding-bottom: 1rem; }
+
