@@ -11822,7 +11822,7 @@ readers do not read off random characters that represent icons */
   font-weight: 900; }
 
 .container {
-  padding-top: 10%; }
+  padding-top: 10em; }
 
 .app-header {
   width: 100%;

@@ -1,3 +1,4 @@
+import * as d3 from 'd3';
 
 // Function to make sure Privacy Statement is accepted
 document.getElementById('continue').addEventListener('click', function(){
@@ -14,3 +15,18 @@ document.getElementById('continue').addEventListener('click', function(){
     infoForm.action = "quiz.html";
   }
 })
+
+// reading the csv into the webpage
+const qform = document.getElementById('questions');
+d3.csv("Sample-Data/sample.csv").then(function(data){
+  console.log(data[1]);
+});
+
+// connecting to the database
+var mysql = require('mysql');
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "regan",
+  password: "mypassword",
+  database: "dbase"
+});

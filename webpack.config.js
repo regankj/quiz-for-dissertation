@@ -2,6 +2,11 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
   devServer: {
     contentBase: path.resolve(__dirname, 'demo'),
     compress: true,
