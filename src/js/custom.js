@@ -31,7 +31,19 @@ function addRow(){
   const col = document.createElement('div');
   col.className = "col-md-6";
   newRow.appendChild(col);
+};
 
+function addBtns(){
+  const btnCol = document.createElement('div');
+  btnCol.className = "col-md-6";
+  qform.append(btnCol);
+  btnCol.style.display = "inline-block";
+  var upBtn = document.createElement('button');
+  var downBtn = document.createElement('button');
+  upBtn.innerHTML = "&#8250";
+  downBtn.innerHTML = "&#8249";
+  btnCol.appendChild(downBtn);
+  btnCol.appendChild(upBtn);
 };
 
 function addBar(){
@@ -56,19 +68,29 @@ d3.csv("Sample-Data/sample.csv").then(function(data){
     i++;
     d3.select("#questions").append("label").text(i + ". " + d.Question);
     addRow();
+
     d3.select("#questions").append("label").text(d.Option1);
+    addBtns();
     addBar();
     addRow();
+
     d3.select("#questions").append("label").text(d.Option2);
+    addBtns();
     addBar();
     addRow();
+
     d3.select("#questions").append("label").text(d.Option3);
+    addBtns();
     addBar();
     addRow();
+
     d3.select("#questions").append("label").text(d.Option4);
+    addBtns();
     addBar();
     addRow();
+
     d3.select("#questions").append("label").text(d.Option5);
+    addBtns();
     addBar();
     addRow();
 
