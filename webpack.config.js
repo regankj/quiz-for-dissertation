@@ -1,3 +1,11 @@
+/*
+code to configure webpack and bootstrap
+taken from https://github.com/wilsmex/hq-admin/blob/master/webpack.config.js
+accessed 29-06-20
+end of referenced code
+*/
+
+
 const path = require('path');
 const webpack = require('webpack');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
@@ -5,7 +13,7 @@ module.exports = {
   node: {
     fs: 'empty',
     net: 'empty',
-    tls: 'empty'
+    tls: 'empty',
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'demo'),

@@ -11822,12 +11822,19 @@ readers do not read off random characters that represent icons */
   font-weight: 900; }
 
 .container {
-  padding-top: 10em; }
+  padding-top: 10em;
+  padding-bottom: 5rem; }
+
+.bar {
+  background-color: #6133FF;
+  height: 20px;
+  width: 10em;
+  margin: 1em; }
 
 .app-header {
   width: 100%;
-  position: fixed;
   background-color: #6133FF;
+  position: absolute;
   color: white; }
 
 .app-header h2 {

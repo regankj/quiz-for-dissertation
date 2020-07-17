@@ -22,15 +22,28 @@ if (contBtn){
 
 
 
+const qform = document.getElementById('questions');
+
 function addRow(){
-  const qform = document.getElementById('questions');
   const newRow = document.createElement('div');
   newRow.className = "form-row my-md-3";
   qform.appendChild(newRow);
   const col = document.createElement('div');
   col.className = "col-md-6";
   newRow.appendChild(col);
+
 };
+
+function addBar(){
+  const barCol = document.createElement('div');
+  barCol.className = "col-md-6";
+  qform.appendChild(barCol);
+  var bar = document.createElement('div');
+  bar.className = "bar";
+  barCol.appendChild(bar);
+}
+
+
 
 /*
 loading in a csv file
@@ -44,16 +57,24 @@ d3.csv("Sample-Data/sample.csv").then(function(data){
     d3.select("#questions").append("label").text(i + ". " + d.Question);
     addRow();
     d3.select("#questions").append("label").text(d.Option1);
+    addBar();
     addRow();
     d3.select("#questions").append("label").text(d.Option2);
+    addBar();
     addRow();
     d3.select("#questions").append("label").text(d.Option3);
+    addBar();
     addRow();
     d3.select("#questions").append("label").text(d.Option4);
+    addBar();
     addRow();
     d3.select("#questions").append("label").text(d.Option5);
+    addBar();
     addRow();
+
   })
 });
 
 // end of referenced code
+
+// Creating a database
