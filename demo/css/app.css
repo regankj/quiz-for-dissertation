@@ -11827,9 +11827,18 @@ readers do not read off random characters that represent icons */
 
 .bar {
   background-color: #6133FF;
-  height: 20px;
-  width: 10em;
-  margin: 1em; }
+  height: 25px;
+  color: white;
+  margin: 1em;
+  padding-right: 5px;
+  text-align: right;
+  border-radius: 8.5%; }
+
+.upBtn {
+  border-radius: 30%; }
+
+.downBtn {
+  border-radius: 30%; }
 
 .app-header {
   width: 100%;

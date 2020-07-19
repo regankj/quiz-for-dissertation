@@ -5,8 +5,18 @@
 
 .bar {
   background-color: $primary-hex;
-  height: 20px;
-  width: 10em;
+  height: 25px;
+  color: white;
   margin: 1em;
+  padding-right: 5px;
+  text-align: right;
+  border-radius: 8.5%;
+}
 
+.upBtn {
+  border-radius: 30%;
+}
+
+.downBtn{
+  border-radius: 30%;
 }

@@ -21,8 +21,12 @@ if (contBtn){
 };
 
 
+// functions to add horizontal bars and buttons
 
 const qform = document.getElementById('questions');
+var questionTtl = 100;
+var j = 1;
+var values = {};
 
 function addRow(){
   const newRow = document.createElement('div');
@@ -42,18 +46,57 @@ function addBtns(){
   var downBtn = document.createElement('button');
   upBtn.innerHTML = "&#8250";
   downBtn.innerHTML = "&#8249";
+  upBtn.className = "upBtn";
+  upBtn.id = "upBtn" + j;
+  downBtn.className = "downBtn";
+  downBtn.id = "downBtn" + j;
+  upBtn.type = "button";
+  downBtn.type = "button";
   btnCol.appendChild(downBtn);
   btnCol.appendChild(upBtn);
-};
 
-function addBar(){
   const barCol = document.createElement('div');
+  var count = 20;
   barCol.className = "col-md-6";
   qform.appendChild(barCol);
   var bar = document.createElement('div');
   bar.className = "bar";
+  bar.id = "bar" + j;
   barCol.appendChild(bar);
-}
+  bar.innerHTML = count + "%";
+  bar.style.width = (count * 0.5) + "em";
+
+  var downBtnID = "downBtn" + j;
+  var upBtnID = "upBtn" + j;
+  var barID = "bar" + j;
+  var valueNum = "value" + j;
+  values[valueNum] = 20;
+
+
+
+  document.getElementById(downBtnID).addEventListener('click', function(){
+    count = count - 10;
+    document.getElementById(barID).innerHTML = count + "%";
+    document.getElementById(barID).style.width = (count * 0.5) + "em";
+    if (count <=0 ){
+      document.getElementById(downBtnID).disabled = true;
+    }
+    var value = document.getElementById(barID).innerHTML;
+    values[valueNum] = parseInt(value, 10);
+    console.log(values["value1"]);
+  });
+
+  document.getElementById(upBtnID).addEventListener('click', function(){
+    document.getElementById(downBtnID).disabled = false;
+    count = count + 10;
+    document.getElementById(barID).innerHTML = count + "%";
+    document.getElementById(barID).style.width = (count * 0.5) + "em";
+    var value = document.getElementById(barID).innerHTML;
+    values[valueNum] = parseInt(value, 10);
+    console.log(values["value1"]);
+  });
+  j++;
+};
 
 
 
@@ -71,32 +114,27 @@ d3.csv("Sample-Data/sample.csv").then(function(data){
 
     d3.select("#questions").append("label").text(d.Option1);
     addBtns();
-    addBar();
     addRow();
 
     d3.select("#questions").append("label").text(d.Option2);
     addBtns();
-    addBar();
     addRow();
 
     d3.select("#questions").append("label").text(d.Option3);
     addBtns();
-    addBar();
     addRow();
 
     d3.select("#questions").append("label").text(d.Option4);
     addBtns();
-    addBar();
     addRow();
 
     d3.select("#questions").append("label").text(d.Option5);
     addBtns();
-    addBar();
     addRow();
 
   })
 });
 
-// end of referenced code
 
-// Creating a database
+
+// end of referenced code
