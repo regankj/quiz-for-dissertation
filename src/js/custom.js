@@ -3,19 +3,29 @@ const d3 = require('d3');
 
 // Function to make sure Privacy Statement is accepted
 const contBtn = document.getElementById('continue');
+var uid = localStorage.getItem("idKey");
 if (contBtn){
   contBtn.addEventListener('click', function(){
     const checkbox = document.getElementById('check');
     var text = document.getElementById('checkError');
     const btn = document.getElementById('continue');
     const infoForm = document.getElementById('infoForm');
+    const dob = document.getElementById('DOB').value;
+    const genderBox = document.getElementById('Gender');
+    const incomeBracketBox = document.getElementById('incomeBracket');
+    var gender = genderBox.options[genderBox.selectedIndex].text;
+    var income = incomeBracketBox.options[incomeBracketBox.selectedIndex].text;
+
     if (checkbox.checked == false){
       text.style.display = "block";
       text.style.color = "red";
     } else {
+      uid++;
+      localStorage.setItem("idKey", uid);
       text.style.display = "none";
       btn.type = "submit";
       infoForm.action = "quiz.html";
+      saveUserData(uid, dob, gender, income);
     };
   });
 };
@@ -24,7 +34,6 @@ if (contBtn){
 // functions to add horizontal bars and buttons
 
 const qform = document.getElementById('questions');
-var questionTtl = 100;
 var j = 1;
 var values = {};
 
@@ -83,7 +92,6 @@ function addBtns(){
     }
     var value = document.getElementById(barID).innerHTML;
     values[valueNum] = parseInt(value, 10);
-    console.log(values["value1"]);
   });
 
   document.getElementById(upBtnID).addEventListener('click', function(){
@@ -93,7 +101,6 @@ function addBtns(){
     document.getElementById(barID).style.width = (count * 0.5) + "em";
     var value = document.getElementById(barID).innerHTML;
     values[valueNum] = parseInt(value, 10);
-    console.log(values["value1"]);
   });
   j++;
 };
@@ -132,9 +139,99 @@ d3.csv("Sample-Data/sample.csv").then(function(data){
     addBtns();
     addRow();
 
+    var confBtn = document.createElement('button');
+    confBtn.innerHTML = "Confirm";
+    confBtn.id = "confirm" + i;
+    confBtn.className = "confirmBtn";
+    qform.appendChild(confBtn);
+    var conBtnID = "confirm" + i;
+
+    var errText = document.createElement('label');
+    errText.innerHTML = "*Bars must add up to 100%";
+    errText.id = "errText" + i;
+    errText.className = "errText";
+    errText.style.display = "none";
+    qform.appendChild(errText);
+    var errTextID = "errText" + i;
+
+    addRow();
+
+    var a = "value" + (1 + 5*(i-1))
+    var b = "value" + (2 + 5*(i-1))
+    var x = "value" + (3 + 5*(i-1))
+    var y = "value" + (4 + 5*(i-1))
+    var z = "value" + (5 + 5*(i-1))
+
+    var questionNum = i;
+
+    document.getElementById(conBtnID).addEventListener('click', function(){
+      var errText = document.createElement
+      if ( (values[a] + values[b] + values[x] + values[y] + values[z]) != 100){
+        document.getElementById(conBtnID).type = "button";
+        document.getElementById(errTextID).style.display = "block";
+      }
+      else {
+        document.getElementById(errTextID).style.display = "none";
+        document.getElementById(conBtnID).type = "button";
+        writeData(uid, questionNum, values[a],values[b], values[x], values[y], values[z]);
+      }
+    })
+
   })
+
 });
-
-
-
 // end of referenced code
+
+
+/*
+Instructions for integrating firebase
+taken from https://firebase.google.com/docs/database/web/start
+accessed 20-07-20
+*/
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
+import "firebase/firestore";
+
+// Your web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyAb97M-9bRLRIfFDaLuqLbGAGoEHuZGB5Y",
+  authDomain: "quiz-for-dissertation.firebaseapp.com",
+  databaseURL: "https://quiz-for-dissertation.firebaseio.com",
+  projectId: "quiz-for-dissertation",
+  storageBucket: "quiz-for-dissertation.appspot.com",
+  messagingSenderId: "461944864856",
+  appId: "1:461944864856:web:35aa76bfb075f6c2d88a2d",
+  measurementId: "G-9XT7JWZZ72"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+// end of referenced code
+
+
+/*
+function to write data to the database
+taken from https://firebase.google.com/docs/database/web/read-and-write
+accessed 21-07-20
+*/
+function writeData(uid, questionNum, ans1, ans2, ans3, ans4, ans5){
+  firebase.database().ref('/user' + uid + '/question' + questionNum + '/').set({
+    agree: ans1,
+    slightly_agree: ans2,
+    neither: ans3,
+    slightly_disagree: ans4,
+    disagree: ans5
+  });
+};
+// end of referenced code
+
+
+// function to save user details
+function saveUserData(uid, dob, gender, income){
+  firebase.database.ref('/user'+ uid).set({
+    id: uid,
+    dob: dob,
+    gender: gender,
+    income: income
+  });
+};

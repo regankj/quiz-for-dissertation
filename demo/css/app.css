@@ -11840,6 +11840,13 @@ readers do not read off random characters that represent icons */
 .downBtn {
   border-radius: 30%; }
 
+.confirmBtn {
+  border-radius: 10%;
+  margin-bottom: 1em; }
+
+.errText {
+  color: red; }
+
 .app-header {
   width: 100%;
   background-color: #6133FF;
