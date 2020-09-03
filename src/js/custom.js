@@ -3,6 +3,7 @@ const d3 = require('d3');
 
 // Function to make sure Privacy Statement is accepted
 const contBtn = document.getElementById('continue');
+const nextBtn = document.getElementsByClassName('nextBtn');
 var uid = localStorage.getItem("idKey");
 if (contBtn){
   contBtn.addEventListener('click', function(){
@@ -10,9 +11,10 @@ if (contBtn){
     var text = document.getElementById('checkError');
     const btn = document.getElementById('continue');
     const infoForm = document.getElementById('infoForm');
-    const dob = document.getElementById('DOB').value;
+    const ageBox = document.getElementById('age');
     const genderBox = document.getElementById('Gender');
     const incomeBracketBox = document.getElementById('incomeBracket');
+    var age = ageBox.options[ageBox.selectedIndex].text;
     var gender = genderBox.options[genderBox.selectedIndex].text;
     var income = incomeBracketBox.options[incomeBracketBox.selectedIndex].text;
 
@@ -22,13 +24,13 @@ if (contBtn){
     } else {
       uid++;
       localStorage.setItem("idKey", uid);
+      saveUserData(uid, age, gender, income);
       text.style.display = "none";
-      btn.type = "submit";
-      infoForm.action = "quiz.html";
-      saveUserData(uid, dob, gender, income);
+      btn.type = "reset";
     };
   });
 };
+nextBtn.disabled = false;
 
 
 // functions to add horizontal bars and buttons
@@ -105,8 +107,6 @@ function addBtns(){
   j++;
 };
 
-
-
 /*
 loading in a csv file
 code taken and adapted from https://stackoverflow.com/questions/29259938/how-to-load-csv-file-to-use-with-d3
@@ -156,11 +156,23 @@ d3.csv("Sample-Data/sample.csv").then(function(data){
 
     addRow();
 
-    var a = "value" + (1 + 5*(i-1))
-    var b = "value" + (2 + 5*(i-1))
-    var x = "value" + (3 + 5*(i-1))
-    var y = "value" + (4 + 5*(i-1))
-    var z = "value" + (5 + 5*(i-1))
+    var a = "value" + (1 + 5*(i-1));
+    var b = "value" + (2 + 5*(i-1));
+    var x = "value" + (3 + 5*(i-1));
+    var y = "value" + (4 + 5*(i-1));
+    var z = "value" + (5 + 5*(i-1));
+
+    var downA = "downBtn" + (1 + 5*(i-1));
+    var downB = "downBtn" + (2 + 5*(i-1));
+    var downX = "downBtn" + (3 + 5*(i-1));
+    var downY = "downBtn" + (4 + 5*(i-1));
+    var downZ = "downBtn" + (5 + 5*(i-1));
+
+    var upA = "upBtn" + (1 + 5*(i-1));
+    var upB = "upBtn" + (2 + 5*(i-1));
+    var upX = "upBtn" + (3 + 5*(i-1));
+    var upY = "upBtn" + (4 + 5*(i-1));
+    var upZ = "upBtn" + (5 + 5*(i-1));
 
     var questionNum = i;
 
@@ -172,8 +184,18 @@ d3.csv("Sample-Data/sample.csv").then(function(data){
       }
       else {
         document.getElementById(errTextID).style.display = "none";
-        document.getElementById(conBtnID).type = "button";
+        document.getElementById(conBtnID).disabled = true;
         writeData(uid, questionNum, values[a],values[b], values[x], values[y], values[z]);
+        document.getElementById(downA).disabled = true;
+        document.getElementById(downB).disabled = true;
+        document.getElementById(downX).disabled = true;
+        document.getElementById(downY).disabled = true;
+        document.getElementById(downZ).disabled = true;
+        document.getElementById(upA).disabled = true;
+        document.getElementById(upB).disabled = true;
+        document.getElementById(upX).disabled = true;
+        document.getElementById(upY).disabled = true;
+        document.getElementById(upZ).disabled = true;
       }
     })
 
@@ -214,6 +236,7 @@ function to write data to the database
 taken from https://firebase.google.com/docs/database/web/read-and-write
 accessed 21-07-20
 */
+
 function writeData(uid, questionNum, ans1, ans2, ans3, ans4, ans5){
   firebase.database().ref('/user' + uid + '/question' + questionNum + '/').set({
     agree: ans1,
@@ -223,15 +246,13 @@ function writeData(uid, questionNum, ans1, ans2, ans3, ans4, ans5){
     disagree: ans5
   });
 };
-// end of referenced code
-
 
 // function to save user details
-function saveUserData(uid, dob, gender, income){
-  firebase.database.ref('/user'+ uid).set({
-    id: uid,
-    dob: dob,
+function saveUserData(uid, age, gender, income){
+  firebase.database().ref('/user' + uid + '/details/').set({
+    age: age,
     gender: gender,
     income: income
   });
 };
+// end of referenced code

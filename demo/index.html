@@ -22,10 +22,18 @@
           <form id="infoForm" class="justify-content-center">
             <div class="form-row my-md-3">
               <div class="col-md-6">
-                <label for="DOB">D.O.B</label>
+                <label for="age">Age</label>
               </div>
               <div class="col-md-6">
-                <input id="DOB" type="date">
+                <select class="form-control" id="age">
+                  <option selected>Choose...</option>
+                  <option>18-25</option>
+                  <option>26-35</option>
+                  <option>36-45</option>
+                  <option>46-55</option>
+                  <option>56-65</option>
+                  <option>65+</option>
+                </select>
               </div>
             </div>
             <div class="form-row my-md-3">
@@ -68,11 +76,11 @@
                 <p style="display:none" id="checkError">*Privacy Statement must be accepted to continue</p>
               </div>
             </div>
-            <button type="button" class="btn btn-primary my-md-3" id="continue">Continue</button>
+            <button type="button" class="btn btn-primary my-md-3" id="continue">Submit</button>
           </form>
         </div>
         <div class="card-footer">
-
+          <a href="quiz.html"><button class="nextBtn" type="button"> next >> </button></a>
         </div>
       </div>
     </div>

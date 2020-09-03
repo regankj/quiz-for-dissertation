@@ -11826,7 +11826,7 @@ readers do not read off random characters that represent icons */
   padding-bottom: 5rem; }
 
 .bar {
-  background-color: #6133FF;
+  background-color: #ADA62D;
   height: 25px;
   color: white;
   margin: 1em;
@@ -11847,9 +11847,15 @@ readers do not read off random characters that represent icons */
 .errText {
   color: red; }
 
+.nextBtn {
+  float: right; }
+
+body {
+  background-color: white; }
+
 .app-header {
   width: 100%;
-  background-color: #6133FF;
+  background-color: #ADA62D;
   position: absolute;
   color: white; }
 
