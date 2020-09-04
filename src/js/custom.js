@@ -27,10 +27,14 @@ if (contBtn){
       saveUserData(uid, age, gender, income);
       text.style.display = "none";
       btn.type = "reset";
+      ageBox.disabled = true;
+      genderBox.disabled = true;
+      incomeBracketBox.disabled = true;
+
     };
   });
 };
-nextBtn.disabled = false;
+
 
 
 // functions to add horizontal bars and buttons
@@ -84,7 +88,6 @@ function addBtns(){
   values[valueNum] = 20;
 
 
-
   document.getElementById(downBtnID).addEventListener('click', function(){
     count = count - 10;
     document.getElementById(barID).innerHTML = count + "%";
@@ -112,98 +115,103 @@ loading in a csv file
 code taken and adapted from https://stackoverflow.com/questions/29259938/how-to-load-csv-file-to-use-with-d3
 accessed 12-07-20
 */
-d3.csv("Sample-Data/sample.csv").then(function(data){
-  var i = 0;
-  data.forEach(function(d){
-    i++;
-    d3.select("#questions").append("label").text(i + ". " + d.Question);
-    addRow();
+function readData(file, section){
+  d3.csv(file).then(function(data){
+    var i = 0;
+    data.forEach(function(d){
+      i++;
+      d3.select("#questions").append("label").text(i + ". " + d.Question);
+      addRow();
 
-    d3.select("#questions").append("label").text(d.Option1);
-    addBtns();
-    addRow();
+      d3.select("#questions").append("label").text(d.Option1);
+      addBtns();
+      addRow();
 
-    d3.select("#questions").append("label").text(d.Option2);
-    addBtns();
-    addRow();
+      d3.select("#questions").append("label").text(d.Option2);
+      addBtns();
+      addRow();
 
-    d3.select("#questions").append("label").text(d.Option3);
-    addBtns();
-    addRow();
+      d3.select("#questions").append("label").text(d.Option3);
+      addBtns();
+      addRow();
 
-    d3.select("#questions").append("label").text(d.Option4);
-    addBtns();
-    addRow();
+      d3.select("#questions").append("label").text(d.Option4);
+      addBtns();
+      addRow();
 
-    d3.select("#questions").append("label").text(d.Option5);
-    addBtns();
-    addRow();
+      d3.select("#questions").append("label").text(d.Option5);
+      addBtns();
+      addRow();
 
-    var confBtn = document.createElement('button');
-    confBtn.innerHTML = "Confirm";
-    confBtn.id = "confirm" + i;
-    confBtn.className = "confirmBtn";
-    qform.appendChild(confBtn);
-    var conBtnID = "confirm" + i;
+      var confBtn = document.createElement('button');
+      confBtn.innerHTML = "Confirm";
+      confBtn.id = "confirm" + i;
+      confBtn.className = "confirmBtn";
+      qform.appendChild(confBtn);
+      var conBtnID = "confirm" + i;
 
-    var errText = document.createElement('label');
-    errText.innerHTML = "*Bars must add up to 100%";
-    errText.id = "errText" + i;
-    errText.className = "errText";
-    errText.style.display = "none";
-    qform.appendChild(errText);
-    var errTextID = "errText" + i;
+      var errText = document.createElement('label');
+      errText.innerHTML = "*Bars must add up to 100%";
+      errText.id = "errText" + i;
+      errText.className = "errText";
+      errText.style.display = "none";
+      qform.appendChild(errText);
+      var errTextID = "errText" + i;
 
-    addRow();
+      addRow();
 
-    var a = "value" + (1 + 5*(i-1));
-    var b = "value" + (2 + 5*(i-1));
-    var x = "value" + (3 + 5*(i-1));
-    var y = "value" + (4 + 5*(i-1));
-    var z = "value" + (5 + 5*(i-1));
+      var a = "value" + (1 + 5*(i-1));
+      var b = "value" + (2 + 5*(i-1));
+      var x = "value" + (3 + 5*(i-1));
+      var y = "value" + (4 + 5*(i-1));
+      var z = "value" + (5 + 5*(i-1));
 
-    var downA = "downBtn" + (1 + 5*(i-1));
-    var downB = "downBtn" + (2 + 5*(i-1));
-    var downX = "downBtn" + (3 + 5*(i-1));
-    var downY = "downBtn" + (4 + 5*(i-1));
-    var downZ = "downBtn" + (5 + 5*(i-1));
+      var downA = "downBtn" + (1 + 5*(i-1));
+      var downB = "downBtn" + (2 + 5*(i-1));
+      var downX = "downBtn" + (3 + 5*(i-1));
+      var downY = "downBtn" + (4 + 5*(i-1));
+      var downZ = "downBtn" + (5 + 5*(i-1));
 
-    var upA = "upBtn" + (1 + 5*(i-1));
-    var upB = "upBtn" + (2 + 5*(i-1));
-    var upX = "upBtn" + (3 + 5*(i-1));
-    var upY = "upBtn" + (4 + 5*(i-1));
-    var upZ = "upBtn" + (5 + 5*(i-1));
+      var upA = "upBtn" + (1 + 5*(i-1));
+      var upB = "upBtn" + (2 + 5*(i-1));
+      var upX = "upBtn" + (3 + 5*(i-1));
+      var upY = "upBtn" + (4 + 5*(i-1));
+      var upZ = "upBtn" + (5 + 5*(i-1));
 
-    var questionNum = i;
+      var questionNum = i;
 
-    document.getElementById(conBtnID).addEventListener('click', function(){
-      var errText = document.createElement
-      if ( (values[a] + values[b] + values[x] + values[y] + values[z]) != 100){
-        document.getElementById(conBtnID).type = "button";
-        document.getElementById(errTextID).style.display = "block";
-      }
-      else {
-        document.getElementById(errTextID).style.display = "none";
-        document.getElementById(conBtnID).disabled = true;
-        writeData(uid, questionNum, values[a],values[b], values[x], values[y], values[z]);
-        document.getElementById(downA).disabled = true;
-        document.getElementById(downB).disabled = true;
-        document.getElementById(downX).disabled = true;
-        document.getElementById(downY).disabled = true;
-        document.getElementById(downZ).disabled = true;
-        document.getElementById(upA).disabled = true;
-        document.getElementById(upB).disabled = true;
-        document.getElementById(upX).disabled = true;
-        document.getElementById(upY).disabled = true;
-        document.getElementById(upZ).disabled = true;
-      }
+      document.getElementById(conBtnID).addEventListener('click', function(){
+        var errText = document.createElement
+        if ( (values[a] + values[b] + values[x] + values[y] + values[z]) != 100){
+          document.getElementById(conBtnID).type = "button";
+          document.getElementById(errTextID).style.display = "block";
+        }
+        else {
+          document.getElementById(errTextID).style.display = "none";
+          document.getElementById(conBtnID).disabled = true;
+          writeData(uid, section, questionNum, values[a],values[b], values[x], values[y], values[z]);
+          document.getElementById(downA).disabled = true;
+          document.getElementById(downB).disabled = true;
+          document.getElementById(downX).disabled = true;
+          document.getElementById(downY).disabled = true;
+          document.getElementById(downZ).disabled = true;
+          document.getElementById(upA).disabled = true;
+          document.getElementById(upB).disabled = true;
+          document.getElementById(upX).disabled = true;
+          document.getElementById(upY).disabled = true;
+          document.getElementById(upZ).disabled = true;
+        }
+      })
+
     })
 
-  })
-
-});
+  });
+};
 // end of referenced code
 
+if ($('body').is('.quiz1')){
+  readData("Sample-Data/sample.csv", "political");
+};
 
 /*
 Instructions for integrating firebase
@@ -237,8 +245,8 @@ taken from https://firebase.google.com/docs/database/web/read-and-write
 accessed 21-07-20
 */
 
-function writeData(uid, questionNum, ans1, ans2, ans3, ans4, ans5){
-  firebase.database().ref('/user' + uid + '/question' + questionNum + '/').set({
+function writeData(uid, section, questionNum, ans1, ans2, ans3, ans4, ans5){
+  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/').set({
     agree: ans1,
     slightly_agree: ans2,
     neither: ans3,
