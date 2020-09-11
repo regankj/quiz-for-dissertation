@@ -15,10 +15,22 @@
 
 .upBtn {
   border-radius: 30%;
+  margin: 0.1em;
 }
 
 .downBtn{
   border-radius: 30%;
+  margin: 0.1em;
+}
+
+.smUpBtn{
+  border-radius: 30%;
+  margin: 0.1em;
+}
+
+.smDownBtn {
+  border-radius: 30%;
+  margin: 0.1em;
 }
 
 .confirmBtn {
@@ -33,6 +45,10 @@
 .nextBtn {
   float: right;
   border-radius: 10%;
+}
+
+.radLbl {
+  margin: 1em;
 }
 
 body {
