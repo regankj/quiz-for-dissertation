@@ -11826,7 +11826,7 @@ readers do not read off random characters that represent icons */
   padding-bottom: 5rem; }
 
 .bar {
-  background-color: #ADA62D;
+  background-color: green;
   height: 25px;
   color: white;
   margin: 1em;
@@ -11850,6 +11850,12 @@ readers do not read off random characters that represent icons */
   border-radius: 30%;
   margin: 0.1em; }
 
+.total {
+  display: block;
+  color: green;
+  font-size: 1.5em;
+  text-align: center; }
+
 .confirmBtn {
   border-radius: 10%;
   margin-bottom: 1em; }
@@ -11869,7 +11875,7 @@ body {
 
 .app-header {
   width: 100%;
-  background-color: #ADA62D;
+  background-color: green;
   position: absolute;
   color: white; }
 

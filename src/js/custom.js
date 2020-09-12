@@ -227,6 +227,42 @@ function readData(file, section){
     data.forEach(function(d){
       i++;
 
+      var a = "value" + (1 + 5*(i-1));
+      var b = "value" + (2 + 5*(i-1));
+      var x = "value" + (3 + 5*(i-1));
+      var y = "value" + (4 + 5*(i-1));
+      var z = "value" + (5 + 5*(i-1));
+
+      var smDownA = "smDownBtn" + (1 + 5*(i-1));
+      var smDownB = "smDownBtn" + (2 + 5*(i-1));
+      var smDownX = "smDownBtn" + (3 + 5*(i-1));
+      var smDownY = "smDownBtn" + (4 + 5*(i-1));
+      var smDownZ = "smDownBtn" + (5 + 5*(i-1));
+
+      var downA = "downBtn" + (1 + 5*(i-1));
+      var downB = "downBtn" + (2 + 5*(i-1));
+      var downX = "downBtn" + (3 + 5*(i-1));
+      var downY = "downBtn" + (4 + 5*(i-1));
+      var downZ = "downBtn" + (5 + 5*(i-1));
+
+      var upA = "upBtn" + (1 + 5*(i-1));
+      var upB = "upBtn" + (2 + 5*(i-1));
+      var upX = "upBtn" + (3 + 5*(i-1));
+      var upY = "upBtn" + (4 + 5*(i-1));
+      var upZ = "upBtn" + (5 + 5*(i-1));
+
+      var smUpA = "smUpBtn" + (1 + 5*(i-1));
+      var smUpB = "smUpBtn" + (2 + 5*(i-1));
+      var smUpX = "smUpBtn" + (3 + 5*(i-1));
+      var smUpY = "smUpBtn" + (4 + 5*(i-1));
+      var smUpZ = "smUpBtn" + (5 + 5*(i-1));
+
+      var radA = "radio" + (1 + 5*(i-1));
+      var radB = "radio" + (2 + 5*(i-1));
+      var radX = "radio" + (3 + 5*(i-1));
+      var radY = "radio" + (4 + 5*(i-1));
+      var radZ = "radio" + (5 + 5*(i-1));
+
       var radLblA = "radLbl" + (1 + 5*(i-1));
       var radLblB = "radLbl" + (2 + 5*(i-1));
       var radLblX = "radLbl" + (3 + 5*(i-1));
@@ -281,6 +317,13 @@ function readData(file, section){
       addBtns();
       addRow();
 
+      var total = document.createElement("label");
+      total.innerHTML = "Total: " + (values[a] + values[b] + values[x] + values[y] + values[z]) + "%";
+      total.id = "total" + i;
+      total.className = "total";
+      qform.appendChild(total);
+      addRow();
+
       var confBtn = document.createElement('button');
       confBtn.innerHTML = "Confirm";
       confBtn.id = "confirm" + i;
@@ -307,42 +350,6 @@ function readData(file, section){
       var radErrTextID = "radErrText" + i;
 
       addRow();
-
-      var a = "value" + (1 + 5*(i-1));
-      var b = "value" + (2 + 5*(i-1));
-      var x = "value" + (3 + 5*(i-1));
-      var y = "value" + (4 + 5*(i-1));
-      var z = "value" + (5 + 5*(i-1));
-
-      var smDownA = "smDownBtn" + (1 + 5*(i-1));
-      var smDownB = "smDownBtn" + (2 + 5*(i-1));
-      var smDownX = "smDownBtn" + (3 + 5*(i-1));
-      var smDownY = "smDownBtn" + (4 + 5*(i-1));
-      var smDownZ = "smDownBtn" + (5 + 5*(i-1));
-
-      var downA = "downBtn" + (1 + 5*(i-1));
-      var downB = "downBtn" + (2 + 5*(i-1));
-      var downX = "downBtn" + (3 + 5*(i-1));
-      var downY = "downBtn" + (4 + 5*(i-1));
-      var downZ = "downBtn" + (5 + 5*(i-1));
-
-      var upA = "upBtn" + (1 + 5*(i-1));
-      var upB = "upBtn" + (2 + 5*(i-1));
-      var upX = "upBtn" + (3 + 5*(i-1));
-      var upY = "upBtn" + (4 + 5*(i-1));
-      var upZ = "upBtn" + (5 + 5*(i-1));
-
-      var smUpA = "smUpBtn" + (1 + 5*(i-1));
-      var smUpB = "smUpBtn" + (2 + 5*(i-1));
-      var smUpX = "smUpBtn" + (3 + 5*(i-1));
-      var smUpY = "smUpBtn" + (4 + 5*(i-1));
-      var smUpZ = "smUpBtn" + (5 + 5*(i-1));
-
-      var radA = "radio" + (1 + 5*(i-1));
-      var radB = "radio" + (2 + 5*(i-1));
-      var radX = "radio" + (3 + 5*(i-1));
-      var radY = "radio" + (4 + 5*(i-1));
-      var radZ = "radio" + (5 + 5*(i-1));
 
       document.getElementById(radA).addEventListener('click', function(){
         document.getElementById(radB).checked = false;
@@ -375,6 +382,39 @@ function readData(file, section){
         document.getElementById(radY).checked = false;
       });
 
+      var downBtns = [smDownA, smDownB, smDownX, smDownY, smDownZ, downA, downB, downX, downY, downZ];
+      var upBtns = [smUpA, smUpB, smUpX, smUpY, smUpZ, upA, upB, upX, upY, upZ];
+
+      var btns = [smDownA, smDownB, smDownX, smDownY, smDownZ, downA, downB, downX, downY, downZ,
+                  smUpA, smUpB, smUpX, smUpY, smUpZ, upA, upB, upX, upY, upZ];
+
+      for (var r = 0; r < btns.length; r++){
+        document.getElementById(btns[r]).addEventListener("click", function(){
+          total.innerHTML = "Total: " + (values[a] + values[b] + values[x] + values[y] + values[z]) + "%";
+          console.log("sound");
+        });
+      };
+
+      for (var p = 0; p < upBtns.length; p++){
+        document.getElementById(downBtns[p]).addEventListener("click", function(){
+          for (var q = 0; q < upBtns.length; q++){
+            document.getElementById(upBtns[q]).disabled = false;
+          }
+        })
+        document.getElementById(upBtns[p]).addEventListener("click", function(){
+          if ((values[a] + values[b] + values[x] + values[y] + values[z]) >= 100){
+            for (var l = 0; l < upBtns.length; l++){
+              document.getElementById(upBtns[l]).disabled = true;
+            }
+          }
+        });
+      };
+
+      if ((values[a] + values[b] + values[x] + values[y] + values[z]) >= 100){
+        for (var l = 0; l < upBtns.length; l++){
+          document.getElementById(upBtns[l]).disabled = true;
+        }
+      }
 
       var questionNum = i;
 
@@ -412,33 +452,31 @@ function readData(file, section){
           document.getElementById(radX).disabled = true;
           document.getElementById(radY).disabled = true;
           document.getElementById(radZ).disabled = true;
-        }
-      })
 
-      document.getElementById(conBtnID).addEventListener('click', function(){
-        if (document.getElementById(radA).checked == true){
-          var ans = document.getElementById(radLblA).innerHTML;
-          writeAnswer(uid, section, questionNum, ans);
-          document.getElementById(radErrTextID).style.display = "none";
-        } else if (document.getElementById(radB).checked == true){
-          var ans = document.getElementById(radLblB).innerHTML;
-          writeAnswer(uid, section, questionNum, ans);
-          document.getElementById(radErrTextID).style.display = "none";
-        } else if (document.getElementById(radX).checked == true){
-          var ans = document.getElementById(radLblX).innerHTML;
-          writeAnswer(uid, section, questionNum, ans);
-          document.getElementById(radErrTextID).style.display = "none";
-        } else if (document.getElementById(radY).checked == true){
-          var ans = document.getElementById(radLblY).innerHTML;
-          writeAnswer(uid, section, questionNum, ans);
-          document.getElementById(radErrTextID).style.display = "none";
-        } else if (document.getElementById(radZ).checked == true){
-          var ans = document.getElementById(radLblZ).innerHTML;
-          writeAnswer(uid, section, questionNum, ans);
-          document.getElementById(radErrTextID).style.display = "none";
-        } else {
-          document.getElementById(conBtnID).type = "button";
-          document.getElementById(radErrTextID).style.display = "block";
+          if (document.getElementById(radA).checked == true){
+            var ans = document.getElementById(radLblA).innerHTML;
+            writeAnswer(uid, section, questionNum, ans);
+            document.getElementById(radErrTextID).style.display = "none";
+          } else if (document.getElementById(radB).checked == true){
+            var ans = document.getElementById(radLblB).innerHTML;
+            writeAnswer(uid, section, questionNum, ans);
+            document.getElementById(radErrTextID).style.display = "none";
+          } else if (document.getElementById(radX).checked == true){
+            var ans = document.getElementById(radLblX).innerHTML;
+            writeAnswer(uid, section, questionNum, ans);
+            document.getElementById(radErrTextID).style.display = "none";
+          } else if (document.getElementById(radY).checked == true){
+            var ans = document.getElementById(radLblY).innerHTML;
+            writeAnswer(uid, section, questionNum, ans);
+            document.getElementById(radErrTextID).style.display = "none";
+          } else if (document.getElementById(radZ).checked == true){
+            var ans = document.getElementById(radLblZ).innerHTML;
+            writeAnswer(uid, section, questionNum, ans);
+            document.getElementById(radErrTextID).style.display = "none";
+          } else {
+            document.getElementById(conBtnID).type = "button";
+            document.getElementById(radErrTextID).style.display = "block";
+          }
         }
       })
 
@@ -487,7 +525,7 @@ accessed 21-07-20
 */
 
 function writeData(uid, section, questionNum, ans1, ans2, ans3, ans4, ans5){
-  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/').set({
+  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/guess_of _public/').set({
     agree: ans1,
     slightly_agree: ans2,
     neither: ans3,
@@ -497,7 +535,7 @@ function writeData(uid, section, questionNum, ans1, ans2, ans3, ans4, ans5){
 };
 
 function writeAnswer(uid, section, questionNum, ans){
-  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/').set({
+  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/their_answer/').set({
     answer: ans
   });
 } ;

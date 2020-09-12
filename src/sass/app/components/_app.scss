@@ -33,6 +33,13 @@
   margin: 0.1em;
 }
 
+.total {
+  display: block;
+  color: $primary-hex;
+  font-size: 1.5em;
+  text-align: center;
+}
+
 .confirmBtn {
   border-radius: 10%;
   margin-bottom: 1em;
