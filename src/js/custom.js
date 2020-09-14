@@ -3,7 +3,6 @@ const d3 = require('d3');
 
 // Function to make sure Privacy Statement is accepted
 const contBtn = document.getElementById('continue');
-const nextBtn = document.getElementsByClassName('nextBtn');
 var uid = localStorage.getItem("idKey");
 if (contBtn){
   contBtn.addEventListener('click', function(){
@@ -158,39 +157,6 @@ function addBtns(){
     var value = document.getElementById(barID).innerHTML;
     values[valueNum] = parseInt(value, 10);
   });
-  /*
-  var a = "value" + (1 + 5*(j-1));
-  var b = "value" + (2 + 5*(j-1));
-  var x = "value" + (3 + 5*(j-1));
-  var y = "value" + (4 + 5*(j-1));
-  var z = "value" + (5 + 5*(j-1));
-
-  var upA = "upBtn" + (1 + 5*(j-1));
-  var upB = "upBtn" + (2 + 5*(j-1));
-  var upX = "upBtn" + (3 + 5*(j-1));
-  var upY = "upBtn" + (4 + 5*(j-1));
-  var upZ = "upBtn" + (5 + 5*(j-1));
-
-  var smUpA = "upBtn" + (1 + 5*(j-1));
-  var smUpB = "upBtn" + (2 + 5*(j-1));
-  var smUpX = "upBtn" + (3 + 5*(j-1));
-  var smUpY = "upBtn" + (4 + 5*(j-1));
-  var smUpZ = "upBtn" + (5 + 5*(j-1));
-
-  if ((values[a] + values[b] + values[x] + values[y] + values[z]) == 100){
-    document.getElementById(upA).disabled = true;
-    document.getElementById(upB).disabled = true;
-    document.getElementById(upX).disabled = true;
-    document.getElementById(upY).disabled = true;
-    document.getElementById(upZ).disabled = true;
-    document.getElementById(smUpA).disabled = true;
-    document.getElementById(smUpB).disabled = true;
-    document.getElementById(smUpX).disabled = true;
-    document.getElementById(smUpY).disabled = true;
-    document.getElementById(smUpZ).disabled = true;
-  }
-  */
-
   j++;
 };
 
@@ -226,6 +192,12 @@ function readData(file, section){
     var i = 0;
     data.forEach(function(d){
       i++;
+
+      /*var slide = document.createElement("div");
+      slide.className = "slide";
+      slide.id = "slide" + i;
+      var slideID = "slide" + i;
+      qform.appendChild(slide);*/
 
       var a = "value" + (1 + 5*(i-1));
       var b = "value" + (2 + 5*(i-1));
@@ -269,7 +241,7 @@ function readData(file, section){
       var radLblY = "radLbl" + (4 + 5*(i-1));
       var radLblZ = "radLbl" + (5 + 5*(i-1));
 
-      d3.select("#questions").append("label").text(i + ". " + d.Question);
+      d3.select('#questions').append("label").text(i + ". " + d.Question);
       addRow();
       d3.select('#questions').append("label").text("Your Answer:");
       addRow();
@@ -297,23 +269,23 @@ function readData(file, section){
       d3.select('#questions').append("label").text("What did the public think?:");
       addRow();
 
-      d3.select("#questions").append("label").text(d.Option1);
+      d3.select('#questions').append("label").text(d.Option1);
       addBtns();
       addRow();
 
-      d3.select("#questions").append("label").text(d.Option2);
+      d3.select('#questions').append("label").text(d.Option2);
       addBtns();
       addRow();
 
-      d3.select("#questions").append("label").text(d.Option3);
+      d3.select('#questions').append("label").text(d.Option3);
       addBtns();
       addRow();
 
-      d3.select("#questions").append("label").text(d.Option4);
+      d3.select('#questions').append("label").text(d.Option4);
       addBtns();
       addRow();
 
-      d3.select("#questions").append("label").text(d.Option5);
+      d3.select('#questions').append("label").text(d.Option5);
       addBtns();
       addRow();
 
@@ -385,36 +357,58 @@ function readData(file, section){
       var downBtns = [smDownA, smDownB, smDownX, smDownY, smDownZ, downA, downB, downX, downY, downZ];
       var upBtns = [smUpA, smUpB, smUpX, smUpY, smUpZ, upA, upB, upX, upY, upZ];
 
+      var lgUpBtns = [upA, upB, upX, upY, upZ];
+      var smUpBtns = [smUpA, smUpB, smUpX, smUpY, smUpZ];
+      var smDownBtns = [smDownA, smDownB, smDownX, smDownY, smDownZ];
+
       var btns = [smDownA, smDownB, smDownX, smDownY, smDownZ, downA, downB, downX, downY, downZ,
                   smUpA, smUpB, smUpX, smUpY, smUpZ, upA, upB, upX, upY, upZ];
 
       for (var r = 0; r < btns.length; r++){
         document.getElementById(btns[r]).addEventListener("click", function(){
           total.innerHTML = "Total: " + (values[a] + values[b] + values[x] + values[y] + values[z]) + "%";
-          console.log("sound");
         });
       };
 
       for (var p = 0; p < upBtns.length; p++){
         document.getElementById(downBtns[p]).addEventListener("click", function(){
-          for (var q = 0; q < upBtns.length; q++){
-            document.getElementById(upBtns[q]).disabled = false;
+          if ((values[a] + values[b] + values[x] + values[y] + values[z]) >= 90){
+            for (var q = 0; q < smUpBtns.length; q++){
+              document.getElementById(smUpBtns[q]).disabled = false;
+              document.getElementById(lgUpBtns[q]).disabled = true;
+            }
+          } else {
+            for (var q = 0; q < upBtns.length; q++){
+              document.getElementById(upBtns[q]).disabled = false;
+            }
+          }
+
+          if ((values[a] + values[b] + values[x] + values[y] + values[z]) == 100){
+            for (var n = 0; n < upBtns.length; n++){
+              document.getElementById(upBtns[n]).disabled = true;
+            }
           }
         })
         document.getElementById(upBtns[p]).addEventListener("click", function(){
           if ((values[a] + values[b] + values[x] + values[y] + values[z]) >= 100){
-            for (var l = 0; l < upBtns.length; l++){
-              document.getElementById(upBtns[l]).disabled = true;
+            for (var o = 0; o < upBtns.length; o++){
+              document.getElementById(upBtns[o]).disabled = true;
+            }
+          } else if ( ((values[a] + values[b] + values[x] + values[y] + values[z]) > 90) &&
+                      ((values[a] + values[b] + values[x] + values[y] + values[z]) < 100) ){
+              for (var l = 0; l < smUpBtns.length; l++){
+              document.getElementById(smUpBtns[l]).disabled = false;
+              document.getElementById(lgUpBtns[l]).disabled = true;
             }
           }
         });
-      };
-
-      if ((values[a] + values[b] + values[x] + values[y] + values[z]) >= 100){
-        for (var l = 0; l < upBtns.length; l++){
-          document.getElementById(upBtns[l]).disabled = true;
-        }
       }
+
+      if ((values[a] + values[b] + values[x] + values[y] + values[z]) == 100){
+        for (var f= 0; f < upBtns.length; f++){
+          document.getElementById(upBtns[f]).disabled = true;
+        }
+      };
 
       var questionNum = i;
 
@@ -427,26 +421,9 @@ function readData(file, section){
           document.getElementById(errTextID).style.display = "none";
           document.getElementById(conBtnID).disabled = true;
           writeData(uid, section, questionNum, values[a],values[b], values[x], values[y], values[z]);
-          document.getElementById(downA).disabled = true;
-          document.getElementById(downB).disabled = true;
-          document.getElementById(downX).disabled = true;
-          document.getElementById(downY).disabled = true;
-          document.getElementById(downZ).disabled = true;
-          document.getElementById(smDownA).disabled = true;
-          document.getElementById(smDownB).disabled = true;
-          document.getElementById(smDownX).disabled = true;
-          document.getElementById(smDownY).disabled = true;
-          document.getElementById(smDownZ).disabled = true;
-          document.getElementById(upA).disabled = true;
-          document.getElementById(upB).disabled = true;
-          document.getElementById(upX).disabled = true;
-          document.getElementById(upY).disabled = true;
-          document.getElementById(upZ).disabled = true;
-          document.getElementById(smUpA).disabled = true;
-          document.getElementById(smUpB).disabled = true;
-          document.getElementById(smUpX).disabled = true;
-          document.getElementById(smUpY).disabled = true;
-          document.getElementById(smUpZ).disabled = true;
+          for (var m = 0; m < btns.length; m++){
+            document.getElementById(btns[m]).disabled = true;
+          }
           document.getElementById(radA).disabled = true;
           document.getElementById(radB).disabled = true;
           document.getElementById(radX).disabled = true;
@@ -475,7 +452,13 @@ function readData(file, section){
             document.getElementById(radErrTextID).style.display = "none";
           } else {
             document.getElementById(conBtnID).type = "button";
+            document.getElementById(conBtnID).disabled = false;
             document.getElementById(radErrTextID).style.display = "block";
+            document.getElementById(radA).disabled = false;
+            document.getElementById(radB).disabled = false;
+            document.getElementById(radX).disabled = false;
+            document.getElementById(radY).disabled = false;
+            document.getElementById(radZ).disabled = false;
           }
         }
       })
@@ -491,6 +474,41 @@ if ($('body').is('.quiz1')){
 };
 
 
+/*
+making one question appear at a time using slides
+taken from https://www.sitepoint.com/simple-javascript-quiz/
+accessed 14-09-20
+
+var slides = document.querySelectorAll(".slide");
+const prevBtn = document.getElementsByClassName('prevBtn');
+const nextBtn = document.getElementsByClassName('nextBtn');
+var currentSlide = 0;
+console.log(slides[currentSlide])
+function showSlide(n){
+  slides[n].classList.add('active-slide');
+  slides[currentSlide].classList.remove('active-slide');
+  currentSlide = n;
+  if (currentSlide === 0){
+    prevBtn.disabled = true;
+  } else {
+    prevBtn.disabled = false;
+  }
+  if (currentSlide === slide.length - 1){
+    nextBtn.disabled = true;
+  } else {
+    nextBtn.disabled = false;
+  }
+}
+
+showSlide(currentSlide);
+prevBtn.addEventListener('click', function(){
+  showSlide(currentSlide - 1);
+});
+nextBtn.addEventListener('click', function(){
+  showSlide(currentSlide + 1);
+});
+*/
+// end of referenced code
 
 /*
 Instructions for integrating firebase

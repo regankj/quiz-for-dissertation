@@ -11867,8 +11867,25 @@ readers do not read off random characters that represent icons */
   float: right;
   border-radius: 10%; }
 
+.prevBtn {
+  float: left;
+  border-radius: 10%; }
+
 .radLbl {
   margin: 1em; }
+
+.slide {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s; }
+
+.active-slide {
+  opacity: 1;
+  z-index: 2; }
 
 body {
   background-color: white; }
