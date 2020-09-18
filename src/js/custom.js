@@ -434,6 +434,7 @@ function readData(file, section){
           document.getElementById(errTextID).style.display = "block";
         }
         else {
+          nextBtn.disabled = false;
           document.getElementById(errTextID).style.display = "none";
           document.getElementById(conBtnID).disabled = true;
           writeData(uid, section, questionNum, values[a],values[b], values[x], values[y], values[z]);
@@ -479,12 +480,6 @@ function readData(file, section){
         }
       })
       showSlide(currentSlideID, currentSlideID, slideNo, slide);
-      prevBtn.addEventListener('click', function(){
-        slideNo--;
-        var prevSlide = "slide" + slideNo;
-        showSlide(prevSlide, currentSlideID, slideNo, slide);
-        currentSlideID = "slide" + slideNo;
-      });
       nextBtn.addEventListener('click', function(){
         slideNo++;
         var nextSlide = "slide" + slideNo;
@@ -508,16 +503,10 @@ taken from https://www.sitepoint.com/simple-javascript-quiz/
 accessed 14-09-20
 */
 
-const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 function showSlide(n, currentSlideID, slideNo, slide){
   document.getElementById(currentSlideID).className = "slide";
   document.getElementById(n).className = "slide active-slide";
-  if (slideNo == 1){
-    prevBtn.disabled = true;
-  } else {
-    prevBtn.disabled = false;
-  }
   if (slideNo == i){
     nextBtn.disabled = true;
   } else {

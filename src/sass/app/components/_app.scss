@@ -35,7 +35,7 @@
 
 .total {
   display: block;
-  color: $primary-hex;
+  color: black;
   font-size: 1.5em;
   text-align: center;
 }
@@ -54,10 +54,6 @@
   border-radius: 10%;
 }
 
-.prevBtn {
-  float: left;
-  border-radius: 10%;
-}
 
 .radLbl {
   margin: 1em;
@@ -80,5 +76,22 @@
 }
 
 body {
-  background-color: white;
+  background-color: White;
+}
+
+.card-header {
+  background-color: $primary-hex;
+  color: white;
+}
+
+.card-footer {
+  background-color: $primary-hex;
+}
+
+.card-body {
+  background: $secondary-hex;
+}
+
+button {
+  background-color: $secondary-hex;
 }
