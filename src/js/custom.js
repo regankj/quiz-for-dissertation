@@ -43,19 +43,19 @@ var j = 1;
 var k = 1;
 var values = {};
 
-function addRow(){
+function addRow(slide){
   const newRow = document.createElement('div');
   newRow.className = "form-row my-md-3";
-  qform.appendChild(newRow);
+  slide.appendChild(newRow);
   const col = document.createElement('div');
   col.className = "col-md-6";
   newRow.appendChild(col);
 };
 
-function addBtns(){
+function addBtns(slide){
   const btnCol = document.createElement('div');
   btnCol.className = "col-md-6";
-  qform.append(btnCol);
+  slide.append(btnCol);
   btnCol.style.display = "inline-block";
   var upBtn = document.createElement('button');
   var downBtn = document.createElement('button');
@@ -85,7 +85,7 @@ function addBtns(){
   const barCol = document.createElement('div');
   var count = 20;
   barCol.className = "col-md-6";
-  qform.appendChild(barCol);
+  slide.appendChild(barCol);
   var bar = document.createElement('div');
   bar.className = "bar";
   bar.id = "bar" + j;
@@ -160,10 +160,10 @@ function addBtns(){
   j++;
 };
 
-function addRads(){
+function addRads(slide){
   const radCol = document.createElement('div');
   radCol.className = "col-md-6";
-  qform.append(radCol);
+  slide.append(radCol);
   radCol.style.display = "inline-block";
   var rad = document.createElement('input');
   rad.type = "radio";
@@ -187,17 +187,19 @@ loading in a csv file
 code taken and adapted from https://stackoverflow.com/questions/29259938/how-to-load-csv-file-to-use-with-d3
 accessed 12-07-20
 */
+var i = 0;
 function readData(file, section){
   d3.csv(file).then(function(data){
-    var i = 0;
     data.forEach(function(d){
       i++;
 
-      /*var slide = document.createElement("div");
+      var slide = document.createElement("div");
+      var slideNo = 1;
+      var currentSlideID = "slide" + slideNo;
       slide.className = "slide";
       slide.id = "slide" + i;
-      var slideID = "slide" + i;
-      qform.appendChild(slide);*/
+      var slideID = "#slide" + i;
+      qform.appendChild(slide);
 
       var a = "value" + (1 + 5*(i-1));
       var b = "value" + (2 + 5*(i-1));
@@ -241,66 +243,80 @@ function readData(file, section){
       var radLblY = "radLbl" + (4 + 5*(i-1));
       var radLblZ = "radLbl" + (5 + 5*(i-1));
 
-      d3.select('#questions').append("label").text(i + ". " + d.Question);
-      addRow();
-      d3.select('#questions').append("label").text("Your Answer:");
-      addRow();
+      d3.select(slideID).append("label").text(i + ". " + d.Question);
+      addRow(slide);
+      d3.select(slideID).append("label").text("Your Answer:");
+      addRow(slide);
 
-      addRads();
+      addRads(slide);
       document.getElementById(radLblA).innerHTML = d.Option1;
-      addRow();
+      addRow(slide);
 
-      addRads();
+      addRads(slide);
       document.getElementById(radLblB).innerHTML = d.Option2;
-      addRow();
+      addRow(slide);
 
-      addRads();
-      document.getElementById(radLblX).innerHTML = d.Option3;
-      addRow();
+      if (d.Option3 != null){
+        addRads(slide);
+        document.getElementById(radLblX).innerHTML = d.Option3;
+        addRow(slide);
+      }
 
-      addRads();
-      document.getElementById(radLblY).innerHTML = d.Option4;
-      addRow();
+      if (d.Option4 != null){
+        addRads(slide);
+        document.getElementById(radLblY).innerHTML = d.Option4;
+        addRow(slide);
+      }
 
-      addRads();
-      document.getElementById(radLblZ).innerHTML = d.Option5;
-      addRow();
+      if (d.Option5 != null){
+        addRads(slide);
+        document.getElementById(radLblZ).innerHTML = d.Option5;
+        addRow(slide);
+      }
 
-      d3.select('#questions').append("label").text("What did the public think?:");
-      addRow();
+      d3.select(slideID).append("label").text("What did the public think?:");
+      addRow(slide);
 
-      d3.select('#questions').append("label").text(d.Option1);
-      addBtns();
-      addRow();
+      d3.select(slideID).append("label").text(d.Option1);
+      addBtns(slide);
+      addRow(slide);
 
-      d3.select('#questions').append("label").text(d.Option2);
-      addBtns();
-      addRow();
+      d3.select(slideID).append("label").text(d.Option2);
+      addBtns(slide);
+      addRow(slide);
 
-      d3.select('#questions').append("label").text(d.Option3);
-      addBtns();
-      addRow();
+      if (d.Option3 != null){
+        d3.select(slideID).append("label").text(d.Option3);
+        addBtns(slide);
+        addRow(slide);
+      }
 
-      d3.select('#questions').append("label").text(d.Option4);
-      addBtns();
-      addRow();
+      if (d.Option4 != null){
+        d3.select(slideID).append("label").text(d.Option4);
+        addBtns(slide);
+        addRow(slide);
+      }
 
-      d3.select('#questions').append("label").text(d.Option5);
-      addBtns();
-      addRow();
+      if (d.Option5 != null){
+        d3.select(slideID).append("label").text(d.Option5);
+        addBtns(slide);
+        addRow(slide);
+      }
+
+      // end of referenced code
 
       var total = document.createElement("label");
       total.innerHTML = "Total: " + (values[a] + values[b] + values[x] + values[y] + values[z]) + "%";
       total.id = "total" + i;
       total.className = "total";
-      qform.appendChild(total);
-      addRow();
+      slide.appendChild(total);
+      addRow(slide);
 
       var confBtn = document.createElement('button');
       confBtn.innerHTML = "Confirm";
       confBtn.id = "confirm" + i;
       confBtn.className = "confirmBtn";
-      qform.appendChild(confBtn);
+      slide.appendChild(confBtn);
       var conBtnID = "confirm" + i;
 
       var errText = document.createElement('label');
@@ -308,20 +324,20 @@ function readData(file, section){
       errText.id = "errText" + i;
       errText.className = "errText";
       errText.style.display = "none";
-      qform.appendChild(errText);
+      slide.appendChild(errText);
       var errTextID = "errText" + i;
 
-      addRow();
+      addRow(slide);
 
       var radErrText = document.createElement("label");
       radErrText.innerHTML = "*Please select your answer to the question";
       radErrText.id = "radErrText" + i;
       radErrText.className = "errText";
       radErrText.style.display = "none";
-      qform.appendChild(radErrText);
+      slide.appendChild(radErrText);
       var radErrTextID = "radErrText" + i;
 
-      addRow();
+      addRow(slide);
 
       document.getElementById(radA).addEventListener('click', function(){
         document.getElementById(radB).checked = false;
@@ -462,12 +478,24 @@ function readData(file, section){
           }
         }
       })
-
+      showSlide(currentSlideID, currentSlideID, slideNo, slide);
+      prevBtn.addEventListener('click', function(){
+        slideNo--;
+        var prevSlide = "slide" + slideNo;
+        showSlide(prevSlide, currentSlideID, slideNo, slide);
+        currentSlideID = "slide" + slideNo;
+      });
+      nextBtn.addEventListener('click', function(){
+        slideNo++;
+        var nextSlide = "slide" + slideNo;
+        showSlide(nextSlide, currentSlideID, slideNo, slide);
+        currentSlideID = "slide" + slideNo;
+      });
     })
 
   });
 };
-// end of referenced code
+
 
 if ($('body').is('.quiz1')){
   readData("Sample-Data/sample.csv", "political");
@@ -478,36 +506,26 @@ if ($('body').is('.quiz1')){
 making one question appear at a time using slides
 taken from https://www.sitepoint.com/simple-javascript-quiz/
 accessed 14-09-20
+*/
 
-var slides = document.querySelectorAll(".slide");
-const prevBtn = document.getElementsByClassName('prevBtn');
-const nextBtn = document.getElementsByClassName('nextBtn');
-var currentSlide = 0;
-console.log(slides[currentSlide])
-function showSlide(n){
-  slides[n].classList.add('active-slide');
-  slides[currentSlide].classList.remove('active-slide');
-  currentSlide = n;
-  if (currentSlide === 0){
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+function showSlide(n, currentSlideID, slideNo, slide){
+  document.getElementById(currentSlideID).className = "slide";
+  document.getElementById(n).className = "slide active-slide";
+  if (slideNo == 1){
     prevBtn.disabled = true;
   } else {
     prevBtn.disabled = false;
   }
-  if (currentSlide === slide.length - 1){
+  if (slideNo == i){
     nextBtn.disabled = true;
   } else {
     nextBtn.disabled = false;
   }
 }
 
-showSlide(currentSlide);
-prevBtn.addEventListener('click', function(){
-  showSlide(currentSlide - 1);
-});
-nextBtn.addEventListener('click', function(){
-  showSlide(currentSlide + 1);
-});
-*/
+
 // end of referenced code
 
 /*
@@ -543,7 +561,7 @@ accessed 21-07-20
 */
 
 function writeData(uid, section, questionNum, ans1, ans2, ans3, ans4, ans5){
-  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/guess_of _public/').set({
+  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/guess_of_public/').set({
     agree: ans1,
     slightly_agree: ans2,
     neither: ans3,
