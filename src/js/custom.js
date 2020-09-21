@@ -34,6 +34,7 @@ if (contBtn){
   });
 };
 
+var startTime;
 
 
 // functions to add horizontal bars and buttons
@@ -438,6 +439,9 @@ function readData(file, section){
           document.getElementById(errTextID).style.display = "none";
           document.getElementById(conBtnID).disabled = true;
           writeData(uid, section, questionNum, values[a],values[b], values[x], values[y], values[z]);
+          var endTime = Date.now();
+          var difference = (endTime - startTime)/1000;
+          saveTime(uid, section, questionNum, difference);
           for (var m = 0; m < btns.length; m++){
             document.getElementById(btns[m]).disabled = true;
           }
@@ -494,6 +498,9 @@ function readData(file, section){
 
 if ($('body').is('.quiz1')){
   readData("Sample-Data/sample.csv", "political");
+  window.addEventListener('load', function(){
+    startTime = Date.now();
+  });
 };
 
 
@@ -559,11 +566,17 @@ function writeData(uid, section, questionNum, ans1, ans2, ans3, ans4, ans5){
   });
 };
 
+function saveTime(uid, section, questionNum, time){
+  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/timer/').set({
+    Timer: time
+  });
+}
+
 function writeAnswer(uid, section, questionNum, ans){
   firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/their_answer/').set({
     answer: ans
   });
-} ;
+};
 
 // function to save user details
 function saveUserData(uid, age, gender, income){
