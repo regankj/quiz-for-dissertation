@@ -35,7 +35,7 @@ if (contBtn){
 };
 
 var startTime;
-
+var i = 0;
 
 // functions to add horizontal bars and buttons
 
@@ -43,6 +43,13 @@ const qform = document.getElementById('questions');
 var j = 1;
 var k = 1;
 var values = {};
+var downBtns = {};
+var upBtns = {};
+var lgUpBtns = {};
+var smUpBtns = {};
+var smDownBtns = {};
+var btns = {};
+var options = {};
 
 function addRow(slide){
   const newRow = document.createElement('div');
@@ -67,13 +74,13 @@ function addBtns(slide){
   smUpBtn.innerHTML = ">";
   smDownBtn.innerHTML = "<";
   upBtn.className = "upBtn";
-  upBtn.id = "upBtn" + j;
+  upBtn.id = "upBtn" + i + "_" + j;
   smUpBtn.className = "smUpBtn";
-  smUpBtn.id = "smUpBtn" + j;
+  smUpBtn.id = "smUpBtn" + i+ "_" + j;
   downBtn.className = "downBtn";
-  downBtn.id = "downBtn" + j;
+  downBtn.id = "downBtn" + i + "_" + j;
   smDownBtn.className = "smDownBtn";
-  smDownBtn.id = "smDownBtn" + j;
+  smDownBtn.id = "smDownBtn" + i + "_" + j;
   upBtn.type = "button";
   smUpBtn.type = "button";
   downBtn.type = "button";
@@ -89,18 +96,26 @@ function addBtns(slide){
   slide.appendChild(barCol);
   var bar = document.createElement('div');
   bar.className = "bar";
-  bar.id = "bar" + j;
+  bar.id = "bar" + i + "_" + j;
   barCol.appendChild(bar);
   bar.innerHTML = count + "%";
   bar.style.width = (count * 0.5) + "em";
 
-  var downBtnID = "downBtn" + j;
-  var smDownBtnID = "smDownBtn" + j;
-  var smUpBtnID = "smUpBtn" + j;
-  var upBtnID = "upBtn" + j;
-  var barID = "bar" + j;
-  var valueNum = "value" + j;
-  values[valueNum] = 20;
+  var downBtnID = "downBtn" + i + "_" + j;
+  var smDownBtnID = "smDownBtn" + i + "_" + j;
+  var smUpBtnID = "smUpBtn" + i + "_" + j;
+  var upBtnID = "upBtn" + i + "_" + j;
+  var barID = "bar" + i + "_" + j;
+  var valueNum = "values" + i;
+  var valPos = j-1;
+  values[valueNum][valPos] = 20;
+  var btnsNum = "btns" + i;
+  btns[btnsNum].push(downBtnID, smDownBtnID, smUpBtnID, upBtnID);
+  upBtns[btnsNum].push(smUpBtnID, upBtnID);
+  downBtns[btnsNum].push(smDownBtnID, downBtnID);
+  smDownBtns[btnsNum].push(smDownBtnID);
+  smUpBtns[btnsNum].push(smUpBtnID);
+  lgUpBtns[btnsNum].push(upBtnID);
 
 
   document.getElementById(downBtnID).addEventListener('click', function(){
@@ -115,7 +130,7 @@ function addBtns(slide){
       document.getElementById(downBtnID).disabled = true;
     }
     var value = document.getElementById(barID).innerHTML;
-    values[valueNum] = parseInt(value, 10);
+    values[valueNum][valPos] = parseInt(value, 10);
   });
 
   document.getElementById(smDownBtnID).addEventListener('click', function(){
@@ -130,7 +145,7 @@ function addBtns(slide){
       document.getElementById(downBtnID).disabled = true;
     }
     var value = document.getElementById(barID).innerHTML;
-    values[valueNum] = parseInt(value, 10);
+    values[valueNum][valPos] = parseInt(value, 10);
   });
 
   document.getElementById(smUpBtnID).addEventListener('click', function(){
@@ -143,7 +158,7 @@ function addBtns(slide){
       document.getElementById(downBtnID).disabled = true;
     }
     var value = document.getElementById(barID).innerHTML;
-    values[valueNum] = parseInt(value, 10);
+    values[valueNum][valPos] = parseInt(value, 10);
   });
 
   document.getElementById(upBtnID).addEventListener('click', function(){
@@ -156,7 +171,7 @@ function addBtns(slide){
       document.getElementById(downBtnID).disabled = true;
     }
     var value = document.getElementById(barID).innerHTML;
-    values[valueNum] = parseInt(value, 10);
+    values[valueNum][valPos] = parseInt(value, 10);
   });
   j++;
 };
@@ -179,7 +194,6 @@ function addRads(slide){
   radCol.appendChild(radLbl);
   var radLblID = "radLbl" + k;
 
-
   k++;
 }
 
@@ -188,7 +202,6 @@ loading in a csv file
 code taken and adapted from https://stackoverflow.com/questions/29259938/how-to-load-csv-file-to-use-with-d3
 accessed 12-07-20
 */
-var i = 0;
 function readData(file, section){
   d3.csv(file).then(function(data){
     data.forEach(function(d){
@@ -202,35 +215,9 @@ function readData(file, section){
       var slideID = "#slide" + i;
       qform.appendChild(slide);
 
-      var a = "value" + (1 + 5*(i-1));
-      var b = "value" + (2 + 5*(i-1));
-      var x = "value" + (3 + 5*(i-1));
-      var y = "value" + (4 + 5*(i-1));
-      var z = "value" + (5 + 5*(i-1));
-
-      var smDownA = "smDownBtn" + (1 + 5*(i-1));
-      var smDownB = "smDownBtn" + (2 + 5*(i-1));
-      var smDownX = "smDownBtn" + (3 + 5*(i-1));
-      var smDownY = "smDownBtn" + (4 + 5*(i-1));
-      var smDownZ = "smDownBtn" + (5 + 5*(i-1));
-
-      var downA = "downBtn" + (1 + 5*(i-1));
-      var downB = "downBtn" + (2 + 5*(i-1));
-      var downX = "downBtn" + (3 + 5*(i-1));
-      var downY = "downBtn" + (4 + 5*(i-1));
-      var downZ = "downBtn" + (5 + 5*(i-1));
-
-      var upA = "upBtn" + (1 + 5*(i-1));
-      var upB = "upBtn" + (2 + 5*(i-1));
-      var upX = "upBtn" + (3 + 5*(i-1));
-      var upY = "upBtn" + (4 + 5*(i-1));
-      var upZ = "upBtn" + (5 + 5*(i-1));
-
-      var smUpA = "smUpBtn" + (1 + 5*(i-1));
-      var smUpB = "smUpBtn" + (2 + 5*(i-1));
-      var smUpX = "smUpBtn" + (3 + 5*(i-1));
-      var smUpY = "smUpBtn" + (4 + 5*(i-1));
-      var smUpZ = "smUpBtn" + (5 + 5*(i-1));
+      var valuesNum = "values" + i;
+      var btnsNum = "btns" + i;
+      var optionsNum = "options" + i;
 
       var radA = "radio" + (1 + 5*(i-1));
       var radB = "radio" + (2 + 5*(i-1));
@@ -251,27 +238,32 @@ function readData(file, section){
 
       addRads(slide);
       document.getElementById(radLblA).innerHTML = d.Option1;
+      options[optionsNum].push(d.Option1);
       addRow(slide);
 
       addRads(slide);
       document.getElementById(radLblB).innerHTML = d.Option2;
+      options[optionsNum].push(d.Option2);
       addRow(slide);
 
       if (d.Option3 != null){
         addRads(slide);
         document.getElementById(radLblX).innerHTML = d.Option3;
+        options[optionsNum].push(d.Option3);
         addRow(slide);
       }
 
       if (d.Option4 != null){
         addRads(slide);
         document.getElementById(radLblY).innerHTML = d.Option4;
+        options[optionsNum].push(d.Options4);
         addRow(slide);
       }
 
       if (d.Option5 != null){
         addRads(slide);
         document.getElementById(radLblZ).innerHTML = d.Option5;
+        options[optionsNum].push(d.Options5);
         addRow(slide);
       }
 
@@ -307,7 +299,7 @@ function readData(file, section){
       // end of referenced code
 
       var total = document.createElement("label");
-      total.innerHTML = "Total: " + (values[a] + values[b] + values[x] + values[y] + values[z]) + "%";
+      total.innerHTML = "Total: " + values[valuesNum].reduce((a,b) => a+b, 0) + "%";
       total.id = "total" + i;
       total.className = "total";
       slide.appendChild(total);
@@ -371,66 +363,56 @@ function readData(file, section){
         document.getElementById(radY).checked = false;
       });
 
-      var downBtns = [smDownA, smDownB, smDownX, smDownY, smDownZ, downA, downB, downX, downY, downZ];
-      var upBtns = [smUpA, smUpB, smUpX, smUpY, smUpZ, upA, upB, upX, upY, upZ];
 
-      var lgUpBtns = [upA, upB, upX, upY, upZ];
-      var smUpBtns = [smUpA, smUpB, smUpX, smUpY, smUpZ];
-      var smDownBtns = [smDownA, smDownB, smDownX, smDownY, smDownZ];
-
-      var btns = [smDownA, smDownB, smDownX, smDownY, smDownZ, downA, downB, downX, downY, downZ,
-                  smUpA, smUpB, smUpX, smUpY, smUpZ, upA, upB, upX, upY, upZ];
-
-      for (var r = 0; r < btns.length; r++){
-        document.getElementById(btns[r]).addEventListener("click", function(){
-          total.innerHTML = "Total: " + (values[a] + values[b] + values[x] + values[y] + values[z]) + "%";
+      for (var r = 0; r < btns[btnsNum].length; r++){
+        document.getElementById(btns[btnsNum][r]).addEventListener("click", function(){
+          total.innerHTML = "Total: " + values[valuesNum].reduce((a,b) => a+b, 0) + "%";
         });
       };
 
-      for (var p = 0; p < upBtns.length; p++){
-        document.getElementById(downBtns[p]).addEventListener("click", function(){
-          if ((values[a] + values[b] + values[x] + values[y] + values[z]) >= 90){
-            for (var q = 0; q < smUpBtns.length; q++){
-              document.getElementById(smUpBtns[q]).disabled = false;
-              document.getElementById(lgUpBtns[q]).disabled = true;
+      for (var p = 0; p < upBtns[btnsNum].length; p++){
+        document.getElementById(downBtns[btnsNum][p]).addEventListener("click", function(){
+          if (values[valuesNum].reduce((a,b) => a+b, 0) >= 90){
+            for (var q = 0; q < smUpBtns[btnsNum].length; q++){
+              document.getElementById(smUpBtns[btnsNum][q]).disabled = false;
+              document.getElementById(lgUpBtns[btnsNum][q]).disabled = true;
             }
           } else {
-            for (var q = 0; q < upBtns.length; q++){
-              document.getElementById(upBtns[q]).disabled = false;
+            for (var q = 0; q < upBtns[btnsNum].length; q++){
+              document.getElementById(upBtns[btnsNum][q]).disabled = false;
             }
           }
 
-          if ((values[a] + values[b] + values[x] + values[y] + values[z]) == 100){
-            for (var n = 0; n < upBtns.length; n++){
-              document.getElementById(upBtns[n]).disabled = true;
+          if (values[valuesNum].reduce((a,b) => a+b, 0) == 100){
+            for (var n = 0; n < upBtns[btnsNum].length; n++){
+              document.getElementById(upBtns[btnsNum][n]).disabled = true;
             }
           }
         })
-        document.getElementById(upBtns[p]).addEventListener("click", function(){
-          if ((values[a] + values[b] + values[x] + values[y] + values[z]) >= 100){
-            for (var o = 0; o < upBtns.length; o++){
-              document.getElementById(upBtns[o]).disabled = true;
+        document.getElementById(upBtns[btnsNum][p]).addEventListener("click", function(){
+          if (values[valuesNum].reduce((a,b) => a+b, 0) >= 100){
+            for (var o = 0; o < upBtns[btnsNum].length; o++){
+              document.getElementById(upBtns[btnsNum][o]).disabled = true;
             }
-          } else if ( ((values[a] + values[b] + values[x] + values[y] + values[z]) > 90) &&
-                      ((values[a] + values[b] + values[x] + values[y] + values[z]) < 100) ){
-              for (var l = 0; l < smUpBtns.length; l++){
-              document.getElementById(smUpBtns[l]).disabled = false;
-              document.getElementById(lgUpBtns[l]).disabled = true;
+          } else if ( (values[valuesNum].reduce((a,b) => a+b, 0) > 90) && (values[valuesNum].reduce((a,b) => a+b, 0)) < 100){
+              for (var l = 0; l < smUpBtns[btnsNum].length; l++){
+              document.getElementById(smUpBtns[btnsNum][l]).disabled = false;
+              document.getElementById(lgUpBtns[btnsNum][l]).disabled = true;
             }
           }
         });
       }
 
-      if ((values[a] + values[b] + values[x] + values[y] + values[z]) == 100){
-        for (var f= 0; f < upBtns.length; f++){
-          document.getElementById(upBtns[f]).disabled = true;
+      if (values[valuesNum].reduce((a,b) => a+b, 0) == 100){
+        for (var f= 0; f < upBtns[btnsNum].length; f++){
+          document.getElementById(upBtns[btnsNum][f]).disabled = true;
         }
       };
 
       var questionNum = i;
 
       document.getElementById(conBtnID).addEventListener('click', function(){
-        if ( (values[a] + values[b] + values[x] + values[y] + values[z]) != 100){
+        if ( values[valuesNum].reduce((a,b) => a+b, 0) != 100){
           document.getElementById(conBtnID).type = "button";
           document.getElementById(errTextID).style.display = "block";
         }
@@ -438,12 +420,12 @@ function readData(file, section){
           nextBtn.disabled = false;
           document.getElementById(errTextID).style.display = "none";
           document.getElementById(conBtnID).disabled = true;
-          writeData(uid, section, questionNum, values[a],values[b], values[x], values[y], values[z]);
+          writeData(uid, section, questionNum, options[optionsNum], values[valuesNum]);
           var endTime = Date.now();
           var difference = (endTime - startTime)/1000;
           saveTime(uid, section, questionNum, difference);
-          for (var m = 0; m < btns.length; m++){
-            document.getElementById(btns[m]).disabled = true;
+          for (var m = 0; m < btns[btnsNum].length; m++){
+            document.getElementById(btns[btnsNum][m]).disabled = true;
           }
           document.getElementById(radA).disabled = true;
           document.getElementById(radB).disabled = true;
@@ -483,6 +465,7 @@ function readData(file, section){
           }
         }
       })
+      j = 1;
       showSlide(currentSlideID, currentSlideID, slideNo, slide);
       nextBtn.addEventListener('click', function(){
         slideNo++;
@@ -503,7 +486,19 @@ if ($('body').is('.quiz1')){
   });
 };
 
-
+for (var num = 0; num < 3; num++){
+  var v = "values" + (num + 1);
+  var b = "btns" + (num + 1);
+  var o = "options" + (num + 1);
+  values[v] = [];
+  btns[b] = [];
+  downBtns[b] = [];
+  upBtns[b] = [];
+  smDownBtns[b] = [];
+  smUpBtns[b] = [];
+  lgUpBtns[b] = [];
+  options[o] = []
+};
 /*
 making one question appear at a time using slides
 taken from https://www.sitepoint.com/simple-javascript-quiz/
@@ -556,14 +551,14 @@ taken from https://firebase.google.com/docs/database/web/read-and-write
 accessed 21-07-20
 */
 
-function writeData(uid, section, questionNum, ans1, ans2, ans3, ans4, ans5){
-  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/guess_of_public/').set({
-    agree: ans1,
-    slightly_agree: ans2,
-    neither: ans3,
-    slightly_disagree: ans4,
-    disagree: ans5
-  });
+function writeData(uid, section, qcode, options, answers){
+  for (var num = 0; num < answers.length; num++){
+    var opt = options[num];
+    var ans = answers[num];
+    firebase.database().ref('/user' + uid + '/' + section + '/question' + qcode + '/guess_of_public/').set({
+      opt: ans
+    });
+  }
 };
 
 function saveTime(uid, section, questionNum, time){

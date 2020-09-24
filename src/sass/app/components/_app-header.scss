@@ -3,6 +3,8 @@
   background-color: $primary-hex;
   position: absolute;
   color: white;
+  position: fixed;
+  z-index: 3;
 }
 
 .app-header h2 {
