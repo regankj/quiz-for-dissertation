@@ -444,6 +444,7 @@ function readData(file, section){
       document.getElementById(conBtnID).addEventListener('click', function(){
         if ( values[valuesNum].reduce((a,b) => a+b, 0) != 100){
           document.getElementById(errTextID).style.display = "block";
+          document.getElementById(contBtnID).type = "button";
         }
         else {
           nextBtn.disabled = false;
@@ -460,20 +461,21 @@ function readData(file, section){
           for (var r1 = 0; r1 < rads[radsNum].length; r1++){
             document.getElementById(rads[radsNum][r1]).disabled = true;
           }
-
+          var selected = 0;
           for (var r2 = 0; r2 < rads[radsNum].length; r2++){
             if (document.getElementById(rads[radsNum][r2]).checked == true){
+              selected++;
               var ans = document.getElementById(radLbls[radLblsNum][r2]).innerHTML;
               writeAnswer(uid, section, qcode, ans);
-            } else {
-              document.getElementById(conBtnID).disabled = false;
-              document.getElementById(radErrTextID).style.display = "block";
-              for (var p = 0; rads[radsNum].length; p++){
-                document.getElementById(rads[radsNum][p]).disabled = false;
-              }
             }
           }
-
+          if (selected == 0){
+            document.getElementById(conBtnID).disabled = false;
+            document.getElementById(radErrTextID).style.display = "block";
+            for (var p = 0; rads[radsNum].length; p++){
+              document.getElementById(rads[radsNum][p]).disabled = false;
+            }
+          }
         }
       })
       j = 1;
