@@ -49,6 +49,8 @@ var lgUpBtns = {};
 var smUpBtns = {};
 var smDownBtns = {};
 var btns = {};
+var rads = {};
+var radLbls = {};
 var options = {};
 
 function addRow(slide){
@@ -183,16 +185,20 @@ function addRads(slide){
   radCol.style.display = "inline-block";
   var rad = document.createElement('input');
   rad.type = "radio";
-  rad.className = "radio";
-  rad.id = "radio" + k;
+  rad.className = "radio normalRad";
+  rad.id = "radio" + i + "_" + k;
   radCol.appendChild(rad);
-  var radID = "radio" + k;
+  var radID = "radio" + i + "_" + k;
   var radLbl = document.createElement("label");
   radLbl.className = "radLbl";
-  radLbl.id = "radLbl" + k;
+  radLbl.id = "radLbl" + i + "_" + k;
   radLbl.for = radID;
   radCol.appendChild(radLbl);
-  var radLblID = "radLbl" + k;
+  var radLblID = "radLbl" + i + "_" + k;
+  var radsNum = "rads" + i;
+  var radLblsNum = "radLbls" + i;
+  rads[radsNum].push(radID);
+  radLbls[radLblsNum].push(radLblID);
 
   k++;
 }
@@ -218,18 +224,9 @@ function readData(file, section){
       var valuesNum = "values" + i;
       var btnsNum = "btns" + i;
       var optionsNum = "options" + i;
+      var radsNum = "rads" + i;
+      var radLblsNum = "radLbls" + i;
 
-      var radA = "radio" + (1 + 5*(i-1));
-      var radB = "radio" + (2 + 5*(i-1));
-      var radX = "radio" + (3 + 5*(i-1));
-      var radY = "radio" + (4 + 5*(i-1));
-      var radZ = "radio" + (5 + 5*(i-1));
-
-      var radLblA = "radLbl" + (1 + 5*(i-1));
-      var radLblB = "radLbl" + (2 + 5*(i-1));
-      var radLblX = "radLbl" + (3 + 5*(i-1));
-      var radLblY = "radLbl" + (4 + 5*(i-1));
-      var radLblZ = "radLbl" + (5 + 5*(i-1));
 
       d3.select(slideID).append("label").text(i + ". " + d.Question);
       addRow(slide);
@@ -237,33 +234,61 @@ function readData(file, section){
       addRow(slide);
 
       addRads(slide);
-      document.getElementById(radLblA).innerHTML = d.Option1;
+      document.getElementById(radLbls[radLblsNum][0]).innerHTML = d.Option1;
       options[optionsNum].push(d.Option1);
       addRow(slide);
 
       addRads(slide);
-      document.getElementById(radLblB).innerHTML = d.Option2;
+      document.getElementById(radLbls[radLblsNum][1]).innerHTML = d.Option2;
       options[optionsNum].push(d.Option2);
       addRow(slide);
 
-      if (d.Option3 != null){
+      if (d.Option3 != ""){
         addRads(slide);
-        document.getElementById(radLblX).innerHTML = d.Option3;
+        document.getElementById(radLbls[radLblsNum][2]).innerHTML = d.Option3;
         options[optionsNum].push(d.Option3);
         addRow(slide);
       }
 
-      if (d.Option4 != null){
+      if (d.Option4 != ""){
         addRads(slide);
-        document.getElementById(radLblY).innerHTML = d.Option4;
+        document.getElementById(radLbls[radLblsNum][3]).innerHTML = d.Option4;
         options[optionsNum].push(d.Options4);
         addRow(slide);
       }
 
-      if (d.Option5 != null){
+      if (d.Option5 != ""){
         addRads(slide);
-        document.getElementById(radLblZ).innerHTML = d.Option5;
+        document.getElementById(radLbls[radLblsNum][4]).innerHTML = d.Option5;
         options[optionsNum].push(d.Options5);
+        addRow(slide);
+      }
+
+      if (d.Option6 != ""){
+        addRads(slide);
+        document.getElementById(radLbls[radLblsNum][5]).innerHTML = d.Option6;
+        options[optionsNum].push(d.Options6);
+        addRow(slide);
+      }
+
+      if (d.Option7 != ""){
+        addRads(slide);
+        document.getElementById(radLbls[radLblsNum][6]).innerHTML = d.Option7;
+        options[optionsNum].push(d.Options7);
+        addRow(slide);
+      }
+
+      if (d.Option8 != ""){
+        addRads(slide);
+        document.getElementById(radLbls[radLblsNum][7]).innerHTML = d.Option8;
+        options[optionsNum].push(d.Options8);
+        addRow(slide);
+      }
+
+      if (d.Option9 != ""){
+        addRads(slide);
+        document.getElementById(radLbls[radLblsNum][8]).innerHTML = d.Option9;
+        options[optionsNum].push(d.Options9);
         addRow(slide);
       }
 
@@ -278,24 +303,49 @@ function readData(file, section){
       addBtns(slide);
       addRow(slide);
 
-      if (d.Option3 != null){
+      if (d.Option3 != ""){
         d3.select(slideID).append("label").text(d.Option3);
         addBtns(slide);
         addRow(slide);
       }
 
-      if (d.Option4 != null){
+      if (d.Option4 != ""){
         d3.select(slideID).append("label").text(d.Option4);
         addBtns(slide);
         addRow(slide);
       }
 
-      if (d.Option5 != null){
+      if (d.Option5 != ""){
         d3.select(slideID).append("label").text(d.Option5);
         addBtns(slide);
         addRow(slide);
       }
 
+      if (d.Option6 != ""){
+        d3.select(slideID).append("label").text(d.Option6);
+        addBtns(slide);
+        addRow(slide);
+      }
+
+      if (d.Option7 != ""){
+        d3.select(slideID).append("label").text(d.Option7);
+        addBtns(slide);
+        addRow(slide);
+      }
+
+      if (d.Option8 != ""){
+        d3.select(slideID).append("label").text(d.Option8);
+        addBtns(slide);
+        addRow(slide);
+      }
+
+      if (d.Option9 != ""){
+        d3.select(slideID).append("label").text(d.Option9);
+        addBtns(slide);
+        addRow(slide);
+      }
+
+      var qcode = d.QuestionCode;
       // end of referenced code
 
       var total = document.createElement("label");
@@ -332,36 +382,16 @@ function readData(file, section){
 
       addRow(slide);
 
-      document.getElementById(radA).addEventListener('click', function(){
-        document.getElementById(radB).checked = false;
-        document.getElementById(radX).checked = false;
-        document.getElementById(radY).checked = false;
-        document.getElementById(radZ).checked = false;
-      });
-      document.getElementById(radB).addEventListener('click', function(){
-        document.getElementById(radA).checked = false;
-        document.getElementById(radX).checked = false;
-        document.getElementById(radY).checked = false;
-        document.getElementById(radZ).checked = false;
-      });
-      document.getElementById(radX).addEventListener('click', function(){
-        document.getElementById(radA).checked = false;
-        document.getElementById(radB).checked = false;
-        document.getElementById(radY).checked = false;
-        document.getElementById(radZ).checked = false;
-      });
-      document.getElementById(radY).addEventListener('click', function(){
-        document.getElementById(radA).checked = false;
-        document.getElementById(radB).checked = false;
-        document.getElementById(radX).checked = false;
-        document.getElementById(radZ).checked = false;
-      });
-      document.getElementById(radZ).addEventListener('click', function(){
-        document.getElementById(radA).checked = false;
-        document.getElementById(radB).checked = false;
-        document.getElementById(radX).checked = false;
-        document.getElementById(radY).checked = false;
-      });
+      for (var r3 = 0; r3 < rads[radsNum].length; r3++){
+        document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
+          var theRad = this;
+          for (var r4 = 0; r4 < rads[radsNum].length; r4++){
+            if (theRad != document.getElementById(rads[radsNum][r4])){
+              document.getElementById(rads[radsNum][r4]).checked = false;
+            }
+          }
+        })
+      };
 
 
       for (var r = 0; r < btns[btnsNum].length; r++){
@@ -413,59 +443,41 @@ function readData(file, section){
 
       document.getElementById(conBtnID).addEventListener('click', function(){
         if ( values[valuesNum].reduce((a,b) => a+b, 0) != 100){
-          document.getElementById(conBtnID).type = "button";
           document.getElementById(errTextID).style.display = "block";
         }
         else {
           nextBtn.disabled = false;
           document.getElementById(errTextID).style.display = "none";
           document.getElementById(conBtnID).disabled = true;
-          writeData(uid, section, questionNum, options[optionsNum], values[valuesNum]);
+          writeData(uid, section, qcode, options[optionsNum].length, values[valuesNum]);
           var endTime = Date.now();
           var difference = (endTime - startTime)/1000;
-          saveTime(uid, section, questionNum, difference);
+          saveTime(uid, section, qcode, difference);
           for (var m = 0; m < btns[btnsNum].length; m++){
             document.getElementById(btns[btnsNum][m]).disabled = true;
           }
-          document.getElementById(radA).disabled = true;
-          document.getElementById(radB).disabled = true;
-          document.getElementById(radX).disabled = true;
-          document.getElementById(radY).disabled = true;
-          document.getElementById(radZ).disabled = true;
 
-          if (document.getElementById(radA).checked == true){
-            var ans = document.getElementById(radLblA).innerHTML;
-            writeAnswer(uid, section, questionNum, ans);
-            document.getElementById(radErrTextID).style.display = "none";
-          } else if (document.getElementById(radB).checked == true){
-            var ans = document.getElementById(radLblB).innerHTML;
-            writeAnswer(uid, section, questionNum, ans);
-            document.getElementById(radErrTextID).style.display = "none";
-          } else if (document.getElementById(radX).checked == true){
-            var ans = document.getElementById(radLblX).innerHTML;
-            writeAnswer(uid, section, questionNum, ans);
-            document.getElementById(radErrTextID).style.display = "none";
-          } else if (document.getElementById(radY).checked == true){
-            var ans = document.getElementById(radLblY).innerHTML;
-            writeAnswer(uid, section, questionNum, ans);
-            document.getElementById(radErrTextID).style.display = "none";
-          } else if (document.getElementById(radZ).checked == true){
-            var ans = document.getElementById(radLblZ).innerHTML;
-            writeAnswer(uid, section, questionNum, ans);
-            document.getElementById(radErrTextID).style.display = "none";
-          } else {
-            document.getElementById(conBtnID).type = "button";
-            document.getElementById(conBtnID).disabled = false;
-            document.getElementById(radErrTextID).style.display = "block";
-            document.getElementById(radA).disabled = false;
-            document.getElementById(radB).disabled = false;
-            document.getElementById(radX).disabled = false;
-            document.getElementById(radY).disabled = false;
-            document.getElementById(radZ).disabled = false;
+          for (var r1 = 0; r1 < rads[radsNum].length; r1++){
+            document.getElementById(rads[radsNum][r1]).disabled = true;
           }
+
+          for (var r2 = 0; r2 < rads[radsNum].length; r2++){
+            if (document.getElementById(rads[radsNum][r2]).checked == true){
+              var ans = document.getElementById(radLbls[radLblsNum][r2]).innerHTML;
+              writeAnswer(uid, section, qcode, ans);
+            } else {
+              document.getElementById(conBtnID).disabled = false;
+              document.getElementById(radErrTextID).style.display = "block";
+              for (var p = 0; rads[radsNum].length; p++){
+                document.getElementById(rads[radsNum][p]).disabled = false;
+              }
+            }
+          }
+
         }
       })
       j = 1;
+      k = 1;
       showSlide(currentSlideID, currentSlideID, slideNo, slide);
       nextBtn.addEventListener('click', function(){
         slideNo++;
@@ -480,16 +492,18 @@ function readData(file, section){
 
 
 if ($('body').is('.quiz1')){
-  readData("Sample-Data/sample.csv", "political");
+  readData("Sample-Data/questions.csv", "answers");
   window.addEventListener('load', function(){
     startTime = Date.now();
   });
 };
 
-for (var num = 0; num < 3; num++){
+for (var num = 0; num < 62; num++){
   var v = "values" + (num + 1);
   var b = "btns" + (num + 1);
   var o = "options" + (num + 1);
+  var r = "rads" + (num + 1);
+  var rl = "radLbls" + (num + 1);
   values[v] = [];
   btns[b] = [];
   downBtns[b] = [];
@@ -497,7 +511,9 @@ for (var num = 0; num < 3; num++){
   smDownBtns[b] = [];
   smUpBtns[b] = [];
   lgUpBtns[b] = [];
-  options[o] = []
+  options[o] = [];
+  rads[r] = [];
+  radLbls[rl] = [];
 };
 /*
 making one question appear at a time using slides
@@ -551,24 +567,81 @@ taken from https://firebase.google.com/docs/database/web/read-and-write
 accessed 21-07-20
 */
 
-function writeData(uid, section, qcode, options, answers){
-  for (var num = 0; num < answers.length; num++){
-    var opt = options[num];
-    var ans = answers[num];
-    firebase.database().ref('/user' + uid + '/' + section + '/question' + qcode + '/guess_of_public/').set({
-      opt: ans
+function writeData(uid, section, qcode, num, answers){
+  if (num == 2){
+    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+      opt1: answers[num-2],
+      opt2: answers[num-1]
+    });
+  }
+  if (num == 3){
+    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+      opt1: answers[num-3],
+      opt2: answers[num-2],
+      opt3: answers[num-1]
+    });
+  }
+  if (num == 4){
+    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+      opt1: answers[num-4],
+      opt2: answers[num-3],
+      opt3: answers[num-2],
+      opt4: answers[num-1]
+    });
+  }
+  if (num == 5){
+    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+      opt1: answers[num-5],
+      opt2: answers[num-4],
+      opt3: answers[num-3],
+      opt4: answers[num-2],
+      opt5: answers[num-1]
+    });
+  }
+  if (num == 6){
+    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+      opt1: answers[num-6],
+      opt2: answers[num-5],
+      opt3: answers[num-4],
+      opt4: answers[num-3],
+      opt5: answers[num-2],
+      opt6: answers[num-1]
+    });
+  }
+  if (num == 7){
+    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+      opt1: answers[num-7],
+      opt2: answers[num-6],
+      opt3: answers[num-5],
+      opt4: answers[num-4],
+      opt5: answers[num-3],
+      opt6: answers[num-2],
+      opt7: answers[num-1]
+    });
+  }
+  if (num == 9){
+    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+      opt1: answers[num-9],
+      opt2: answers[num-8],
+      opt3: answers[num-7],
+      opt4: answers[num-6],
+      opt5: answers[num-5],
+      opt6: answers[num-4],
+      opt7: answers[num-3],
+      opt8: answers[num-2],
+      opt9: answers[num-1]
     });
   }
 };
 
-function saveTime(uid, section, questionNum, time){
-  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/timer/').set({
+function saveTime(uid, section, qcode, time){
+  firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/timer/').set({
     Timer: time
   });
 }
 
-function writeAnswer(uid, section, questionNum, ans){
-  firebase.database().ref('/user' + uid + '/' + section + '/question' + questionNum + '/their_answer/').set({
+function writeAnswer(uid, section, qcode, ans){
+  firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/their_answer/').set({
     answer: ans
   });
 };
