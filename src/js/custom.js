@@ -236,7 +236,7 @@ function readData(file, section){
       addRads(slide);
       document.getElementById(radLbls[radLblsNum][0]).innerHTML = d.Option1;
       options[optionsNum].push(d.Option1);
-      addRow(slide);
+
 
       addRads(slide);
       document.getElementById(radLbls[radLblsNum][1]).innerHTML = d.Option2;
@@ -247,7 +247,7 @@ function readData(file, section){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][2]).innerHTML = d.Option3;
         options[optionsNum].push(d.Option3);
-        addRow(slide);
+
       }
 
       if (d.Option4 != ""){
@@ -261,7 +261,7 @@ function readData(file, section){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][4]).innerHTML = d.Option5;
         options[optionsNum].push(d.Options5);
-        addRow(slide);
+
       }
 
       if (d.Option6 != ""){
@@ -275,7 +275,7 @@ function readData(file, section){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][6]).innerHTML = d.Option7;
         options[optionsNum].push(d.Options7);
-        addRow(slide);
+
       }
 
       if (d.Option8 != ""){
@@ -292,6 +292,7 @@ function readData(file, section){
         addRow(slide);
       }
 
+      addRow(slide);
       d3.select(slideID).append("label").text("What did the public think?:");
       addRow(slide);
 
@@ -443,8 +444,8 @@ function readData(file, section){
 
       document.getElementById(conBtnID).addEventListener('click', function(){
         if ( values[valuesNum].reduce((a,b) => a+b, 0) != 100){
+          document.getElementById(conBtnID).type = "button";
           document.getElementById(errTextID).style.display = "block";
-          document.getElementById(contBtnID).type = "button";
         }
         else {
           nextBtn.disabled = false;
@@ -470,6 +471,7 @@ function readData(file, section){
             }
           }
           if (selected == 0){
+            document.getElementById(conBtnID).type = "button";
             document.getElementById(conBtnID).disabled = false;
             document.getElementById(radErrTextID).style.display = "block";
             for (var p = 0; rads[radsNum].length; p++){
