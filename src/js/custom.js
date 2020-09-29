@@ -6,33 +6,158 @@ const contBtn = document.getElementById('continue');
 var uid = localStorage.getItem("idKey");
 if (contBtn){
   contBtn.addEventListener('click', function(){
-    const checkbox = document.getElementById('check');
-    var text = document.getElementById('checkError');
-    const btn = document.getElementById('continue');
     const infoForm = document.getElementById('infoForm');
     const ageBox = document.getElementById('age');
     const genderBox = document.getElementById('Gender');
-    const incomeBracketBox = document.getElementById('incomeBracket');
+    const classBox = document.getElementById('classSurvey');
     var age = ageBox.options[ageBox.selectedIndex].text;
     var gender = genderBox.options[genderBox.selectedIndex].text;
-    var income = incomeBracketBox.options[incomeBracketBox.selectedIndex].text;
+    var classBracket = classBox.options[classBox.selectedIndex].text;
 
-    if (checkbox.checked == false){
-      text.style.display = "block";
-      text.style.color = "red";
-    } else {
-      uid++;
-      localStorage.setItem("idKey", uid);
-      saveUserData(uid, age, gender, income);
-      text.style.display = "none";
-      btn.type = "reset";
-      ageBox.disabled = true;
-      genderBox.disabled = true;
-      incomeBracketBox.disabled = true;
-
-    };
+    uid++;
+    localStorage.setItem("idKey", uid);
+    saveUserData(uid, age, gender, classBracket);
+    ageBox.disabled = true;
+    genderBox.disabled = true;
+    classBox.disabled = true;
   });
 };
+
+var t1 = 0;
+var testValues = [];
+
+
+if ($('body').is(".knowledge")){
+  var brexit = document.getElementById('brexit');
+  var noPaper = document.getElementById('noPaper');
+  var yesPaper = document.getElementById('yesPaper');
+  var yesSite = document.getElementById('yesNewsSite');
+  var noSite = document.getElementById('noNewsSite');
+  var yesTV = document.getElementById('yesTV');
+  var noTV = document.getElementById('noTV');
+  var testForm = document.getElementById('test');
+
+  noPaper.addEventListener('click', function(){
+    yesPaper.checked = false;
+    testValues[1] = "No";
+    document.getElementById('whatPaper').style.display = "none";
+  });
+
+  yesPaper.addEventListener('click', function(){
+    noPaper.checked = false;
+    testValues[1] = "Yes";
+    document.getElementById('whatPaper').style.display = "block";
+  })
+
+  yesSite.addEventListener('click', function(){
+    noSite.checked = false;
+    testValues[3] = "Yes";
+    document.getElementById('whichNewsSite').style.display = "block";
+  })
+
+  noSite.addEventListener('click', function(){
+    yesSite.checked = false;
+    testValues[3] = "No";
+    document.getElementById('whichNewsSite').style.display = "none";
+  })
+
+  yesTV.addEventListener('click', function(){
+    noTV.checked = false;
+    testValues[5] = "Yes";
+    document.getElementById('whichTV').style.display = "block";
+  })
+
+  noTV.addEventListener('click', function(){
+    yesTV.checked = false;
+    testValues[5] = "No";
+    document.getElementById('whichTV').style.display = "none";
+  })
+
+  d3.csv('Sample-Data/test.csv').then(function(data){
+    data.forEach(function(d){
+      t1++;
+
+
+      var radLblA = "radLblForTest" + (1 + 4*(t1 - 1));
+      var radLblB = "radLblForTest" + (2 + 4*(t1 - 1));
+      var radLblC = "radLblForTest" + (3 + 4*(t1 - 1));
+      var radLblD = "radLblForTest" + (4 + 4*(t1 - 1));
+
+      var radA = "radForTest" + (1 + 4*(t1 - 1));
+      var radB = "radForTest" + (2 + 4*(t1 - 1));
+      var radC = "radForTest" + (3 + 4*(t1 - 1));
+      var radD = "radForTest" + (4 + 4*(t1 - 1));
+
+      var testRads = [radA, radB, radC, radD];
+      var testRadLbls = [radLblA, radLblB, radLblC, radLblD];
+
+      d3.select('#test').append("label").text(d.Question);
+      addRow(testForm);
+
+      addTestRads(test);
+      document.getElementById(radLblA).innerHTML = d.Option1;
+
+      addTestRads(test);
+      document.getElementById(radLblB).innerHTML = d.Option2;
+      addRow(testForm);
+
+      addTestRads(test);
+      document.getElementById(radLblC).innerHTML = d.Option3;
+
+      addTestRads(test);
+      document.getElementById(radLblD).innerHTML = d.Option4;
+      addRow(testForm);
+
+      for (var t2 = 0; t2 < testRads.length; t2++){
+        document.getElementById(testRads[t2]).addEventListener('click', function(){
+          var theRad = this;
+          var str = theRad.id;
+          var radNum = parseInt(str.substr(10), 10);
+          var ind = Math.floor((radNum/4.1)) + 7;
+          var newStr = str.replace("rad", "radLbl");
+          testValues[ind] = document.getElementById(newStr).innerHTML;
+          for (var t3 = 0; t3 < testRads.length; t3++){
+            if (theRad != document.getElementById(testRads[t3])){
+              document.getElementById(testRads[t3]).checked = false;
+            }
+          }
+        })
+      };
+
+
+    });
+    var alertInput = document.createElement("input");
+    alertInput.type = "text";
+    alertInput.className = "form-control";
+    alertInput.id = "alertInput";
+    testForm.appendChild(alertInput);
+    alertInput.style.display = "none";
+
+    var testBtn = document.createElement("button");
+    testBtn.type = "button";
+    testBtn.className = "btn btn-primary my-md-3";
+    testBtn.innerHTML = "Submit";
+    testBtn.id = "testBtn";
+    testForm.appendChild(testBtn);
+
+    testBtn.addEventListener('click', function(){
+      testValues[0] = document.getElementById("brexit").value;
+      testValues[2] = document.getElementById("whatPaper").value;
+      testValues[4] = document.getElementById("whichNewsSite").value;
+      testValues[6] = document.getElementById("whichTV").value;
+      testValues[15] = document.getElementById('alertInput').value;
+      saveTest(uid, testValues);
+    });
+
+    document.getElementById("radForTest32").addEventListener('click', function(){
+      document.getElementById("alertInput").style.display = "inline-block";
+    });
+
+
+
+  });
+
+}
 
 var startTime;
 var i = 0;
@@ -42,6 +167,7 @@ var i = 0;
 const qform = document.getElementById('questions');
 var j = 1;
 var k = 1;
+var t = 1;
 var values = {};
 var downBtns = {};
 var upBtns = {};
@@ -179,13 +305,13 @@ function addBtns(slide){
 };
 
 function addRads(slide){
-  const radCol = document.createElement('div');
+  var radCol = document.createElement('div');
   radCol.className = "col-md-6";
   slide.append(radCol);
   radCol.style.display = "inline-block";
   var rad = document.createElement('input');
   rad.type = "radio";
-  rad.className = "radio normalRad";
+  rad.className = "radio";
   rad.id = "radio" + i + "_" + k;
   radCol.appendChild(rad);
   var radID = "radio" + i + "_" + k;
@@ -201,6 +327,27 @@ function addRads(slide){
   radLbls[radLblsNum].push(radLblID);
 
   k++;
+}
+
+function addTestRads(slide){
+  var radCol = document.createElement('div');
+  radCol.className = "col-md-6";
+  slide.append(radCol);
+  radCol.style.display = "inline-block";
+  var rad = document.createElement('input');
+  rad.type = "radio";
+  rad.className = "radio";
+  rad.id = "radForTest" + t;
+  radCol.appendChild(rad);
+  var radID = "radForTest" + t;
+  var radLbl = document.createElement("label");
+  radLbl.className = "radLbl";
+  radLbl.id = "radLblForTest" + t;
+  radLbl.for = "radForTest" + t;
+  radCol.appendChild(radLbl);
+  var radLblID = "radLblForTest" + t;
+
+  t++;
 }
 
 /*
@@ -647,6 +794,27 @@ function saveTime(uid, section, qcode, time){
 function writeAnswer(uid, section, qcode, ans){
   firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/their_answer/').set({
     answer: ans
+  });
+};
+
+function saveTest(uid, vals){
+  firebase.database().ref('/user' + uid + '/political_knowledge_test/').set({
+    brexit: vals[0],
+    paperYN: vals[1],
+    paper: vals[2],
+    webYN: vals[3],
+    web: vals[4],
+    tvYN: vals[5],
+    tv: vals[6],
+    speaker_HOC: vals[7],
+    sci_advisor: vals[8],
+    unemployment: vals[9],
+    seats_HOC: vals[10],
+    fiveG: vals[11],
+    elec_source: vals[12],
+    party_HOC: vals[13],
+    alert: vals[14],
+    alert_text: vals[15]
   });
 };
 
