@@ -57,7 +57,7 @@
               </div>
               <div class="col-md-6">
                 <select class="form-control" id="classSurvey">
-                  <option selected>..</option>
+                  <option selected>Choose...</option>
                   <option>Elite</option>
                   <option>Established Middle Class</option>
                   <option>Technical Middle Class</option>
@@ -69,10 +69,13 @@
               </div>
             </div>
             <button type="button" class="btn btn-primary my-md-3" id="continue">Submit</button>
+            <div class="form-row my-md-3">
+              <label id="infoErr" style="display:none" class="errText">*Please fill in all sections of the form</label>
+            </div>
           </form>
         </div>
         <div class="card-footer">
-          <a href="knowledge.html"><button class="nextBtn" type="button"> next >> </button></a>
+          <a href="knowledge.html"><button id="formNext" disabled="true" class="nextBtn" type="button"> next >> </button></a>
         </div>
       </div>
     </div>

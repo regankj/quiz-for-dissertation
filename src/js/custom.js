@@ -14,18 +14,26 @@ if (contBtn){
     var gender = genderBox.options[genderBox.selectedIndex].text;
     var classBracket = classBox.options[classBox.selectedIndex].text;
 
-    uid++;
-    localStorage.setItem("idKey", uid);
-    saveUserData(uid, age, gender, classBracket);
-    ageBox.disabled = true;
-    genderBox.disabled = true;
-    classBox.disabled = true;
+    if (age == "Choose..." || gender == "Choose..." || classBracket == "Choose..."){
+      document.getElementById("infoErr").style.display = "inline-block";
+      ageBox.disabled = false;
+      genderBox.disabled = false;
+      classBox.disabled = false;
+    } else {
+      uid++;
+      localStorage.setItem("idKey", uid);
+      saveUserData(uid, age, gender, classBracket);
+      ageBox.disabled = true;
+      genderBox.disabled = true;
+      classBox.disabled = true;
+      document.getElementById("formNext").disabled = false;
+    }
+
   });
 };
 
 var t1 = 0;
 var testValues = [];
-
 
 if ($('body').is(".knowledge")){
   var brexit = document.getElementById('brexit');
@@ -139,17 +147,49 @@ if ($('body').is(".knowledge")){
     testBtn.innerHTML = "Submit";
     testBtn.id = "testBtn";
     testForm.appendChild(testBtn);
+    addRow(testForm);
+
+    var testErr = document.createElement("label");
+    testErr.style.display = "none";
+    testErr.className = "errText";
+    testErr.innerHTML = "*Please complete all questions";
+    testErr.id = "testErr";
+    testForm.appendChild(testErr);
 
     testBtn.addEventListener('click', function(){
-      testValues[0] = document.getElementById("brexit").value;
-      testValues[2] = document.getElementById("whatPaper").value;
-      testValues[4] = document.getElementById("whichNewsSite").value;
-      testValues[6] = document.getElementById("whichTV").value;
-      testValues[15] = document.getElementById('alertInput').value;
-      saveTest(uid, testValues);
+      var checkedRads = 0;
+      var radios = document.querySelectorAll('.radio');
+      for (var t4 = 0; t4 < radios.length; t4++){
+        if (radios[t4].checked == true){
+          checkedRads++;
+        }
+      };
+
+      if ((checkedRads != 11) || (document.getElementById("brexit").value == "")){
+        testErr.style.display = "inline-block";
+      } else {
+        document.getElementById("testNext").disabled = false;
+        testValues[0] = document.getElementById("brexit").value;
+        testValues[2] = document.getElementById("whatPaper").value;
+        testValues[4] = document.getElementById("whichNewsSite").value;
+        testValues[6] = document.getElementById("whichTV").value;
+        testValues[15] = document.getElementById('alertInput').value;
+        var radios = document.querySelectorAll('.radio');
+        for (var t5 = 0; t5 < radios.length; t5++){
+          radios[t5].disabled = true;
+        };
+        document.getElementById("brexit").disabled = true;
+        document.getElementById("whatPaper").disabled = true;
+        document.getElementById("whichNewsSite").disabled = true;
+        document.getElementById("whichTV").disabled = true;
+        document.getElementById('alertInput').disabled = true;
+        saveTest(uid, testValues);
+        testErr.style.display = "none";
+      }
+
     });
 
-    document.getElementById("radForTest32").addEventListener('click', function(){
+    document.getElementById("radForTest32").addEventListener('click', function(){sample
       document.getElementById("alertInput").style.display = "inline-block";
     });
 
@@ -219,7 +259,7 @@ function addBtns(slide){
   btnCol.appendChild(upBtn);
 
   const barCol = document.createElement('div');
-  var count = 20;
+  var count = 10;
   barCol.className = "col-md-6";
   slide.appendChild(barCol);
   var bar = document.createElement('div');
@@ -236,7 +276,7 @@ function addBtns(slide){
   var barID = "bar" + i + "_" + j;
   var valueNum = "values" + i;
   var valPos = j-1;
-  values[valueNum][valPos] = 20;
+  values[valueNum][valPos] = 10;
   var btnsNum = "btns" + i;
   btns[btnsNum].push(downBtnID, smDownBtnID, smUpBtnID, upBtnID);
   upBtns[btnsNum].push(smUpBtnID, upBtnID);
@@ -595,7 +635,6 @@ function readData(file, section){
           document.getElementById(errTextID).style.display = "block";
         }
         else {
-          nextBtn.disabled = false;
           document.getElementById(errTextID).style.display = "none";
           document.getElementById(conBtnID).disabled = true;
           writeData(uid, section, qcode, options[optionsNum].length, values[valuesNum]);
@@ -625,6 +664,7 @@ function readData(file, section){
               document.getElementById(rads[radsNum][p]).disabled = false;
             }
           }
+          nextBtn.disabled = false;
         }
       })
       j = 1;
@@ -785,18 +825,21 @@ function writeData(uid, section, qcode, num, answers){
   }
 };
 
+// time stamp for each question
 function saveTime(uid, section, qcode, time){
   firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/timer/').set({
     Timer: time
   });
 }
 
+// save the user's actual answer
 function writeAnswer(uid, section, qcode, ans){
   firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/their_answer/').set({
     answer: ans
   });
 };
 
+//save political knowledge test results
 function saveTest(uid, vals){
   firebase.database().ref('/user' + uid + '/political_knowledge_test/').set({
     brexit: vals[0],
