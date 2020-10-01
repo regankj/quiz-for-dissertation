@@ -26,6 +26,8 @@ if (contBtn){
       ageBox.disabled = true;
       genderBox.disabled = true;
       classBox.disabled = true;
+      contBtn.disabled = true;
+      document.getElementById("infoErr").style.display = "none";
       document.getElementById("formNext").disabled = false;
     }
 
@@ -185,11 +187,12 @@ if ($('body').is(".knowledge")){
         document.getElementById('alertInput').disabled = true;
         saveTest(uid, testValues);
         testErr.style.display = "none";
+        testBtn.disabled = true;
       }
 
     });
 
-    document.getElementById("radForTest32").addEventListener('click', function(){sample
+    document.getElementById("radForTest32").addEventListener('click', function(){
       document.getElementById("alertInput").style.display = "inline-block";
     });
 
@@ -267,7 +270,7 @@ function addBtns(slide){
   bar.id = "bar" + i + "_" + j;
   barCol.appendChild(bar);
   bar.innerHTML = count + "%";
-  bar.style.width = (count * 0.5) + "em";
+  bar.style.width = (count * 1.5) + "%";
 
   var downBtnID = "downBtn" + i + "_" + j;
   var smDownBtnID = "smDownBtn" + i + "_" + j;
@@ -289,7 +292,7 @@ function addBtns(slide){
   document.getElementById(downBtnID).addEventListener('click', function(){
     count = count - 10;
     document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * 0.5) + "em";
+    document.getElementById(barID).style.width = (count * 1.5) + "%";
     if (count <=0 ){
       document.getElementById(downBtnID).disabled = true;
       document.getElementById(smDownBtnID).disabled = true;
@@ -304,7 +307,7 @@ function addBtns(slide){
   document.getElementById(smDownBtnID).addEventListener('click', function(){
     count = count - 1;
     document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * 0.5) + "em";
+    document.getElementById(barID).style.width = (count * 1.5) + "%";
     if (count <=0 ){
       document.getElementById(downBtnID).disabled = true;
       document.getElementById(smDownBtnID).disabled = true;
@@ -321,7 +324,7 @@ function addBtns(slide){
     document.getElementById(smDownBtnID).disabled = false;
     count = count + 1;
     document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * 0.5) + "em";
+    document.getElementById(barID).style.width = (count * 1.5) + "%";
     if (count < 10 ){
       document.getElementById(downBtnID).disabled = true;
     }
@@ -334,7 +337,7 @@ function addBtns(slide){
     document.getElementById(smDownBtnID).disabled = false;
     count = count + 10;
     document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * 0.5) + "em";
+    document.getElementById(barID).style.width = (count * 1.5) + "%";
     if (count < 10 ){
       document.getElementById(downBtnID).disabled = true;
     }
@@ -665,6 +668,7 @@ function readData(file, section){
             }
           }
           nextBtn.disabled = false;
+          document.getElementById(radErrTextID).style.display = "none";
         }
       })
       j = 1;
