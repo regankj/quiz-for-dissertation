@@ -60,17 +60,16 @@
 }
 
 .slide{
-  position: absolute;
-  left: 0px;
-  top: 0px;
+  position: fixed;
   width: 100%;
   z-index: 1;
   opacity: 0;
   transition: opacity 0.5s;
+  display: none;
 }
 
 .active-slide{
-  position: relative;
+  position: sticky;
   opacity: 1;
   z-index: 2;
 }

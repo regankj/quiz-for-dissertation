@@ -721,7 +721,7 @@ accessed 14-09-20
 
 function showSlide(n, currentSlideID, slideNo){
   document.getElementById(currentSlideID).className = "slide";
-  document.getElementById(n).className = "slide active-slide";
+  document.getElementById(n).className = "active-slide";
   if (slideNo == i){
     nextBtn.disabled = true;
   } else {
