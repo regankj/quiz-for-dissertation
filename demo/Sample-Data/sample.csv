@@ -1,4 +1,8 @@
-Question,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8,Option9
-It’s okay to disobey the law if that law is morally wrong,Agree,Agree Slightly,Neither Agree nor Disagree,Disagree Slightly,Disagree,,,,
-The Working Class are more likely to break lockdown rules,Agree,Agree Slightly,Neither Agree nor Disagree,Disagree Slightly,Disagree,,,,
-People claim benefits without any disabilties,Agree,Agree Slightly,Neither Agree nor Disagree,Disagree Slightly,Disagree,,,,
+Question,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8,Option9,QuestionCode
+It’s okay to disobey the law if that law is morally wrong,Agree,Agree Slightly,Neither Agree nor Disagree,Disagree Slightly,Disagree,yes,no,maybe,nah,q1
+The Working Class are more likely to break lockdown rules,Agree,Agree Slightly,Neither Agree nor Disagree,Disagree Slightly,Disagree,for ,the,lads,,q2
+People claim benefits without any disabilties,Agree,Agree Slightly,Neither Agree nor Disagree,Disagree Slightly,Disagree,,,,,q3
+Young people have no respect for their elders,Agree,Agree Slightly,Neither Agree nor Disagree,Disagree Slightly,,,,,,young
+numbers,one,two,three,,,,,,,
+Yes,one,two,,,,,,,,
+a,b,c,d,,,,,,,mugs

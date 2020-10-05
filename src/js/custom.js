@@ -37,6 +37,7 @@ if (contBtn){
 var t1 = 0;
 var testValues = [];
 
+// political knowledge test section
 if ($('body').is(".knowledge")){
   var brexit = document.getElementById('brexit');
   var noPaper = document.getElementById('noPaper');
@@ -205,7 +206,7 @@ if ($('body').is(".knowledge")){
 var startTime;
 var i = 0;
 
-// functions to add horizontal bars and buttons
+// functions to add horizontal bars, buttons and rows to the queston form
 
 const qform = document.getElementById('questions');
 var j = 1;
@@ -393,6 +394,9 @@ function addTestRads(slide){
   t++;
 }
 
+var slideNo = 1;
+var currentSlideID = "slide" + slideNo;
+
 /*
 loading in a csv file
 code taken and adapted from https://stackoverflow.com/questions/29259938/how-to-load-csv-file-to-use-with-d3
@@ -404,8 +408,6 @@ function readData(file, section){
       i++;
 
       var slide = document.createElement("div");
-      var slideNo = 1;
-      var currentSlideID = "slide" + slideNo;
       slide.className = "slide";
       slide.id = "slide" + i;
       var slideID = "#slide" + i;
@@ -630,7 +632,7 @@ function readData(file, section){
         }
       };
 
-      var questionNum = i;
+
 
       document.getElementById(conBtnID).addEventListener('click', function(){
         if ( values[valuesNum].reduce((a,b) => a+b, 0) != 100){
@@ -673,18 +675,19 @@ function readData(file, section){
       })
       j = 1;
       k = 1;
-      showSlide(currentSlideID, currentSlideID, slideNo, slide);
-      nextBtn.addEventListener('click', function(){
-        slideNo++;
-        var nextSlide = "slide" + slideNo;
-        showSlide(nextSlide, currentSlideID, slideNo, slide);
-        currentSlideID = "slide" + slideNo;
-      });
-    })
 
+    });
+    showSlide(currentSlideID, currentSlideID, slideNo);
   });
 };
 
+const nextBtn = document.getElementById('nextBtn');
+nextBtn.addEventListener('click', function(){
+  slideNo++;
+  var nextSlide = "slide" + slideNo;
+  showSlide(nextSlide, currentSlideID, slideNo);
+  currentSlideID = "slide" + slideNo;
+});
 
 if ($('body').is('.quiz1')){
   readData("Sample-Data/questions.csv", "answers");
@@ -716,8 +719,7 @@ taken from https://www.sitepoint.com/simple-javascript-quiz/
 accessed 14-09-20
 */
 
-const nextBtn = document.getElementById('nextBtn');
-function showSlide(n, currentSlideID, slideNo, slide){
+function showSlide(n, currentSlideID, slideNo){
   document.getElementById(currentSlideID).className = "slide";
   document.getElementById(n).className = "slide active-slide";
   if (slideNo == i){
