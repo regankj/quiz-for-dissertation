@@ -189,6 +189,19 @@ if ($('body').is(".knowledge")){
         saveTest(uid, testValues);
         testErr.style.display = "none";
         testBtn.disabled = true;
+        testNext.onclick = function(){
+          location.href="quiz.html";
+        }
+      }
+
+      if ((document.getElementById("alertInput").innerHTML) != "ALERT"){
+        testNext.onclick = function(){
+          document.getElementById('ins').innerHTML = "";
+          document.getElementById('sorry').innerHTML = "Sorry!";
+          testForm.innerHTML = "Unfortunately the response to the alertness test was incorrect, so we must reject your assignmenton Mechanical Turk. We think it is better to tell you now, rather than proceeding to the main part of the survey. Thank you for your time."
+          testNext.disabled = true;
+        };
+
       }
 
     });
@@ -681,16 +694,17 @@ function readData(file, section){
   });
 };
 
-const nextBtn = document.getElementById('nextBtn');
-nextBtn.addEventListener('click', function(){
-  slideNo++;
-  var nextSlide = "slide" + slideNo;
-  showSlide(nextSlide, currentSlideID, slideNo);
-  currentSlideID = "slide" + slideNo;
-});
 
 if ($('body').is('.quiz1')){
   readData("Sample-Data/questions.csv", "answers");
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.addEventListener('click', function(){
+    slideNo++;
+    var nextSlide = "slide" + slideNo;
+    showSlide(nextSlide, currentSlideID, slideNo);
+    currentSlideID = "slide" + slideNo;
+    nextBtn.disabled = true;
+  });
   window.addEventListener('load', function(){
     startTime = Date.now();
   });
@@ -724,8 +738,6 @@ function showSlide(n, currentSlideID, slideNo){
   document.getElementById(n).className = "active-slide";
   if (slideNo == i){
     nextBtn.disabled = true;
-  } else {
-    nextBtn.disabled = false;
   }
 }
 
