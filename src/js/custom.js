@@ -132,6 +132,18 @@ if ($('body').is(".knowledge")){
               document.getElementById(testRads[t3]).checked = false;
             }
           }
+        });
+        document.getElementById(testRadLbls[t2]).addEventListener('click', function(){
+          var theRadLbl = this;
+          var str = theRadLbl.id;
+          var newStr = str.replace("radLbl", "rad");
+          var activeRad = document.getElementById(newStr);
+          activeRad.checked = true;
+          for (var t5 = 0; t5 < testRads.length; t5++){
+            if (activeRad != document.getElementById(testRads[t5])){
+              document.getElementById(testRads[t5]).checked = false;
+            }
+          }
         })
       };
 
@@ -594,6 +606,18 @@ function readData(file, section){
           for (var r4 = 0; r4 < rads[radsNum].length; r4++){
             if (theRad != document.getElementById(rads[radsNum][r4])){
               document.getElementById(rads[radsNum][r4]).checked = false;
+            }
+          }
+        })
+        document.getElementById(radLbls[radLblsNum][r3]).addEventListener('click', function(){
+          var theRadLbl = this;
+          var str = theRadLbl.id;
+          var newStr = str.replace("radLbl", "radio");
+          var activeRad = document.getElementById(newStr);
+          activeRad.checked = true;
+          for (var r5 = 0; r5 < rads[radsNum].length; r5++){
+            if (activeRad != document.getElementById(rads[radsNum][r5])){
+              document.getElementById(rads[radsNum][r5]).checked = false;
             }
           }
         })
