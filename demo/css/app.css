@@ -11900,6 +11900,11 @@ body {
 button {
   background-color: #84CEEB; }
 
+.radio {
+  border: 0px;
+  width: 25%;
+  height: 1.5em; }
+
 .app-header {
   width: 100%;
   background-color: #5680E9;

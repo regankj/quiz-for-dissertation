@@ -257,7 +257,7 @@ function addRow(slide){
   newRow.appendChild(col);
 };
 
-function addBtns(slide){
+function addBtns(slide, num){
   const btnCol = document.createElement('div');
   btnCol.className = "col-md-6";
   slide.append(btnCol);
@@ -288,7 +288,7 @@ function addBtns(slide){
   btnCol.appendChild(upBtn);
 
   const barCol = document.createElement('div');
-  var count = 10;
+  var count = num;
   barCol.className = "col-md-6";
   slide.appendChild(barCol);
   var bar = document.createElement('div');
@@ -305,7 +305,7 @@ function addBtns(slide){
   var barID = "bar" + i + "_" + j;
   var valueNum = "values" + i;
   var valPos = j-1;
-  values[valueNum][valPos] = 10;
+  values[valueNum][valPos] = count;
   var btnsNum = "btns" + i;
   btns[btnsNum].push(downBtnID, smDownBtnID, smUpBtnID, upBtnID);
   upBtns[btnsNum].push(smUpBtnID, upBtnID);
@@ -443,6 +443,7 @@ function readData(file, section){
       var optionsNum = "options" + i;
       var radsNum = "rads" + i;
       var radLblsNum = "radLbls" + i;
+      var numOfOpts = 0;
 
 
       d3.select(slideID).append("label").text(i + ". " + d.Question);
@@ -453,17 +454,20 @@ function readData(file, section){
       addRads(slide);
       document.getElementById(radLbls[radLblsNum][0]).innerHTML = d.Option1;
       options[optionsNum].push(d.Option1);
+      numOfOpts++;
 
 
       addRads(slide);
       document.getElementById(radLbls[radLblsNum][1]).innerHTML = d.Option2;
       options[optionsNum].push(d.Option2);
+      numOfOpts++;
       addRow(slide);
 
       if (d.Option3 != ""){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][2]).innerHTML = d.Option3;
         options[optionsNum].push(d.Option3);
+        numOfOpts++;
 
       }
 
@@ -471,6 +475,7 @@ function readData(file, section){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][3]).innerHTML = d.Option4;
         options[optionsNum].push(d.Options4);
+        numOfOpts++;
         addRow(slide);
       }
 
@@ -478,6 +483,7 @@ function readData(file, section){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][4]).innerHTML = d.Option5;
         options[optionsNum].push(d.Options5);
+        numOfOpts++;
 
       }
 
@@ -485,6 +491,7 @@ function readData(file, section){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][5]).innerHTML = d.Option6;
         options[optionsNum].push(d.Options6);
+        numOfOpts++;
         addRow(slide);
       }
 
@@ -492,6 +499,7 @@ function readData(file, section){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][6]).innerHTML = d.Option7;
         options[optionsNum].push(d.Options7);
+        numOfOpts++;
 
       }
 
@@ -499,6 +507,7 @@ function readData(file, section){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][7]).innerHTML = d.Option8;
         options[optionsNum].push(d.Options8);
+        numOfOpts++;
         addRow(slide);
       }
 
@@ -506,6 +515,7 @@ function readData(file, section){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][8]).innerHTML = d.Option9;
         options[optionsNum].push(d.Options9);
+        numOfOpts++;
         addRow(slide);
       }
 
@@ -514,52 +524,52 @@ function readData(file, section){
       addRow(slide);
 
       d3.select(slideID).append("label").text(d.Option1);
-      addBtns(slide);
+      addBtns(slide, Math.floor(100/numOfOpts));
       addRow(slide);
 
       d3.select(slideID).append("label").text(d.Option2);
-      addBtns(slide);
+      addBtns(slide, Math.floor(100/numOfOpts));
       addRow(slide);
 
       if (d.Option3 != ""){
         d3.select(slideID).append("label").text(d.Option3);
-        addBtns(slide);
+        addBtns(slide, Math.floor(100/numOfOpts));
         addRow(slide);
       }
 
       if (d.Option4 != ""){
         d3.select(slideID).append("label").text(d.Option4);
-        addBtns(slide);
+        addBtns(slide, Math.floor(100/numOfOpts));
         addRow(slide);
       }
 
       if (d.Option5 != ""){
         d3.select(slideID).append("label").text(d.Option5);
-        addBtns(slide);
+        addBtns(slide, Math.floor(100/numOfOpts));
         addRow(slide);
       }
 
       if (d.Option6 != ""){
         d3.select(slideID).append("label").text(d.Option6);
-        addBtns(slide);
+        addBtns(slide, Math.floor(100/numOfOpts));
         addRow(slide);
       }
 
       if (d.Option7 != ""){
         d3.select(slideID).append("label").text(d.Option7);
-        addBtns(slide);
+        addBtns(slide, Math.floor(100/numOfOpts));
         addRow(slide);
       }
 
       if (d.Option8 != ""){
         d3.select(slideID).append("label").text(d.Option8);
-        addBtns(slide);
+        addBtns(slide, Math.floor(100/numOfOpts));
         addRow(slide);
       }
 
       if (d.Option9 != ""){
         d3.select(slideID).append("label").text(d.Option9);
-        addBtns(slide);
+        addBtns(slide, Math.floor(100/numOfOpts));
         addRow(slide);
       }
 
@@ -666,6 +676,12 @@ function readData(file, section){
       if (values[valuesNum].reduce((a,b) => a+b, 0) == 100){
         for (var f= 0; f < upBtns[btnsNum].length; f++){
           document.getElementById(upBtns[btnsNum][f]).disabled = true;
+        }
+      };
+
+      if (values[valuesNum].reduce((a,b) => a+b, 0) > 90){
+        for (var f= 0; f < lgUpBtns[btnsNum].length; f++){
+          document.getElementById(lgUpBtns[btnsNum][f]).disabled = true;
         }
       };
 
