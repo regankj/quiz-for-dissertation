@@ -564,7 +564,7 @@ function readData(file, section){
       var confBtn = document.createElement('button');
       confBtn.innerHTML = "Confirm";
       confBtn.id = "confirm" + i;
-      confBtn.className = "confirmBtn";
+      confBtn.className = "btn btn-primary my-md-3";
       slide.appendChild(confBtn);
       var conBtnID = "confirm" + i;
 
@@ -703,6 +703,7 @@ if ($('body').is('.quiz1')){
     var nextSlide = "slide" + slideNo;
     showSlide(nextSlide, currentSlideID, slideNo);
     currentSlideID = "slide" + slideNo;
+    startTime = Date.now();
     nextBtn.disabled = true;
   });
   window.addEventListener('load', function(){

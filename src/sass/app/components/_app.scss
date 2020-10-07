@@ -40,9 +40,9 @@
   text-align: center;
 }
 
-.confirmBtn {
-  border-radius: 10%;
-  margin-bottom: 1em;
+.btn-primary {
+  background-color: $primary-hex;
+  border-color: $primary-hex;
 }
 
 .errText {
