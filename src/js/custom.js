@@ -39,7 +39,6 @@ var testValues = [];
 
 // political knowledge test section
 if ($('body').is(".knowledge")){
-  var brexit = document.getElementById('brexit');
   var noPaper = document.getElementById('noPaper');
   var yesPaper = document.getElementById('yesPaper');
   var yesSite = document.getElementById('yesNewsSite');
@@ -50,37 +49,37 @@ if ($('body').is(".knowledge")){
 
   noPaper.addEventListener('click', function(){
     yesPaper.checked = false;
-    testValues[1] = "No";
+    testValues[0] = "No";
     document.getElementById('whatPaper').style.display = "none";
   });
 
   yesPaper.addEventListener('click', function(){
     noPaper.checked = false;
-    testValues[1] = "Yes";
+    testValues[0] = "Yes";
     document.getElementById('whatPaper').style.display = "block";
   })
 
   yesSite.addEventListener('click', function(){
     noSite.checked = false;
-    testValues[3] = "Yes";
+    testValues[2] = "Yes";
     document.getElementById('whichNewsSite').style.display = "block";
   })
 
   noSite.addEventListener('click', function(){
     yesSite.checked = false;
-    testValues[3] = "No";
+    testValues[2] = "No";
     document.getElementById('whichNewsSite').style.display = "none";
   })
 
   yesTV.addEventListener('click', function(){
     noTV.checked = false;
-    testValues[5] = "Yes";
+    testValues[4] = "Yes";
     document.getElementById('whichTV').style.display = "block";
   })
 
   noTV.addEventListener('click', function(){
     yesTV.checked = false;
-    testValues[5] = "No";
+    testValues[4] = "No";
     document.getElementById('whichTV').style.display = "none";
   })
 
@@ -124,7 +123,7 @@ if ($('body').is(".knowledge")){
           var theRad = this;
           var str = theRad.id;
           var radNum = parseInt(str.substr(10), 10);
-          var ind = Math.floor((radNum/4.1)) + 7;
+          var ind = Math.floor((radNum/4.1)) + 6;
           var newStr = str.replace("rad", "radLbl");
           testValues[ind] = document.getElementById(newStr).innerHTML;
           for (var t3 = 0; t3 < testRads.length; t3++){
@@ -180,20 +179,18 @@ if ($('body').is(".knowledge")){
         }
       };
 
-      if ((checkedRads != 11) || (document.getElementById("brexit").value == "")){
+      if (checkedRads != 12){
         testErr.style.display = "inline-block";
       } else {
         document.getElementById("testNext").disabled = false;
-        testValues[0] = document.getElementById("brexit").value;
-        testValues[2] = document.getElementById("whatPaper").value;
-        testValues[4] = document.getElementById("whichNewsSite").value;
-        testValues[6] = document.getElementById("whichTV").value;
+        testValues[1] = document.getElementById("whatPaper").value;
+        testValues[3] = document.getElementById("whichNewsSite").value;
+        testValues[5] = document.getElementById("whichTV").value;
         testValues[15] = document.getElementById('alertInput').value;
         var radios = document.querySelectorAll('.radio');
         for (var t5 = 0; t5 < radios.length; t5++){
           radios[t5].disabled = true;
         };
-        document.getElementById("brexit").disabled = true;
         document.getElementById("whatPaper").disabled = true;
         document.getElementById("whichNewsSite").disabled = true;
         document.getElementById("whichTV").disabled = true;
@@ -205,8 +202,9 @@ if ($('body').is(".knowledge")){
           location.href="quiz.html";
         }
       }
-
-      if ((document.getElementById("alertInput").innerHTML) != "ALERT"){
+      var alertString = document.getElementById("alertInput").value;
+      var newString = alertString.replace(/[^A-Z0-9]+/ig, "");
+      if ((newString.toLowerCase()) != "alert"){
         testNext.onclick = function(){
           document.getElementById('ins').innerHTML = "";
           document.getElementById('sorry').innerHTML = "Sorry!";
@@ -247,6 +245,10 @@ var btns = {};
 var rads = {};
 var radLbls = {};
 var options = {};
+var trueAnswers = {};
+var userScores = {};
+var means = {};
+var stanDs = {};
 
 function addRow(slide){
   const newRow = document.createElement('div');
@@ -438,12 +440,14 @@ function readData(file, section){
       var slideID = "#slide" + i;
       qform.appendChild(slide);
 
+      var questionNum = "question" + i;
       var valuesNum = "values" + i;
       var btnsNum = "btns" + i;
       var optionsNum = "options" + i;
       var radsNum = "rads" + i;
       var radLblsNum = "radLbls" + i;
       var numOfOpts = 0;
+      var ansIndexNum = "answers" + i;
 
 
       d3.select(slideID).append("label").text(i + ". " + d.Question);
@@ -699,6 +703,7 @@ function readData(file, section){
           var endTime = Date.now();
           var difference = (endTime - startTime)/1000;
           saveTime(uid, section, qcode, difference);
+          saveUserScore(uid, values[valuesNum], trueAnswers[ansIndexNum], section, qcode, questionNum);
           for (var m = 0; m < btns[btnsNum].length; m++){
             document.getElementById(btns[btnsNum][m]).disabled = true;
           }
@@ -737,6 +742,7 @@ function readData(file, section){
 
 if ($('body').is('.quiz1')){
   readData("Sample-Data/questions.csv", "answers");
+  readTrueAns("Sample-Data/scoring.csv");
   const nextBtn = document.getElementById('nextBtn');
   nextBtn.addEventListener('click', function(){
     slideNo++;
@@ -757,6 +763,8 @@ for (var num = 0; num < 62; num++){
   var o = "options" + (num + 1);
   var r = "rads" + (num + 1);
   var rl = "radLbls" + (num + 1);
+  var tr = "answers" + (num + 1);
+  var q = "question" + (num + 1);
   values[v] = [];
   btns[b] = [];
   downBtns[b] = [];
@@ -767,6 +775,8 @@ for (var num = 0; num < 62; num++){
   options[o] = [];
   rads[r] = [];
   radLbls[rl] = [];
+  trueAnswers[tr] = [];
+
 };
 /*
 making one question appear at a time using slides
@@ -781,9 +791,53 @@ function showSlide(n, currentSlideID, slideNo){
     nextBtn.disabled = true;
   }
 }
-
-
 // end of referenced code
+
+var ansIndexNum = 0;
+function readTrueAns(file){
+  d3.csv(file).then(function(data){
+    data.forEach(function(d){
+      ansIndexNum++;
+      var ansIndex = "answers" + ansIndexNum;
+      var qIndex = "question" + ansIndexNum;
+
+      trueAnswers[ansIndex][0] = parseInt(d.option1);
+      trueAnswers[ansIndex][1] = parseInt(d.option2);
+      if (d.option3 != ""){
+        trueAnswers[ansIndex][2] = parseInt(d.option3);
+      }
+      if (d.option4 != ""){
+        trueAnswers[ansIndex][3] = parseInt(d.option4);
+      }
+      if (d.option5 != ""){
+        trueAnswers[ansIndex][4] = parseInt(d.option5);
+      }
+      if (d.option6 != ""){
+        trueAnswers[ansIndex][5] = parseInt(d.option6);
+      }
+      if (d.option7 != ""){
+        trueAnswers[ansIndex][6] = parseInt(d.option7);
+      }
+      if (d.option8 != ""){
+        trueAnswers[ansIndex][7] = parseInt(d.option8);
+      }
+      if (d.option9 != ""){
+        trueAnswers[ansIndex][8] = parseInt(d.option9);
+      }
+
+      means[qIndex] = parseFloat(d.mean);
+      stanDs[qIndex] = parseFloat(d.sd);
+
+      var sum = trueAnswers[ansIndex].reduce((a,b) => a+b, 0);
+
+      if (sum != 100){
+        for (var a = 0; a < trueAnswers[ansIndex].length; a++){
+          trueAnswers[ansIndex][a] = ((trueAnswers[ansIndex][a])/sum) * 100;
+        }
+      }
+    })
+  })
+};
 
 /*
 Instructions for integrating firebase
@@ -901,14 +955,14 @@ function writeAnswer(uid, section, qcode, ans){
 //save political knowledge test results
 function saveTest(uid, vals){
   firebase.database().ref('/user' + uid + '/political_knowledge_test/').set({
-    brexit: vals[0],
-    paperYN: vals[1],
-    paper: vals[2],
-    webYN: vals[3],
-    web: vals[4],
-    tvYN: vals[5],
-    tv: vals[6],
-    speaker_HOC: vals[7],
+    paperYN: vals[0],
+    paper: vals[1],
+    webYN: vals[2],
+    web: vals[3],
+    tvYN: vals[4],
+    tv: vals[5],
+    speaker_HOC: vals[6],
+    brexit: vals[7],
     sci_advisor: vals[8],
     unemployment: vals[9],
     seats_HOC: vals[10],
@@ -928,4 +982,21 @@ function saveUserData(uid, age, gender, income){
     income: income
   });
 };
+
+function saveUserScore(uid, user_answers, true_answers, section, qcode, qnum){
+  var userScore = sumDiff(user_answers, true_answers);
+  var normScore = Math.round(100*(means[qnum] - userScore)/stanDs[qnum])
+  userScores[qnum] = userScore;
+  firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/score/').set({
+    score: normScore
+  });
+};
 // end of referenced code
+
+function sumDiff(a,b){
+  var sdiff = 0;
+  for (var v = 0; v < a.length; v++){
+    sdiff += Math.abs(a[v] - b[v]);
+    return sdiff;
+  }
+}
