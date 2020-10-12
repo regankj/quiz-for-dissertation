@@ -1,7 +1,7 @@
 const d3 = require('d3');
 
 
-// Function to make sure Privacy Statement is accepted
+// Functionality for initial page
 const contBtn = document.getElementById('continue');
 var uid = localStorage.getItem("idKey");
 if (contBtn){
@@ -430,7 +430,7 @@ var slideNo = 1;
 var currentSlideID = "slide" + slideNo;
 
 /*
-loading in a csv file
+loading in questions from a csv file and calling other functions to create the quiz
 code taken and adapted from https://stackoverflow.com/questions/29259938/how-to-load-csv-file-to-use-with-d3
 accessed 12-07-20
 */
@@ -607,6 +607,7 @@ function readData(file, section){
 
       addRow(slide);
 
+      // ensuring only one radio button can be checked at a time
       for (var r3 = 0; r3 < rads[radsNum].length; r3++){
         document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
           var theRad = this;
@@ -630,7 +631,7 @@ function readData(file, section){
         })
       };
 
-
+      // enablement/disablement of up/down buttons based on certain situations
       for (var r = 0; r < btns[btnsNum].length; r++){
         document.getElementById(btns[btnsNum][r]).addEventListener("click", function(){
           total.innerHTML = "Total: " + values[valuesNum].reduce((a,b) => a+b, 0) + "%";
@@ -683,7 +684,7 @@ function readData(file, section){
       };
 
 
-
+      // submitting data and disabling buttons after the confirm button is clicked
       document.getElementById(conBtnID).addEventListener('click', function(){
         if ( values[valuesNum].reduce((a,b) => a+b, 0) != 100){
           document.getElementById(conBtnID).type = "button";
@@ -743,7 +744,6 @@ if ($('body').is('.quiz1')){
     showSlide(nextSlide, currentSlideID, slideNo);
     currentSlideID = "slide" + slideNo;
     startTime = Date.now();
-    nextBtn.disabled = true;
   });
   window.addEventListener('load', function(){
     startTime = Date.now();
@@ -772,22 +772,38 @@ for (var num = 0; num < 62; num++){
   userScores[q] = 0;
 
 };
+
 /*
 making one question appear at a time using slides
 taken from https://www.sitepoint.com/simple-javascript-quiz/
 accessed 14-09-20
 */
-
 function showSlide(n, currentSlideID, slideNo){
   document.getElementById(currentSlideID).className = "slide";
   document.getElementById(n).className = "active-slide";
   if (slideNo == i){
     nextBtn.onclick = function(){
-      location.href="results.html";
+      document.querySelector("#top h2").innerHTML = "Well Done!"
+      document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and your answers compared to the actual ones."
+      var totalScore = 0;
+      for (var s = 0; s < 61; s++){
+        var qnum = "question" + (s+1);
+        totalScore += userScores[qnum];
+      }
+      var meanScore = Math.round(totalScore / 61);
+      document.getElementById("questions").innerHTML = "";
+      var scoreLbl = document.createElement("h5");
+      var theScore = document.createElement("h4");
+      scoreLbl.innerHTML = "Your Mean Score: ";
+      qform.appendChild(scoreLbl);
+      theScore.innerHTML = meanScore;
+      qform.appendChild(theScore);
     }
   }
 }
 // end of referenced code
+
+// reads in scoring csv file and adds the original BSAS results into arrays
 var ansIndexNum = 0;
 function readTrueAns(file){
   d3.csv(file).then(function(data){
@@ -858,11 +874,12 @@ firebase.initializeApp(firebaseConfig);
 
 
 /*
-function to write data to the database
-taken from https://firebase.google.com/docs/database/web/read-and-write
+code to save data to firebase
+taken and adapted from https://firebase.google.com/docs/database/web/read-and-write
 accessed 21-07-20
 */
 
+// saves users answers to the database
 function writeData(uid, section, qcode, num, answers){
   if (num == 2){
     firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
@@ -944,7 +961,7 @@ function writeAnswer(uid, section, qcode, ans){
   });
 };
 
-//save political knowledge test results
+// save political knowledge test results
 function saveTest(uid, vals){
   firebase.database().ref('/user' + uid + '/political_knowledge_test/').set({
     paperYN: vals[0],
@@ -974,7 +991,7 @@ function saveUserData(uid, age, gender, income){
     income: income
   });
 };
-
+// Calculate and save user score
 function saveUserScore(uid, user_answers, true_answers, section, qcode, qnum){
   var userScore = sumDiff(user_answers, true_answers);
   var normScore = Math.round(100*(means[qnum] - userScore)/stanDs[qnum])
@@ -983,7 +1000,7 @@ function saveUserScore(uid, user_answers, true_answers, section, qcode, qnum){
     score: normScore
   });
 };
-
+// save user feedback to firebase
 function saveFeedback(uid, vals, text){
   firebase.database().ref('/user' + uid + '/feedback/').set({
     change_opinion: vals[0],
@@ -993,6 +1010,7 @@ function saveFeedback(uid, vals, text){
 };
 // end of referenced code
 
+
 function sumDiff(a,b){
   var sdiff = 0;
   for (var v = 0; v < a.length; v++){
@@ -1001,19 +1019,11 @@ function sumDiff(a,b){
   }
 }
 
-if ($('body').is('.results')){
-  var totalScore = 0;
-  for (var s = 0; s < 61; s++){
-    var qnum = "question" + (s+1);
-    totalScore += userScores[qnum];
-  }
-  var meanScore = Math.round(totalScore / 61);
-  document.getElementById("meanUserScore").innerHTML = meanScore;
-}
+
 
 var fback = []
 var fback_checked = 0;
-
+// functionality for the feedback section of the quiz
 if ($('body').is('.feedback')){
   var yesRad = document.getElementById("yesChange");
   var noRad = document.getElementById("noChange");
