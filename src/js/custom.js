@@ -135,6 +135,9 @@ if ($('body').is(".knowledge")){
         document.getElementById(testRadLbls[t2]).addEventListener('click', function(){
           var theRadLbl = this;
           var str = theRadLbl.id;
+          var radNum = parseInt(str.substr(13), 10);
+          var ind = Math.floor((radNum/4.1)) + 6;
+          testValues[ind] = theRadLbl.innerHTML;
           var newStr = str.replace("radLbl", "rad");
           var activeRad = document.getElementById(newStr);
           activeRad.checked = true;
@@ -216,11 +219,13 @@ if ($('body').is(".knowledge")){
 
     });
 
-    document.getElementById("radForTest32").addEventListener('click', function(){
+    document.getElementById("radForTest36").addEventListener('click', function(){
       document.getElementById("alertInput").style.display = "inline-block";
     });
 
-
+    document.getElementById("radLblForTest36").addEventListener('click', function(){
+      document.getElementById("alertInput").style.display = "inline-block";
+    });
 
   });
 
@@ -515,13 +520,6 @@ function readData(file, section){
         addRow(slide);
       }
 
-      if (d.Option9 != ""){
-        addRads(slide);
-        document.getElementById(radLbls[radLblsNum][8]).innerHTML = d.Option9;
-        options[optionsNum].push(d.Options9);
-        numOfOpts++;
-        addRow(slide);
-      }
 
       addRow(slide);
       d3.select(slideID).append("label").text("What did the public think?:");
@@ -571,11 +569,6 @@ function readData(file, section){
         addRow(slide);
       }
 
-      if (d.Option9 != ""){
-        d3.select(slideID).append("label").text(d.Option9);
-        addBtns(slide, Math.floor(100/numOfOpts));
-        addRow(slide);
-      }
 
       var qcode = d.QuestionCode;
       // end of referenced code
@@ -776,6 +769,7 @@ for (var num = 0; num < 62; num++){
   rads[r] = [];
   radLbls[rl] = [];
   trueAnswers[tr] = [];
+  userScores[q] = 0;
 
 };
 /*
@@ -788,11 +782,12 @@ function showSlide(n, currentSlideID, slideNo){
   document.getElementById(currentSlideID).className = "slide";
   document.getElementById(n).className = "active-slide";
   if (slideNo == i){
-    nextBtn.disabled = true;
+    nextBtn.onclick = function(){
+      location.href="results.html";
+    }
   }
 }
 // end of referenced code
-
 var ansIndexNum = 0;
 function readTrueAns(file){
   d3.csv(file).then(function(data){
@@ -820,9 +815,6 @@ function readTrueAns(file){
       }
       if (d.option8 != ""){
         trueAnswers[ansIndex][7] = parseInt(d.option8);
-      }
-      if (d.option9 != ""){
-        trueAnswers[ansIndex][8] = parseInt(d.option9);
       }
 
       means[qIndex] = parseFloat(d.mean);
@@ -986,9 +978,17 @@ function saveUserData(uid, age, gender, income){
 function saveUserScore(uid, user_answers, true_answers, section, qcode, qnum){
   var userScore = sumDiff(user_answers, true_answers);
   var normScore = Math.round(100*(means[qnum] - userScore)/stanDs[qnum])
-  userScores[qnum] = userScore;
+  userScores[qnum] = normScore;
   firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/score/').set({
     score: normScore
+  });
+};
+
+function saveFeedback(uid, vals, text){
+  firebase.database().ref('/user' + uid + '/feedback/').set({
+    change_opinion: vals[0],
+    interesting: vals[1],
+    other_fb: text
   });
 };
 // end of referenced code
@@ -999,4 +999,90 @@ function sumDiff(a,b){
     sdiff += Math.abs(a[v] - b[v]);
     return sdiff;
   }
+}
+
+if ($('body').is('.results')){
+  var totalScore = 0;
+  for (var s = 0; s < 61; s++){
+    var qnum = "question" + (s+1);
+    totalScore += userScores[qnum];
+  }
+  var meanScore = Math.round(totalScore / 61);
+  document.getElementById("meanUserScore").innerHTML = meanScore;
+}
+
+var fback = []
+var fback_checked = 0;
+
+if ($('body').is('.feedback')){
+  var yesRad = document.getElementById("yesChange");
+  var noRad = document.getElementById("noChange");
+  var notRad = document.getElementById("intNo");
+  var litRad = document.getElementById("intLittle");
+  var quiteRad = document.getElementById("intQuite");
+  var veryRad = document.getElementById("intVery");
+  var txtArea = document.getElementById("openFeedback");
+  var fbform = document.getElementById("userFeedback")
+
+  yesRad.addEventListener('click', function(){
+    noRad.checked = false;
+    fback[0] = "Yes";
+    fback_checked = 1;
+  });
+
+  noRad.addEventListener('click', function(){
+    yesRad.checked = false;
+    fback[0] = "No";
+    fback_checked = 1;
+  });
+
+  notRad.addEventListener('click', function(){
+    litRad.checked = false;
+    quiteRad.checked = false;
+    veryRad.checked = false;
+    fback[1] = "Not at all";
+    fback_checked = 2;
+  });
+
+  litRad.addEventListener('click', function(){
+    notRad.checked = false;
+    quiteRad.checked = false;
+    veryRad.checked = false;
+    fback[1] = "A little";
+    fback_checked = 2;
+  });
+
+  quiteRad.addEventListener('click', function(){
+    litRad.checked = false;
+    notRad.checked = false;
+    veryRad.checked = false;
+    fback[1] = "Quite interesting";
+    fback_checked = 2;
+  });
+
+  veryRad.addEventListener('click', function(){
+    litRad.checked = false;
+    quiteRad.checked = false;
+    notRad.checked = false;
+    fback[1] = "Very interesting";
+    fback_checked = 2;
+  });
+
+  document.getElementById("fbackConfirm").addEventListener('click', function(){
+    if (fback_checked != 2){
+      document.getElementById("fbErrText").style.display = "inline-block";
+    } else {
+      document.getElementById("fbErrText").style.display = "none";
+      document.getElementById("mturk").style.display = "inline-block";
+      var txt = txtArea.value;
+      saveFeedback(uid, fback, txt);
+      yesRad.disabled = true;
+      noRad.disabled = true;
+      notRad.disabled = true;
+      litRad.disabled = true;
+      quiteRad.disabled = true;
+      veryRad.disabled = true;
+      txtArea.disabled = true;
+    }
+  })
 }

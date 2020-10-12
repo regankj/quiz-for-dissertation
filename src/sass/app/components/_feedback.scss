@@ -1,0 +1,19 @@
+#mturk {
+  display: none;
+  align-items: center;
+  background-color: $primary-hex;
+  padding: 2px;
+  margin-top: 1em;
+}
+
+#fbErrText {
+  display: none;
+}
+
+textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    width: 100%;
+};
