@@ -19,7 +19,15 @@ if (contBtn){
       ageBox.disabled = false;
       genderBox.disabled = false;
       classBox.disabled = false;
-    } else {
+    } else if (classBracket == "International Elite" || classBracket == "London Middle Class" ||
+              classBracket ==  "Old Affluent Workers" || classBracket == "Managerial Working Class" ||
+              classBracket == "Self Employed Service Workers"){
+                document.getElementById("infoForm").innerHTML = "Unfortunately, you selected a false option and have therefore failed the alertness test. We must reject your assignmenton Mechanical Turk. We think it is better to tell you now, rather than proceeding to the main part of the survey. Thank you for your time. "
+                document.querySelector(".card-header h2").innerHTML = "Sorry!";
+                contBtn.disabled = true;
+              }
+
+     else {
       uid++;
       localStorage.setItem("idKey", uid);
       saveUserData(uid, age, gender, classBracket);
@@ -782,6 +790,13 @@ function showSlide(n, currentSlideID, slideNo){
   document.getElementById(currentSlideID).className = "slide";
   document.getElementById(n).className = "active-slide";
   if (slideNo == i){
+    var rand = Math.random();
+    if (rand >= 0.5 && rand < 0.75){
+      qform.prepend("Please read the following article from The Guardian before answering this question https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests")
+    } else if (rand >= 0.75){
+      qform.prepend("Please read the following article from The Guardian before answering this question https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19")
+    }
+
     nextBtn.onclick = function(){
       document.querySelector("#top h2").innerHTML = "Well Done!"
       document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and your answers compared to the actual ones."
