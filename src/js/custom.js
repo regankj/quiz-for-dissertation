@@ -791,10 +791,12 @@ function showSlide(n, currentSlideID, slideNo){
   document.getElementById(n).className = "active-slide";
   if (slideNo == i){
     var rand = Math.random();
+    savePrimingTest(uid, rand);
     if (rand >= 0.5 && rand < 0.75){
-      qform.prepend("Please read the following article from The Guardian before answering this question https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests")
+      qform.prepend("Please read the following article from The Guardian before answering this question https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests");
     } else if (rand >= 0.75){
-      qform.prepend("Please read the following article from The Guardian before answering this question https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19")
+      qform.prepend("Please read the following article from The Guardian before answering this question https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19");
+
     }
 
     nextBtn.onclick = function(){
@@ -1006,6 +1008,13 @@ function saveUserData(uid, age, gender, income){
     income: income
   });
 };
+
+function savePrimingTest(uid, value){
+  firebase.database().ref('/user' + uid + '/answers/covid19/priming_test_value/').set({
+    value: value
+  });
+};
+
 // Calculate and save user score
 function saveUserScore(uid, user_answers, true_answers, section, qcode, qnum){
   var userScore = sumDiff(user_answers, true_answers);
