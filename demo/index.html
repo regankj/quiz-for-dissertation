@@ -7,7 +7,62 @@
     <link rel="stylesheet" href="/css/app.css">
     <title>How Well Do You Know The British Public?</title>
   </head>
-  <body>
+  <body class="info">
+    <!-- Bootstrap Modal for consent form
+        taken from https://www.w3schools.com/bootstrap/bootstrap_modal.asp
+        accessed 14-10-20
+        end of referenced code
+      -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Consent Form</h4>
+          </div>
+          <div class="modal-body">
+            <p>The purpose of this survey and quiz is to collect data on how people’s opinions relate to their
+               knowledge of other people’s opinions. We will use this data in ongoing academic research. The
+               responses you provide will be anonymised and will not be possible to link to your identity.
+               Responses may be made public in anonymous form.</p>
+
+             <p>In order to claim payment from Mechanical Turk you are required to pay attention to, and
+                complete all survey and quiz questions. You will later be shown correct answers to quiz
+                questions, and your own score. Your score will not affect payment in any way. Payment is
+                contingent only on completing the task and passing attention check(s). </p>
+
+              <p>We hope you find the quiz fun and informative :-)</p>
+
+              <p>The researchers are:</p>
+              <p>   • Student: Regan Jones, Department of Computer Science & Informatics, Cardiff University.</p>
+              <p>   • Supervisor: Crispin Cooper, Research Fellow, Sustainable Places Research Institute, Cardiff University.</p>
+
+              <p>Should you have any questions, we are contactable via your Amazon Mechanical Turk dashboard.</p>
+
+              <p>The survey includes questions of a sensitive nature, including personal opinions on sensitive
+                 topics, and protected characteristics such as your ethnic background.</p>
+
+              <p>Your responses to all questions are stored in anonymous form only. </p>
+
+              <p>While you are completing the survey, we will store a Human Interface Task Identifier
+                 (HIT ID) provided by Amazon. When you complete the survey as instructed, we return the
+                 HIT ID to Amazon to instruct them to pay you for your response. Amazon will store the HIT ID
+                for their records, but it will not be possible for us or anyone else to link the HIT ID to
+                your responses. This ensures your anonymity but also means your anonymous responses cannot
+                be withdrawn once the task is complete.</p>
+
+              <p>Under the General Data Protection Regulation (GDPR) the data controller is Cardiff University.
+                 We collect and retain your responses to serve our legitimate interests as a research organization. </p>
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">I Agree</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
     <header class="app-header">
       <nav class="navbar justify-content-center">
         <h2>How Well Do You Know The British Public?</h2>
@@ -80,7 +135,7 @@
           </form>
         </div>
         <div class="card-footer">
-          <a href="knowledge.html"><button id="formNext" disabled="true" class="nextBtn" type="button"> next >> </button></a>
+          <a id="theLink" href="knowledge.html"><button id="formNext" disabled="true" class="nextBtn" type="button"> next >> </button></a>
         </div>
       </div>
     </div>

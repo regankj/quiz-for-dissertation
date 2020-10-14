@@ -13,6 +13,8 @@ if (contBtn){
     var age = ageBox.options[ageBox.selectedIndex].text;
     var gender = genderBox.options[genderBox.selectedIndex].text;
     var classBracket = classBox.options[classBox.selectedIndex].text;
+    var formNext = document.getElementById('formNext');
+    var theLink = document.querySelector("#theLink");
 
     if (age == "Choose..." || gender == "Choose..." || classBracket == "Choose..."){
       document.getElementById("infoErr").style.display = "inline-block";
@@ -22,9 +24,15 @@ if (contBtn){
     } else if (classBracket == "International Elite" || classBracket == "London Middle Class" ||
               classBracket ==  "Old Affluent Workers" || classBracket == "Managerial Working Class" ||
               classBracket == "Self Employed Service Workers"){
-                document.getElementById("infoForm").innerHTML = "Unfortunately, you selected a false option and have therefore failed the alertness test. We must reject your assignmenton Mechanical Turk. We think it is better to tell you now, rather than proceeding to the main part of the survey. Thank you for your time. "
-                document.querySelector(".card-header h2").innerHTML = "Sorry!";
+                ageBox.disabled = true;
+                genderBox.disabled = true;
+                classBox.disabled = true;
                 contBtn.disabled = true;
+                document.getElementById("infoErr").style.display = "none";
+                formNext.disabled = false;
+                formNext.onclick = function(){
+                  theLink.href = "alert.html";
+                }
               }
 
      else {
@@ -41,6 +49,18 @@ if (contBtn){
 
   });
 };
+
+/*
+Showing onsent form when the page loads
+taken from https://stackoverflow.com/questions/10233550/launch-bootstrap-modal-on-page-load
+accessed 14-10-20
+*/
+if ($('body').is(".info")){
+  window.addEventListener('load', function(){
+    $('#myModal').modal('show');
+  });
+}
+// end of referenced code
 
 var t1 = 0;
 var testValues = [];
@@ -217,10 +237,7 @@ if ($('body').is(".knowledge")){
       var newString = alertString.replace(/[^A-Z0-9]+/ig, "");
       if ((newString.toLowerCase()) != "alert"){
         testNext.onclick = function(){
-          document.getElementById('ins').innerHTML = "";
-          document.getElementById('sorry').innerHTML = "Sorry!";
-          testForm.innerHTML = "Unfortunately the response to the alertness test was incorrect, so we must reject your assignmenton Mechanical Turk. We think it is better to tell you now, rather than proceeding to the main part of the survey. Thank you for your time."
-          testNext.disabled = true;
+          location.href = "alert.html";
         };
 
       }
