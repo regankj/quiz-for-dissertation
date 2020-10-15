@@ -806,6 +806,7 @@ accessed 14-09-20
 function showSlide(n, currentSlideID, slideNo){
   document.getElementById(currentSlideID).className = "slide";
   document.getElementById(n).className = "active-slide";
+  // end of referenced code
   if (slideNo == i){
     var rand = Math.random();
     savePrimingTest(uid, rand);
@@ -820,10 +821,18 @@ function showSlide(n, currentSlideID, slideNo){
       document.querySelector("#top h2").innerHTML = "Well Done!"
       document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and your answers compared to the actual ones."
       var totalScore = 0;
+      var worst = 600;
+      var secondWorst = 600;
       for (var s = 0; s < 61; s++){
         var qnum = "question" + (s+1);
         totalScore += userScores[qnum];
+        if (userScores[qnum] < worst){
+          worst = (s+1);
+        } else if (userScores[qnum] < secondWorst){
+          secondWorst = (s+1);
+        }
       }
+
       var meanScore = Math.round(totalScore / 61);
       document.getElementById("questions").innerHTML = "";
       var scoreLbl = document.createElement("h5");
@@ -832,10 +841,38 @@ function showSlide(n, currentSlideID, slideNo){
       qform.appendChild(scoreLbl);
       theScore.innerHTML = meanScore;
       qform.appendChild(theScore);
+
+      createDropdown(qform);
     }
   }
 }
-// end of referenced code
+
+// creates a dropdown menu for d3 vizzes
+function createDropdown(area){
+  var drop = document.createElement("div");
+  drop.class = "dropdown";
+  area.appendChild(drop);
+  var menuBtn = document.createElement("button");
+  menuBtn.class = "btn btn-secondary dropdown-toggle";
+  menuBtn.type = "button";
+  menuBtn.id = "dropdownMenu";
+  menuBtn.innerHTML = "Questions";
+  drop.appendChild(menuBtn);
+
+  var menu = document.createElement("div");
+  menu.class = "dropdown-menu";
+  drop.appendChild(menu);
+
+  for (var d = 1; d <= userScores.length; d++){
+    var item = document.createElement("button");
+    item.class = "dropdown-item";
+    item.type = "button";
+    item.id = "dropdownBtn" + d;
+    item.innerHTML = "Question " + d;
+    menu.appendChild(menu);
+  }
+
+}
 
 // reads in scoring csv file and adds the original BSAS results into arrays
 var ansIndexNum = 0;
