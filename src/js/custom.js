@@ -843,35 +843,33 @@ function showSlide(n, currentSlideID, slideNo){
       qform.appendChild(theScore);
 
       createDropdown(qform);
+      addRow(qform);
     }
   }
 }
 
 // creates a dropdown menu for d3 vizzes
 function createDropdown(area){
-  var drop = document.createElement("div");
-  drop.class = "dropdown";
+  var drop = document.createElement("select");
+  drop.class = "form-control";
   area.appendChild(drop);
-  var menuBtn = document.createElement("button");
-  menuBtn.class = "btn btn-secondary dropdown-toggle";
-  menuBtn.type = "button";
-  menuBtn.id = "dropdownMenu";
-  menuBtn.innerHTML = "Questions";
-  drop.appendChild(menuBtn);
 
-  var menu = document.createElement("div");
-  menu.class = "dropdown-menu";
-  drop.appendChild(menu);
-
-  for (var d = 1; d <= userScores.length; d++){
-    var item = document.createElement("button");
-    item.class = "dropdown-item";
-    item.type = "button";
+  for (var d = 1; d <= 61; d++){
+    var item = document.createElement("option");
     item.id = "dropdownBtn" + d;
     item.innerHTML = "Question " + d;
-    menu.appendChild(menu);
+    drop.appendChild(item);
   }
 
+}
+
+function createChart(){
+  for (var c = 0; c < 61; c++){
+    var qNum = "question" + (c+1);
+    document.getElementById(qNum).addEventListener('click', function(){
+      console.log("sound");
+    })
+  }
 }
 
 // reads in scoring csv file and adds the original BSAS results into arrays
