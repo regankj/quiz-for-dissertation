@@ -829,16 +829,16 @@ function showSlide(n, currentSlideID, slideNo){
 
     nextBtn.onclick = function(){
       document.querySelector("#top h2").innerHTML = "Well Done!"
-      document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and your answers compared to the actual ones."
+      document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and use the dropdown menu to compare your own answers to the actual ones";
       var totalScore = 0;
       var best = 0;
-      var bestNum = 0;
+      var bestNum;
       var secondBest = 0;
-      var secondBestNum = 0;
+      var secondBestNum;
       var worst = 600;
-      var worstNum = 0;
+      var worstNum;
       var secondWorst = 600;
-      var secondWorstNum = 0;
+      var secondWorstNum;
       for (var s1 = 1; s1 < 62; s1++){
         var qnum = "question" + (s1);
         totalScore += userScores[qnum];
@@ -919,16 +919,16 @@ function createChart(data){
   vis.id = "vis";
   qform.appendChild(vis);
 
-  var width = 450;
-  var height = 450;
+  var width = 500;
+  var height = 500;
 
   var maxValue = 100;
 
   var margin = {
-    top: 50,
-    left: 50,
-    right: 50,
-    bottom: 50
+    top: 20,
+    left: 30,
+    right: 30,
+    bottom: 30
   };
 
   var svg = d3.select('#vis')
@@ -951,7 +951,7 @@ function createChart(data){
   var yaxis = d3.axisLeft(yscale);
 
   svg.append('g')
-      .attr('transform', 'translate(0' + (height) + ')')
+      .attr('transform', 'translate(0, ' + (height) + ')')
       .attr('class', 'x axis');
 
   svg.append('g').attr('class', 'y axis');
@@ -967,6 +967,7 @@ function createChart(data){
       var fill = "blue";
     }
     var qIndex = (parseInt(theLbl.replace("Question ", ""), 10)) - 1;
+    var oNum = "options" + (qIndex + 1);
     document.getElementById("qLbl").innerHTML = qs[qIndex];
     // put actual question here
     xscale.domain(d3.range(data[vNum].length));
@@ -996,6 +997,33 @@ function createChart(data){
         .attr('y', height)
         .remove();
 
+
+    var labels = svg.selectAll('.label')
+                    .data(options[oNum]);
+
+    labels.enter()
+          .append('text')
+          .attr('class', 'label')
+          .attr('opacity', 0)
+          .attr('fill', 'white')
+          .merge(labels)
+          .transition()
+          .duration(duration)
+          .attr('opacity', 1)
+          .attr('x', function(d, i){
+            return xscale(i) + 1;
+          })
+          .text(function(d){
+            return d;
+          });
+
+
+    labels.exit()
+          .transition()
+          .duration(duration)
+          .attr('y', height)
+          .attr('opacity', 0)
+          .remove();
 
     svg.select('.x.axis')
         .transition()
