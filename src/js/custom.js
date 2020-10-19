@@ -813,15 +813,17 @@ function showSlide(n, currentSlideID, slideNo){
     var rand = Math.random();
     savePrimingTest(uid, rand);
     if (rand >= 0.5 && rand < 0.75){
-      qform.prepend("Please read the following article from The Guardian before answering this question");
       var link = document.createElement('a');
       link.innerHTML = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
-      qform.prepend(link)
-    } else if (rand >= 0.75){
+      link.href = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
+      qform.prepend(link);
       qform.prepend("Please read the following article from The Guardian before answering this question");
+    } else if (rand >= 0.75){
       var link = document.createElement('a');
       link.innerHTML = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
+      link.href = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
       qform.prepend(link);
+      qform.prepend("Please read the following article from The Guardian before answering this question");
 
     }
 
@@ -829,15 +831,36 @@ function showSlide(n, currentSlideID, slideNo){
       document.querySelector("#top h2").innerHTML = "Well Done!"
       document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and your answers compared to the actual ones."
       var totalScore = 0;
+      var best = 0;
+      var bestNum = 0;
+      var secondBest = 0;
+      var secondBestNum = 0;
       var worst = 600;
+      var worstNum = 0;
       var secondWorst = 600;
-      for (var s = 0; s < 61; s++){
-        var qnum = "question" + (s+1);
+      var secondWorstNum = 0;
+      for (var s1 = 1; s1 < 62; s1++){
+        var qnum = "question" + (s1);
         totalScore += userScores[qnum];
         if (userScores[qnum] < worst){
-          worst = (s+1);
-        } else if (userScores[qnum] < secondWorst){
-          secondWorst = (s+1);
+          worst = userScores[qnum];
+          worstNum = (s1);
+        }
+        else if (userScores[qnum] > best){
+          best = (userScores[qnum]);
+          bestNum = (s1);
+        }
+      }
+
+      for (var s2 = 1; s2 < 62; s2++){
+        var qnum = "question" + (s2);
+        if ((userScores[qnum] < secondWorst) && (userScores > worst)){
+          secondWorst = userScores[qnum];
+          secondWorstNum = s2;
+        }
+        else if ((userScores[qnum] > secondBest) && (userScores[qnum] < best)){
+          secondBest = userScores[qnum];
+          secondBestNum = s2;
         }
       }
 
@@ -858,6 +881,19 @@ function showSlide(n, currentSlideID, slideNo){
       addRow(qform);
       createChart(values);
       createChart(trueAnswers);
+      addRow(qform);
+
+      var worstLbl = document.createElement('label');
+      worstLbl.innerHTML = "You scored lowest on questions "  + worstNum + " and " + secondWorstNum + ", with scores of " + worst + " and " + secondWorst + " respectively.";
+      qform.append(worstLbl);
+      addRow(qform);
+      var bestLbl = document.createElement('label');
+      bestLbl.innerHTML = "You scored best on questions " + bestNum + " and " + secondBestNum + ", with scores of " + best + " and " + secondBest + " respectively.";
+      qform.append(bestLbl);
+
+      nextBtn.onclick = function(){
+        location.href = "feedback.html";
+      }
     }
   }
 }
