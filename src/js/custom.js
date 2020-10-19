@@ -279,6 +279,7 @@ var trueAnswers = {};
 var userScores = {};
 var means = {};
 var stanDs = {};
+var qs = [];
 
 function addRow(slide){
   const newRow = document.createElement('div');
@@ -481,6 +482,7 @@ function readData(file, section){
 
 
       d3.select(slideID).append("label").text(i + ". " + d.Question);
+      qs.push(d.Question);
       addRow(slide);
       d3.select(slideID).append("label").text("Your Answer:");
       addRow(slide);
@@ -847,10 +849,15 @@ function showSlide(n, currentSlideID, slideNo){
       qform.appendChild(scoreLbl);
       theScore.innerHTML = meanScore;
       qform.appendChild(theScore);
+      var qLbl = document.createElement("label");
+      qLbl.id = "qLbl";
 
       createDropdown(qform);
       addRow(qform);
-      createChart();
+      qform.appendChild(qLbl);
+      addRow(qform);
+      createChart(values);
+      createChart(trueAnswers);
     }
   }
 }
@@ -871,21 +878,21 @@ function createDropdown(area){
 
 }
 
-function createChart(){
+function createChart(data){
   var vis = document.createElement("div");
   vis.id = "vis";
   qform.appendChild(vis);
 
-  var width = 500;
-  var height = 500;
+  var width = 450;
+  var height = 450;
 
   var maxValue = 100;
 
   var margin = {
-    top: 20,
-    left: 30,
-    right: 30,
-    bottom: 30
+    top: 50,
+    left: 50,
+    right: 50,
+    bottom: 50
   };
 
   var svg = d3.select('#vis')
@@ -916,17 +923,25 @@ function createChart(){
   var selector = document.getElementById("selector");
   selector.addEventListener('change', function(){
     var theLbl = selector.options[selector.selectedIndex].text;
-    var vNum = theLbl.replace("Question ", "values");
+    if (data == values){
+      var vNum = theLbl.replace("Question ", "values");
+      var fill = "red";
+    } else {
+      var vNum = theLbl.replace("Question ", "answers");
+      var fill = "blue";
+    }
+    var qIndex = (parseInt(theLbl.replace("Question ", ""), 10)) - 1;
+    document.getElementById("qLbl").innerHTML = qs[qIndex];
     // put actual question here
-    xscale.domain(d3.range(values[vNum].length));
+    xscale.domain(d3.range(data[vNum].length));
     yscale.domain([0, maxValue]);
 
-    var bars = svg.selectAll(".bar").data(values[vNum]);
+    var bars = svg.selectAll(".bar").data(data[vNum]);
 
     bars.enter()
         .append('rect')
         .attr('class', 'bar')
-        .attr('fill', 'red')
+        .attr('fill', fill)
         .attr('width', xscale.bandwidth())
         .attr('height', 0)
         .attr('y', height)
@@ -945,37 +960,6 @@ function createChart(){
         .attr('y', height)
         .remove();
 
-    var labels = svg.selectAll('.label')
-        .data(values[vNum]);
-
-    labels
-        .enter()
-        .append('text')
-            .attr('class', 'label')
-            .attr('opacity', 0)
-            .attr('y', height)
-            .attr('fill', 'white')
-        .merge(labels)
-            .transition()
-            .duration(duration)
-            .attr('opacity', 1)
-            .attr('x', function(d, i) {
-                return xscale(i) + 1;
-            })
-            .attr('y', function(d){
-                return yscale(d) + 20;
-            })
-            .text(function(d){
-                return d;
-            });
-
-    labels
-        .exit()
-        .transition()
-        .duration(duration)
-        .attr('y', height)
-        .attr('opacity', 0)
-        .remove();
 
     svg.select('.x.axis')
         .transition()
