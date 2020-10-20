@@ -510,7 +510,7 @@ function readData(file, section){
       if (d.Option4 != ""){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][3]).innerHTML = d.Option4;
-        options[optionsNum].push(d.Options4);
+        options[optionsNum].push(d.Option4);
         numOfOpts++;
         addRow(slide);
       }
@@ -518,7 +518,7 @@ function readData(file, section){
       if (d.Option5 != ""){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][4]).innerHTML = d.Option5;
-        options[optionsNum].push(d.Options5);
+        options[optionsNum].push(d.Option5);
         numOfOpts++;
 
       }
@@ -526,7 +526,7 @@ function readData(file, section){
       if (d.Option6 != ""){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][5]).innerHTML = d.Option6;
-        options[optionsNum].push(d.Options6);
+        options[optionsNum].push(d.Option6);
         numOfOpts++;
         addRow(slide);
       }
@@ -534,7 +534,7 @@ function readData(file, section){
       if (d.Option7 != ""){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][6]).innerHTML = d.Option7;
-        options[optionsNum].push(d.Options7);
+        options[optionsNum].push(d.Option7);
         numOfOpts++;
 
       }
@@ -542,7 +542,7 @@ function readData(file, section){
       if (d.Option8 != ""){
         addRads(slide);
         document.getElementById(radLbls[radLblsNum][7]).innerHTML = d.Option8;
-        options[optionsNum].push(d.Options8);
+        options[optionsNum].push(d.Option8);
         numOfOpts++;
         addRow(slide);
       }
@@ -835,7 +835,7 @@ function showSlide(n, currentSlideID, slideNo){
 
     nextBtn.onclick = function(){
       document.querySelector("#top h2").innerHTML = "Well Done!"
-      document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and use the dropdown menu to compare your own answers to the actual ones";
+      document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score. Use the dropdown menu to select a question to compare your own answers to the actual ones";
       var totalScore = 0;
       var best = 0;
       var bestNum;
@@ -891,11 +891,15 @@ function showSlide(n, currentSlideID, slideNo){
       col2.id = "colour2";
       var col2Lbl = document.createElement("label");
       col2Lbl.innerHTML = "Actual Answers";
+      var keyOpts = document.createElement("ul");
+      keyOpts.innerHTML = "Options: "
+      keyOpts.id = "keyOpts";
 
       key.appendChild(col1);
       key.appendChild(col1Lbl);
       key.appendChild(col2);
       key.appendChild(col2Lbl);
+      key.appendChild(keyOpts);
 
       createDropdown(qform);
       addRow(qform);
@@ -940,6 +944,7 @@ function createDropdown(area){
 
 }
 
+// creates a bar chart using d3
 function createChart(data){
   var vis = document.createElement("div");
   vis.id = "vis";
@@ -954,7 +959,7 @@ function createChart(data){
     top: 30,
     left: 50,
     right: 50,
-    bottom: 50
+    bottom: 70
   };
 
   var svg = d3.select('#vis')
@@ -995,7 +1000,14 @@ function createChart(data){
     var qIndex = (parseInt(theLbl.replace("Question ", ""), 10)) - 1;
     var oNum = "options" + (qIndex + 1);
     document.getElementById("qLbl").innerHTML = qs[qIndex];
-    // put actual question here
+
+    document.getElementById("keyOpts").innerHTML = "";
+    for (var o = 0; o < options[oNum].length; o++){
+      var opt = document.createElement("li");
+      opt.innerHTML = o + " - " + options[oNum][o];
+      document.getElementById("keyOpts").appendChild(opt);
+    }
+
     xscale.domain(d3.range(data[vNum].length));
     yscale.domain([0, maxValue]);
 
@@ -1023,6 +1035,7 @@ function createChart(data){
         .attr('y', height)
         .remove();
 
+
     var labels = svg.selectAll('.label')
                     .data(options[oNum]);
 
@@ -1036,11 +1049,9 @@ function createChart(data){
           .duration(duration)
           .attr('opacity', 1)
           .attr('x', function(d, i){
-            return xscale(i) + 1;
-          })
-          .text(function(d){
-            return d;
-          });
+            return xscale(i) + 1; })
+          .attr('y', function(d){ return yscale(d) + 20; })
+          .text(function(d){return d; });
 
 
     labels.exit()
@@ -1050,6 +1061,20 @@ function createChart(data){
           .attr('opacity', 0)
           .remove();
 
+
+/*
+adding a label to the y-axis
+taken from https://stackoverflow.com/a/11194968/12239467
+accessed 20-10-20
+*/
+    svg.append("text")
+        .attr("class", "y-label")
+        .attr("text-anchor", "middle")
+        .attr("y", 0 - margin.left)
+        .attr("x", 0 - (height/2))
+        .attr("opacity", 1)
+        .text("(%)");
+// end of referenced code
 
     svg.select('.x.axis')
         .transition()

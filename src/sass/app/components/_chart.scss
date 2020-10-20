@@ -1,5 +1,6 @@
 .key {
   float: right;
+  display: inline-block;
 }
 
 .key div {
@@ -13,4 +14,12 @@
 
 #colour2 {
   background-color: blue;
+}
+
+svg {
+  padding-right: 1.5em;
+}
+
+.y-label {
+  z-index: 2;
 }

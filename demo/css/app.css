@@ -11932,7 +11932,8 @@ textarea {
   width: 100%; }
 
 .key {
-  float: right; }
+  float: right;
+  display: inline-block; }
 
 .key div {
   height: 12px;
@@ -11943,4 +11944,10 @@ textarea {
 
 #colour2 {
   background-color: blue; }
+
+svg {
+  padding-right: 1.5em; }
+
+.y-label {
+  z-index: 2; }
 
