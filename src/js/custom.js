@@ -325,7 +325,7 @@ function addBtns(slide, num){
   barCol.className = "col-md-6";
   slide.appendChild(barCol);
   var bar = document.createElement('div');
-  bar.className = "bar";
+  bar.className = "hbar";
   bar.id = "bar" + i + "_" + j;
   barCol.appendChild(bar);
   bar.innerHTML = count + "%";
@@ -775,6 +775,10 @@ if ($('body').is('.quiz1')){
   window.addEventListener('load', function(){
     startTime = Date.now();
   });
+
+  window.onbeforeunload = function(){
+    return "Are you sure? All of your progress will be lost.";
+  }
 };
 
 for (var num = 0; num < 62; num++){
@@ -815,12 +819,14 @@ function showSlide(n, currentSlideID, slideNo){
     if (rand >= 0.5 && rand < 0.75){
       var link = document.createElement('a');
       link.innerHTML = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
+      link.target = "_blank";
       link.href = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
       qform.prepend(link);
       qform.prepend("Please read the following article from The Guardian before answering this question");
     } else if (rand >= 0.75){
       var link = document.createElement('a');
       link.innerHTML = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
+      link.target = "_blank";
       link.href = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
       qform.prepend(link);
       qform.prepend("Please read the following article from The Guardian before answering this question");
@@ -875,9 +881,26 @@ function showSlide(n, currentSlideID, slideNo){
       var qLbl = document.createElement("label");
       qLbl.id = "qLbl";
 
+      var key = document.createElement("div");
+      key.className = "key";
+      var col1Lbl = document.createElement("label");
+      col1Lbl.innerHTML = "Your Answers";
+      var col1 = document.createElement("div");
+      col1.id = "colour1";
+      var col2 = document.createElement("div");
+      col2.id = "colour2";
+      var col2Lbl = document.createElement("label");
+      col2Lbl.innerHTML = "Actual Answers";
+
+      key.appendChild(col1);
+      key.appendChild(col1Lbl);
+      key.appendChild(col2);
+      key.appendChild(col2Lbl);
+
       createDropdown(qform);
       addRow(qform);
       qform.appendChild(qLbl);
+      qform.appendChild(key);
       addRow(qform);
       createChart(values);
       createChart(trueAnswers);
@@ -890,6 +913,9 @@ function showSlide(n, currentSlideID, slideNo){
       var bestLbl = document.createElement('label');
       bestLbl.innerHTML = "You scored best on questions " + bestNum + " and " + secondBestNum + ", with scores of " + best + " and " + secondBest + " respectively.";
       qform.append(bestLbl);
+
+      window.onbeforeunload = null;
+
 
       nextBtn.onclick = function(){
         location.href = "feedback.html";
@@ -919,16 +945,16 @@ function createChart(data){
   vis.id = "vis";
   qform.appendChild(vis);
 
-  var width = 500;
-  var height = 500;
+  var width = 450;
+  var height = 450;
 
   var maxValue = 100;
 
   var margin = {
-    top: 20,
-    left: 30,
-    right: 30,
-    bottom: 30
+    top: 30,
+    left: 50,
+    right: 50,
+    bottom: 50
   };
 
   var svg = d3.select('#vis')
@@ -997,7 +1023,6 @@ function createChart(data){
         .attr('y', height)
         .remove();
 
-
     var labels = svg.selectAll('.label')
                     .data(options[oNum]);
 
@@ -1024,6 +1049,7 @@ function createChart(data){
           .attr('y', height)
           .attr('opacity', 0)
           .remove();
+
 
     svg.select('.x.axis')
         .transition()
