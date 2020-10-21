@@ -758,11 +758,15 @@ function readData(file, section){
           }
           nextBtn.disabled = false;
           document.getElementById(radErrTextID).style.display = "none";
+          slideNo++;
+          var nextSlide = "slide" + slideNo;
+          showSlide(nextSlide, currentSlideID, slideNo);
+          currentSlideID = "slide" + slideNo;
+          startTime = Date.now();
         }
       })
       j = 1;
       k = 1;
-
     });
     showSlide(currentSlideID, currentSlideID, slideNo);
   });
@@ -840,10 +844,11 @@ function showSlide(n, currentSlideID, slideNo){
       qform.prepend("Please read the following article from The Guardian before answering this question");
 
     }
+    var conID = "confirm" + i;
 
-    nextBtn.onclick = function(){
+    document.getElementById(conID).onclick = function(){
       document.querySelector("#top h2").innerHTML = "Well Done!"
-      document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score. Use the dropdown menu to select a question to compare your own answers to the actual ones";
+      document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and also your answers compared to the actual ones";
       var totalScore = 0;
       var best = 0;
       var bestNum;
@@ -886,8 +891,6 @@ function showSlide(n, currentSlideID, slideNo){
       qform.appendChild(scoreLbl);
       theScore.innerHTML = meanScore;
       qform.appendChild(theScore);
-      var qLbl = document.createElement("label");
-      qLbl.id = "qLbl";
 
       var key = document.createElement("div");
       key.className = "key";
@@ -899,25 +902,32 @@ function showSlide(n, currentSlideID, slideNo){
       col2.id = "colour2";
       var col2Lbl = document.createElement("label");
       col2Lbl.innerHTML = "Actual Answers";
-      var keyOpts = document.createElement("label");
-      keyOpts.id = "keyOpts";
 
       key.appendChild(col1);
       key.appendChild(col1Lbl);
       key.appendChild(col2);
       key.appendChild(col2Lbl);
 
-
-      createDropdown(qform);
-      addRow(qform);
-      qform.appendChild(qLbl);
       qform.appendChild(key);
       addRow(qform);
-      qform.appendChild(keyOpts);
-      addRow(qform);
-      createChart(values);
-      createChart(trueAnswers);
-      addRow(qform);
+
+      var vis = document.createElement("div");
+      vis.id = "vis";
+      qform.appendChild(vis);
+
+      for (var ind = 1; ind < 62; ind++){
+        var qlbl = document.createElement("label");
+        qlbl.id = "questionLbl" + ind;
+        vis.appendChild(qlbl);
+        addRow(vis);
+        var optLbl = document.createElement("label");
+        optLbl.id = "keyOpts" + ind;
+        vis.appendChild(optLbl);
+        addRow(vis);
+        createChart(values, ind);
+        createChart(trueAnswers, ind);
+        addRow(vis);
+      }
 
       var worstLbl = document.createElement('label');
       worstLbl.innerHTML = "You scored lowest on questions "  + worstNum + " and " + secondWorstNum + ", with scores of " + worst + " and " + secondWorst + " respectively.";
@@ -937,27 +947,10 @@ function showSlide(n, currentSlideID, slideNo){
   }
 }
 
-// creates a dropdown menu for d3 vizzes
-function createDropdown(area){
-  var drop = document.createElement("select");
-  drop.class = "form-control";
-  drop.id = "selector";
-  area.appendChild(drop);
-
-  for (var d = 1; d <= 61; d++){
-    var item = document.createElement("option");
-    item.id = "dropdownBtn" + d;
-    item.innerHTML = "Question " + d;
-    drop.appendChild(item);
-  }
-
-}
 
 // creates a bar chart using d3
-function createChart(data){
-  var vis = document.createElement("div");
-  vis.id = "vis";
-  qform.appendChild(vis);
+function createChart(data, qIndex){
+  var vis = document.getElementById("vis");
 
   var width = 450;
   var height = 450;
@@ -1001,51 +994,45 @@ function createChart(data){
 
   svg.append('g').attr('class', 'y axis');
 
-  var selector = document.getElementById("selector");
-  selector.addEventListener('change', function(){
-    var theLbl = selector.options[selector.selectedIndex].text;
-    if (data == values){
-      var vNum = theLbl.replace("Question ", "values");
-      var fill = "red";
-    } else {
-      var vNum = theLbl.replace("Question ", "answers");
-      var fill = "blue";
-    }
-    var qIndex = (parseInt(theLbl.replace("Question ", ""), 10)) - 1;
-    var oNum = "options" + (qIndex + 1);
-    document.getElementById("qLbl").innerHTML = qs[qIndex];
+  if (data == values){
+    var vNum = "values" + qIndex;
+    var fill = "red";
+  } else {
+    var vNum = "answers" + qIndex;
+    var fill = "blue";
+  }
 
-    document.getElementById("keyOpts").innerHTML = "";
-    for (var o = 0; o < options[oNum].length; o++){
-      document.getElementById("keyOpts").textContent += o + " - "  + options[oNum][o] + ", ";
-    }
+  var oNum = "options" + (qIndex);
 
-    xscale.domain(d3.range(data[vNum].length));
-    yscale.domain([0, maxValue]);
+  var qlblID = "questionLbl" + (qIndex);
+  document.getElementById(qlblID).innerHTML = qIndex + ". " + qs[qIndex - 1];
 
-    var bars = svg.selectAll(".bar").data(data[vNum]);
+  var keyoptsID = "keyOpts" + qIndex;
+  document.getElementById(keyoptsID).innerHTML = "";
+  for (var o = 0; o < options[oNum].length; o++){
+    document.getElementById(keyoptsID).textContent += o + " - "  + options[oNum][o] + " , ";
+  }
 
-    bars.enter()
-        .append('rect')
-        .attr('class', 'bar')
-        .attr('fill', fill)
-        .attr('width', xscale.bandwidth())
-        .attr('height', 0)
-        .attr('y', height)
-        .merge(bars)
-        .transition()
-        .duration(duration)
-        .attr("height", function(d, i){ return height - yscale(d); })
-        .attr("y", function(d, i){ return yscale(d); })
-        .attr("width", xscale.bandwidth())
-        .attr("x", function(d, i){ return xscale(i); });
+  xscale.domain(d3.range(data[vNum].length));
+  yscale.domain([0, maxValue]);
 
-    bars.exit()
-        .transition()
-        .duration(duration)
-        .attr('height', 0)
-        .attr('y', height)
-        .remove();
+  var bars = svg.selectAll(".bar").data(data[vNum]);
+
+  bars.enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('fill', fill)
+      .attr('width', xscale.bandwidth())
+      .attr('height', 0)
+      .attr('y', height)
+      .merge(bars)
+      .transition()
+      .duration(duration)
+      .attr("height", function(d, i){ return height - yscale(d); })
+      .attr("y", function(d, i){ return yscale(d); })
+      .attr("width", xscale.bandwidth())
+      .attr("x", function(d, i){ return xscale(i); });
+
 
 
 /*
@@ -1053,26 +1040,25 @@ adding a label to the y-axis
 taken from https://stackoverflow.com/a/11194968/12239467
 accessed 20-10-20
 */
-    svg.append("text")
-        .attr("class", "y-label")
-        .attr("text-anchor", "middle")
-        .attr("y", 0 - margin.left)
-        .attr("x", 0 - (height/2))
-        .attr("opacity", 1)
-        .text("(%)");
+  svg.append("text")
+      .attr("class", "y-label")
+      .attr("text-anchor", "middle")
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - (height/2))
+      .attr("opacity", 1)
+      .text("(%)");
 // end of referenced code
 
-    svg.select('.x.axis')
-        .transition()
-        .duration(duration)
-        .call(xaxis);
+  svg.select('.x.axis')
+      .transition()
+      .duration(duration)
+      .call(xaxis);
 
-    svg.select('.y.axis')
-        .transition()
-        .duration(duration)
-        .call(yaxis);
+  svg.select('.y.axis')
+      .transition()
+      .duration(duration)
+      .call(yaxis);
 
-  });
 }
 
 // reads in scoring csv file and adds the original BSAS results into arrays

@@ -11825,6 +11825,11 @@ readers do not read off random characters that represent icons */
   padding-top: 10em;
   padding-bottom: 5rem; }
 
+#agreeBtn {
+  background-color: #84CEEB;
+  color: black;
+  float: right; }
+
 .hbar {
   background-color: #5680E9;
   height: 25px;
