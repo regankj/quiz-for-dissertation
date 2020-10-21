@@ -258,6 +258,10 @@ if ($('body').is(".knowledge")){
 
 var startTime;
 var i = 0;
+var size = 1.5;
+if (window.matchMedia("(max-width: 500px)").matches){
+  size = 0.85;
+}
 
 // functions to add horizontal bars, buttons and rows to the queston form
 
@@ -329,7 +333,7 @@ function addBtns(slide, num){
   bar.id = "bar" + i + "_" + j;
   barCol.appendChild(bar);
   bar.innerHTML = count + "%";
-  bar.style.width = (count * 1.5) + "%";
+  bar.style.width = (count * size) + "%";
 
   var downBtnID = "downBtn" + i + "_" + j;
   var smDownBtnID = "smDownBtn" + i + "_" + j;
@@ -348,10 +352,11 @@ function addBtns(slide, num){
   lgUpBtns[btnsNum].push(upBtnID);
 
 
+
   document.getElementById(downBtnID).addEventListener('click', function(){
     count = count - 10;
     document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * 1.5) + "%";
+    document.getElementById(barID).style.width = (count * size) + "%";
     if (count <=0 ){
       document.getElementById(downBtnID).disabled = true;
       document.getElementById(smDownBtnID).disabled = true;
@@ -366,7 +371,7 @@ function addBtns(slide, num){
   document.getElementById(smDownBtnID).addEventListener('click', function(){
     count = count - 1;
     document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * 1.5) + "%";
+    document.getElementById(barID).style.width = (count * size) + "%";
     if (count <=0 ){
       document.getElementById(downBtnID).disabled = true;
       document.getElementById(smDownBtnID).disabled = true;
@@ -383,7 +388,7 @@ function addBtns(slide, num){
     document.getElementById(smDownBtnID).disabled = false;
     count = count + 1;
     document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * 1.5) + "%";
+    document.getElementById(barID).style.width = (count * size) + "%";
     if (count < 10 ){
       document.getElementById(downBtnID).disabled = true;
     }
@@ -396,7 +401,7 @@ function addBtns(slide, num){
     document.getElementById(smDownBtnID).disabled = false;
     count = count + 10;
     document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * 1.5) + "%";
+    document.getElementById(barID).style.width = (count * size) + "%";
     if (count < 10 ){
       document.getElementById(downBtnID).disabled = true;
     }
@@ -891,20 +896,21 @@ function showSlide(n, currentSlideID, slideNo){
       col2.id = "colour2";
       var col2Lbl = document.createElement("label");
       col2Lbl.innerHTML = "Actual Answers";
-      var keyOpts = document.createElement("ul");
-      keyOpts.innerHTML = "Options: "
+      var keyOpts = document.createElement("label");
       keyOpts.id = "keyOpts";
 
       key.appendChild(col1);
       key.appendChild(col1Lbl);
       key.appendChild(col2);
       key.appendChild(col2Lbl);
-      key.appendChild(keyOpts);
+
 
       createDropdown(qform);
       addRow(qform);
       qform.appendChild(qLbl);
       qform.appendChild(key);
+      addRow(qform);
+      qform.appendChild(keyOpts);
       addRow(qform);
       createChart(values);
       createChart(trueAnswers);
@@ -952,6 +958,11 @@ function createChart(data){
 
   var width = 450;
   var height = 450;
+
+  if (window.matchMedia("(max-width: 500px)").matches){
+    width = 300;
+    height = 300;
+  }
 
   var maxValue = 100;
 
@@ -1003,9 +1014,7 @@ function createChart(data){
 
     document.getElementById("keyOpts").innerHTML = "";
     for (var o = 0; o < options[oNum].length; o++){
-      var opt = document.createElement("li");
-      opt.innerHTML = o + " - " + options[oNum][o];
-      document.getElementById("keyOpts").appendChild(opt);
+      document.getElementById("keyOpts").textContent += o + " - "  + options[oNum][o] + ", ";
     }
 
     xscale.domain(d3.range(data[vNum].length));
@@ -1034,32 +1043,6 @@ function createChart(data){
         .attr('height', 0)
         .attr('y', height)
         .remove();
-
-
-    var labels = svg.selectAll('.label')
-                    .data(options[oNum]);
-
-    labels.enter()
-          .append('text')
-          .attr('class', 'label')
-          .attr('opacity', 0)
-          .attr('fill', 'white')
-          .merge(labels)
-          .transition()
-          .duration(duration)
-          .attr('opacity', 1)
-          .attr('x', function(d, i){
-            return xscale(i) + 1; })
-          .attr('y', function(d){ return yscale(d) + 20; })
-          .text(function(d){return d; });
-
-
-    labels.exit()
-          .transition()
-          .duration(duration)
-          .attr('y', height)
-          .attr('opacity', 0)
-          .remove();
 
 
 /*
