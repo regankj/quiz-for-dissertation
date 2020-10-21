@@ -11860,9 +11860,6 @@ readers do not read off random characters that represent icons */
   background-color: #5680E9;
   border-color: #5680E9; }
 
-.errText {
-  color: red; }
-
 .nextBtn {
   float: right;
   border-radius: 10%; }
@@ -11919,10 +11916,16 @@ button {
 
 #mturk {
   display: none;
-  align-items: center;
   background-color: #5680E9;
-  padding: 2px;
-  margin-top: 1em; }
+  border-color: #84CEEB;
+  color: white;
+  padding: 50px;
+  margin-top: 2em;
+  border-radius: 8%; }
+
+@media (min-width: 500px) {
+  #mturk {
+    margin-left: 27%; } }
 
 #fbErrText {
   display: none; }

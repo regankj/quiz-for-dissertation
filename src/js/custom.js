@@ -194,9 +194,10 @@ if ($('body').is(".knowledge")){
     testForm.appendChild(testBtn);
     addRow(testForm);
 
-    var testErr = document.createElement("label");
+    var testErr = document.createElement("div");
     testErr.style.display = "none";
-    testErr.className = "errText";
+    testErr.className = "alert alert-danger";
+    testErr.role = "alert";
     testErr.innerHTML = "*Please complete all questions";
     testErr.id = "testErr";
     testForm.appendChild(testErr);
@@ -619,20 +620,22 @@ function readData(file, section){
       slide.appendChild(confBtn);
       var conBtnID = "confirm" + i;
 
-      var errText = document.createElement('label');
+      var errText = document.createElement('div');
       errText.innerHTML = "*Bars must add up to 100%";
       errText.id = "errText" + i;
-      errText.className = "errText";
+      errText.className = "alert alert-danger";
+      errText.role = "alert";
       errText.style.display = "none";
       slide.appendChild(errText);
       var errTextID = "errText" + i;
 
       addRow(slide);
 
-      var radErrText = document.createElement("label");
+      var radErrText = document.createElement("div");
       radErrText.innerHTML = "*Please select your answer to the question";
       radErrText.id = "radErrText" + i;
-      radErrText.className = "errText";
+      radErrText.className = "alert alert-danger";
+      radErrText.role = "alert";
       radErrText.style.display = "none";
       slide.appendChild(radErrText);
       var radErrTextID = "radErrText" + i;
@@ -1313,13 +1316,13 @@ if ($('body').is('.feedback')){
   yesRad.addEventListener('click', function(){
     noRad.checked = false;
     fback[0] = "Yes";
-    fback_checked = 1;
+    fback_checked += 1;
   });
 
   noRad.addEventListener('click', function(){
     yesRad.checked = false;
     fback[0] = "No";
-    fback_checked = 1;
+    fback_checked += 1;
   });
 
   notRad.addEventListener('click', function(){
@@ -1327,7 +1330,7 @@ if ($('body').is('.feedback')){
     quiteRad.checked = false;
     veryRad.checked = false;
     fback[1] = "Not at all";
-    fback_checked = 2;
+    fback_checked += 1;
   });
 
   litRad.addEventListener('click', function(){
@@ -1335,7 +1338,7 @@ if ($('body').is('.feedback')){
     quiteRad.checked = false;
     veryRad.checked = false;
     fback[1] = "A little";
-    fback_checked = 2;
+    fback_checked += 1;
   });
 
   quiteRad.addEventListener('click', function(){
@@ -1343,7 +1346,7 @@ if ($('body').is('.feedback')){
     notRad.checked = false;
     veryRad.checked = false;
     fback[1] = "Quite interesting";
-    fback_checked = 2;
+    fback_checked += 1;
   });
 
   veryRad.addEventListener('click', function(){
@@ -1351,11 +1354,11 @@ if ($('body').is('.feedback')){
     quiteRad.checked = false;
     notRad.checked = false;
     fback[1] = "Very interesting";
-    fback_checked = 2;
+    fback_checked += 1;
   });
 
   document.getElementById("fbackConfirm").addEventListener('click', function(){
-    if (fback_checked != 2){
+    if (fback_checked < 2){
       document.getElementById("fbErrText").style.display = "inline-block";
     } else {
       document.getElementById("fbErrText").style.display = "none";

@@ -1,9 +1,17 @@
 #mturk {
   display: none;
-  align-items: center;
   background-color: $primary-hex;
-  padding: 2px;
-  margin-top: 1em;
+  border-color: $secondary-hex;
+  color: white;
+  padding: 50px;
+  margin-top: 2em;
+  border-radius: 8%;
+}
+
+@media(min-width: 500px){
+  #mturk {
+    margin-left: 27%;
+  }
 }
 
 #fbErrText {
