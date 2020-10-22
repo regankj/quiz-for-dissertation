@@ -46,11 +46,17 @@ if (contBtn){
     }
 
   });
+  /*
+  delaying a link
+  taken from https://stackoverflow.com/a/14434682/12239467
+  accessed 22-10-20
+  */
   contBtn.onclick = function(){
     setTimeout(function(){
       window.location.href = linktoNext;
     }, 500);
   };
+  // end of referenced code
 };
 
 
@@ -66,7 +72,7 @@ if ($('body').is(".knowledge")){
   var yesTV = document.getElementById('yesTV');
   var noTV = document.getElementById('noTV');
   var testForm = document.getElementById('test');
-  var linktoNext;
+  var linktoNext = "quiz.html";
 
   noPaper.addEventListener('click', function(){
     yesPaper.checked = false;
@@ -208,7 +214,6 @@ if ($('body').is(".knowledge")){
         testErr.style.display = "inline-block";
         linktoNext = "javascript: ;";
       } else {
-        document.getElementById("testNext").disabled = false;
         testValues[1] = document.getElementById("whatPaper").value;
         testValues[3] = document.getElementById("whichNewsSite").value;
         testValues[5] = document.getElementById("whichTV").value;
@@ -221,8 +226,8 @@ if ($('body').is(".knowledge")){
         document.getElementById("whichNewsSite").disabled = true;
         document.getElementById("whichTV").disabled = true;
         document.getElementById('alertInput').disabled = true;
-        saveTest(uid, testValues);
         testErr.style.display = "none";
+        saveTest(uid, testValues);
         linktoNext = "quiz.html";
       }
       var alertString = document.getElementById("alertInput").value;
@@ -756,6 +761,7 @@ function readData(file, section){
           showSlide(nextSlide, currentSlideID, slideNo);
           currentSlideID = "slide" + slideNo;
           startTime = Date.now();
+          location.href = "#top";
         }
       })
       j = 1;
@@ -819,124 +825,7 @@ function showSlide(n, currentSlideID, slideNo){
   document.getElementById(n).className = "active-slide";
   // end of referenced code
   if (slideNo == i){
-    var rand = Math.random();
-    savePrimingTest(uid, rand);
-    if (rand >= 0.5 && rand < 0.75){
-      var link = document.createElement('a');
-      link.innerHTML = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
-      link.target = "_blank";
-      link.href = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
-      qform.prepend(link);
-      qform.prepend("Please read the following article from The Guardian before answering this question");
-    } else if (rand >= 0.75){
-      var link = document.createElement('a');
-      link.innerHTML = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
-      link.target = "_blank";
-      link.href = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
-      qform.prepend(link);
-      qform.prepend("Please read the following article from The Guardian before answering this question");
-
-    }
-    var conID = "confirm" + i;
-
-    document.getElementById(conID).onclick = function(){
-      document.querySelector("#top h2").innerHTML = "Well Done!"
-      document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and also your answers compared to the actual ones";
-      var totalScore = 0;
-      var best = 0;
-      var bestNum;
-      var secondBest = 0;
-      var secondBestNum;
-      var worst = 600;
-      var worstNum;
-      var secondWorst = 600;
-      var secondWorstNum;
-      for (var s1 = 1; s1 < 62; s1++){
-        var qnum = "question" + (s1);
-        totalScore += userScores[qnum];
-        if (userScores[qnum] < worst){
-          worst = userScores[qnum];
-          worstNum = (s1);
-        }
-        else if (userScores[qnum] > best){
-          best = (userScores[qnum]);
-          bestNum = (s1);
-        }
-      }
-
-      for (var s2 = 1; s2 < 62; s2++){
-        var qnum = "question" + (s2);
-        if ((userScores[qnum] < secondWorst) && (userScores > worst)){
-          secondWorst = userScores[qnum];
-          secondWorstNum = s2;
-        }
-        else if ((userScores[qnum] > secondBest) && (userScores[qnum] < best)){
-          secondBest = userScores[qnum];
-          secondBestNum = s2;
-        }
-      }
-
-      var meanScore = Math.round(totalScore / 61);
-      document.getElementById("questions").innerHTML = "";
-      var scoreLbl = document.createElement("h5");
-      var theScore = document.createElement("h4");
-      scoreLbl.innerHTML = "Your Mean Score: ";
-      qform.appendChild(scoreLbl);
-      theScore.innerHTML = meanScore;
-      qform.appendChild(theScore);
-
-      var key = document.createElement("div");
-      key.className = "key";
-      var col1Lbl = document.createElement("label");
-      col1Lbl.innerHTML = "Your Answers";
-      var col1 = document.createElement("div");
-      col1.id = "colour1";
-      var col2 = document.createElement("div");
-      col2.id = "colour2";
-      var col2Lbl = document.createElement("label");
-      col2Lbl.innerHTML = "Actual Answers";
-
-      key.appendChild(col1);
-      key.appendChild(col1Lbl);
-      key.appendChild(col2);
-      key.appendChild(col2Lbl);
-
-      qform.appendChild(key);
-      addRow(qform);
-
-      var vis = document.createElement("div");
-      vis.id = "vis";
-      qform.appendChild(vis);
-
-      for (var ind = 1; ind < 62; ind++){
-        var qlbl = document.createElement("label");
-        qlbl.id = "questionLbl" + ind;
-        vis.appendChild(qlbl);
-        addRow(vis);
-        var optLbl = document.createElement("label");
-        optLbl.id = "keyOpts" + ind;
-        vis.appendChild(optLbl);
-        addRow(vis);
-        createChart(values, ind);
-        createChart(trueAnswers, ind);
-        addRow(vis);
-      }
-
-      var worstLbl = document.createElement('label');
-      worstLbl.innerHTML = "You scored lowest on questions "  + worstNum + " and " + secondWorstNum + ", with scores of " + worst + " and " + secondWorst + " respectively.";
-      qform.append(worstLbl);
-      addRow(qform);
-      var bestLbl = document.createElement('label');
-      bestLbl.innerHTML = "You scored best on questions " + bestNum + " and " + secondBestNum + ", with scores of " + best + " and " + secondBest + " respectively.";
-      qform.append(bestLbl);
-
-      window.onbeforeunload = null;
-
-
-      nextBtn.onclick = function(){
-        location.href = "feedback.html";
-      }
-    }
+    finalSlides();
   }
 }
 
@@ -1052,6 +941,162 @@ accessed 20-10-20
       .duration(duration)
       .call(yaxis);
 
+}
+
+function finalSlides(){
+  var theSlideID = "slide62";
+  var theSlide = document.getElementById(theSlideID);
+  var rand = Math.random();
+  savePrimingTest(uid, rand);
+  if (rand >= 0.5 && rand < 0.75){
+    var link = document.createElement('a');
+    link.innerHTML = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
+    link.target = "_blank";
+    link.href = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
+    theSlide.prepend(link);
+    addRow(theSlide);
+    theSlide.prepend("Please read the following article from The Guardian before answering this question");
+  } else if (rand >= 0.75){
+    var link = document.createElement('a');
+    link.innerHTML = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
+    link.target = "_blank";
+    link.href = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
+    theSlide.prepend(link);
+    addRow(theSlide);
+    theSlide.prepend("Please read the following article from The Guardian before answering this question");
+
+
+  }
+  var conID = "confirm" + i;
+
+  document.getElementById(conID).onclick = function(){
+    theSlide.className = "active-slide";
+    document.querySelector("#top h2").innerHTML = "Well Done!"
+    document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and also your answers compared to the actual ones";
+    var totalScore = 0;
+    var best = 0;
+    var bestNum;
+    var secondBest = 0;
+    var secondBestNum;
+    var worst = 600;
+    var worstNum;
+    var secondWorst = 600;
+    var secondWorstNum;
+    for (var s1 = 1; s1 < 62; s1++){
+      var qnum = "question" + (s1);
+      totalScore += userScores[qnum];
+      if (userScores[qnum] < worst){
+        worst = userScores[qnum];
+        worstNum = (s1);
+      }
+      else if (userScores[qnum] > best){
+        best = (userScores[qnum]);
+        bestNum = (s1);
+      }
+    }
+
+    for (var s2 = 1; s2 < 62; s2++){
+      var qnum = "question" + (s2);
+      if ((userScores[qnum] < secondWorst) && (userScores[qnum] > worst)){
+        secondWorst = userScores[qnum];
+        secondWorstNum = s2;
+      }
+      else if ((userScores[qnum] > secondBest) && (userScores[qnum] < best)){
+        secondBest = userScores[qnum];
+        secondBestNum = s2;
+      }
+    }
+
+    var meanScore = Math.round(totalScore / 61);
+    theSlide.innerHTML = "";
+    var scoreLbl = document.createElement("h5");
+    var theScore = document.createElement("h4");
+    scoreLbl.innerHTML = "Your Mean Score: ";
+    theSlide.appendChild(scoreLbl);
+    theScore.innerHTML = meanScore;
+    theSlide.appendChild(theScore);
+
+    var key = document.createElement("div");
+    key.className = "key";
+    var col1Lbl = document.createElement("label");
+    col1Lbl.innerHTML = "Your Answers";
+    var col1 = document.createElement("div");
+    col1.id = "colour1";
+    var col2 = document.createElement("div");
+    col2.id = "colour2";
+    var col2Lbl = document.createElement("label");
+    col2Lbl.innerHTML = "Actual Answers";
+
+    key.appendChild(col1);
+    key.appendChild(col1Lbl);
+    key.appendChild(col2);
+    key.appendChild(col2Lbl);
+
+    theSlide.appendChild(key);
+    addRow(theSlide);
+
+    var vis = document.createElement("div");
+    vis.id = "vis";
+    theSlide.appendChild(vis);
+
+    for (var ind = 1; ind < 62; ind++){
+      var qlbl = document.createElement("label");
+      qlbl.id = "questionLbl" + ind;
+      vis.appendChild(qlbl);
+      addRow(vis);
+      var optLbl = document.createElement("label");
+      optLbl.id = "keyOpts" + ind;
+      vis.appendChild(optLbl);
+      addRow(vis);
+      createChart(values, ind);
+      createChart(trueAnswers, ind);
+      addRow(vis);
+    }
+
+
+    window.onbeforeunload = null;
+
+
+    nextBtn.onclick = function(){
+      var worstSlide = "slide" + worstNum;
+      var worstConf = "confirm" + worstNum;
+      var wvaluesNum = "values" + worstNum;
+      var currentSlide = "slide" + i;
+      var worstQnum = "question" + worstNum;
+
+      var secondWorstSlide = "slide" + secondWorstNum;
+      var secondWorstConf = "confirm" + secondWorstNum;
+      var swvaluesNum = "values" + secondWorstNum;
+      var secondWorstQnum = "question" + secondWorstNum;
+      var swbtns = "btns" + secondWorstNum;
+      var swrads = "rads" + secondWorstNum;
+
+      document.getElementById(currentSlide).className = "slide";
+      document.getElementById(worstSlide).className = "active-slide";
+      document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
+
+      document.getElementById(worstConf).onclick = function(){
+        writeData(uid, "re_assessment", worstQnum, values[wvaluesNum].length, values[wvaluesNum]);
+        document.getElementById(worstSlide).className = "slide";
+        document.getElementById(secondWorstSlide).className = "active-slide";
+        document.getElementById(secondWorstConf).disabled = false;
+        for (var w1 = 0; w1 < btns[swbtns].length; w1++){
+          document.getElementById(btns[swbtns][w1]).disabled = false;
+        };
+        for (var w2 = 0; w2 < rads[swrads].length; w2++){
+          document.getElementById(rads[swrads][w2]).disabled = false;
+        }
+        document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your second lowest scoring question:";
+
+        document.getElementById(secondWorstConf).onclick = function(){
+          writeData(uid, "re_assessment", secondWorstQnum, values[swvaluesNum].length, values[swvaluesNum]);
+          setTimeout(function(){
+            window.location.href = "feedback.html";
+          }, 500);
+        }
+      }
+    }
+  }
 }
 
 // reads in scoring csv file and adds the original BSAS results into arrays
