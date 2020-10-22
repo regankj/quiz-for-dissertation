@@ -5,6 +5,7 @@ const d3 = require('d3');
 const contBtn = document.getElementById('continue');
 var uid = localStorage.getItem("idKey");
 if (contBtn){
+  var linktoNext;
   contBtn.addEventListener('click', function(){
     const infoForm = document.getElementById('infoForm');
     const ageBox = document.getElementById('age');
@@ -13,7 +14,6 @@ if (contBtn){
     var age = ageBox.options[ageBox.selectedIndex].text;
     var gender = genderBox.options[genderBox.selectedIndex].text;
     var classBracket = classBox.options[classBox.selectedIndex].text;
-    var formNext = document.getElementById('formNext');
     var theLink = document.querySelector("#theLink");
 
     if (age == "Choose..." || gender == "Choose..." || classBracket == "Choose..."){
@@ -21,6 +21,7 @@ if (contBtn){
       ageBox.disabled = false;
       genderBox.disabled = false;
       classBox.disabled = false;
+      linktoNext = "javascript: ;";
     } else if (classBracket == "International Elite" || classBracket == "London Middle Class" ||
               classBracket ==  "Old Affluent Workers" || classBracket == "Managerial Working Class" ||
               classBracket == "Self Employed Service Workers"){
@@ -29,13 +30,11 @@ if (contBtn){
                 classBox.disabled = true;
                 contBtn.disabled = true;
                 document.getElementById("infoErr").style.display = "none";
-                formNext.disabled = false;
-                formNext.onclick = function(){
-                  theLink.href = "alert.html";
-                }
+                linktoNext = "alert.html";
               }
 
      else {
+       linktoNext = "knowledge.html";
       uid++;
       localStorage.setItem("idKey", uid);
       saveUserData(uid, age, gender, classBracket);
@@ -44,23 +43,16 @@ if (contBtn){
       classBox.disabled = true;
       contBtn.disabled = true;
       document.getElementById("infoErr").style.display = "none";
-      document.getElementById("formNext").disabled = false;
     }
 
   });
+  contBtn.onclick = function(){
+    setTimeout(function(){
+      window.location.href = linktoNext;
+    }, 500);
+  };
 };
 
-/*
-Showing onsent form when the page loads
-taken from https://stackoverflow.com/questions/10233550/launch-bootstrap-modal-on-page-load
-accessed 14-10-20
-*/
-if ($('body').is(".info")){
-  window.addEventListener('load', function(){
-    $('#myModal').modal('show');
-  });
-}
-// end of referenced code
 
 var t1 = 0;
 var testValues = [];
@@ -74,6 +66,7 @@ if ($('body').is(".knowledge")){
   var yesTV = document.getElementById('yesTV');
   var noTV = document.getElementById('noTV');
   var testForm = document.getElementById('test');
+  var linktoNext;
 
   noPaper.addEventListener('click', function(){
     yesPaper.checked = false;
@@ -189,7 +182,7 @@ if ($('body').is(".knowledge")){
     var testBtn = document.createElement("button");
     testBtn.type = "button";
     testBtn.className = "btn btn-primary my-md-3";
-    testBtn.innerHTML = "Submit";
+    testBtn.innerHTML = "Submit & Next";
     testBtn.id = "testBtn";
     testForm.appendChild(testBtn);
     addRow(testForm);
@@ -213,6 +206,7 @@ if ($('body').is(".knowledge")){
 
       if (checkedRads != 12){
         testErr.style.display = "inline-block";
+        linktoNext = "javascript: ;";
       } else {
         document.getElementById("testNext").disabled = false;
         testValues[1] = document.getElementById("whatPaper").value;
@@ -229,21 +223,20 @@ if ($('body').is(".knowledge")){
         document.getElementById('alertInput').disabled = true;
         saveTest(uid, testValues);
         testErr.style.display = "none";
-        testBtn.disabled = true;
-        testNext.onclick = function(){
-          location.href="quiz.html";
-        }
+        linktoNext = "quiz.html";
       }
       var alertString = document.getElementById("alertInput").value;
       var newString = alertString.replace(/[^A-Z0-9]+/ig, "");
       if ((newString.toLowerCase()) != "alert"){
-        testNext.onclick = function(){
-          location.href = "alert.html";
-        };
-
+        linktoNext = "alert.html";
       }
-
     });
+
+    testBtn.onclick = function(){
+      setTimeout(function(){
+        window.location.href = linktoNext;
+      }, 500);
+    };
 
     document.getElementById("radForTest36").addEventListener('click', function(){
       document.getElementById("alertInput").style.display = "inline-block";

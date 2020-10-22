@@ -11865,9 +11865,11 @@ readers do not read off random characters that represent icons */
   background-color: #5680E9;
   border-color: #5680E9; }
 
-.nextBtn {
+#nextBtn {
   float: right;
-  border-radius: 10%; }
+  border-radius: 10%;
+  background-color: #84CEEB;
+  color: black; }
 
 .radLbl {
   margin: 1em; }

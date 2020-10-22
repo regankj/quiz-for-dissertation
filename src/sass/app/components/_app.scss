@@ -51,9 +51,11 @@
   border-color: $primary-hex;
 }
 
-.nextBtn {
+#nextBtn {
   float: right;
   border-radius: 10%;
+  background-color: $secondary-hex;
+  color: black;
 }
 
 
