@@ -269,11 +269,13 @@ var j = 1;
 var k = 1;
 var t = 1;
 var values = {};
+var hbars = {};
 var downBtns = {};
 var upBtns = {};
 var lgUpBtns = {};
 var smUpBtns = {};
 var smDownBtns = {};
+var lgDownBtns = {};
 var btns = {};
 var rads = {};
 var radLbls = {};
@@ -343,70 +345,17 @@ function addBtns(slide, num){
   var valPos = j-1;
   values[valueNum][valPos] = count;
   var btnsNum = "btns" + i;
+  var hbarsNum = "bars" + i;
   btns[btnsNum].push(downBtnID, smDownBtnID, smUpBtnID, upBtnID);
   upBtns[btnsNum].push(smUpBtnID, upBtnID);
   downBtns[btnsNum].push(smDownBtnID, downBtnID);
   smDownBtns[btnsNum].push(smDownBtnID);
   smUpBtns[btnsNum].push(smUpBtnID);
   lgUpBtns[btnsNum].push(upBtnID);
+  lgDownBtns[btnsNum].push(downBtnID);
+  hbars[hbarsNum].push(barID);
 
 
-
-  document.getElementById(downBtnID).addEventListener('click', function(){
-    count = count - 10;
-    document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * size) + "%";
-    if (count <=0 ){
-      document.getElementById(downBtnID).disabled = true;
-      document.getElementById(smDownBtnID).disabled = true;
-    }
-    if (count < 10 ){
-      document.getElementById(downBtnID).disabled = true;
-    }
-    var value = document.getElementById(barID).innerHTML;
-    values[valueNum][valPos] = parseInt(value, 10);
-  });
-
-  document.getElementById(smDownBtnID).addEventListener('click', function(){
-    count = count - 1;
-    document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * size) + "%";
-    if (count <=0 ){
-      document.getElementById(downBtnID).disabled = true;
-      document.getElementById(smDownBtnID).disabled = true;
-    }
-    if (count < 10 ){
-      document.getElementById(downBtnID).disabled = true;
-    }
-    var value = document.getElementById(barID).innerHTML;
-    values[valueNum][valPos] = parseInt(value, 10);
-  });
-
-  document.getElementById(smUpBtnID).addEventListener('click', function(){
-    document.getElementById(downBtnID).disabled = false;
-    document.getElementById(smDownBtnID).disabled = false;
-    count = count + 1;
-    document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * size) + "%";
-    if (count < 10 ){
-      document.getElementById(downBtnID).disabled = true;
-    }
-    var value = document.getElementById(barID).innerHTML;
-    values[valueNum][valPos] = parseInt(value, 10);
-  });
-
-  document.getElementById(upBtnID).addEventListener('click', function(){
-    document.getElementById(downBtnID).disabled = false;
-    document.getElementById(smDownBtnID).disabled = false;
-    count = count + 10;
-    document.getElementById(barID).innerHTML = count + "%";
-    document.getElementById(barID).style.width = (count * size) + "%";
-    if (count < 10 ){
-      document.getElementById(downBtnID).disabled = true;
-    }
-    var value = document.getElementById(barID).innerHTML;
-    values[valueNum][valPos] = parseInt(value, 10);
-  });
   j++;
 };
 
@@ -477,6 +426,7 @@ function readData(file, section){
 
       var questionNum = "question" + i;
       var valuesNum = "values" + i;
+      var barsNum = "bars" + i;
       var btnsNum = "btns" + i;
       var optionsNum = "options" + i;
       var radsNum = "rads" + i;
@@ -550,53 +500,59 @@ function readData(file, section){
         numOfOpts++;
         addRow(slide);
       }
-
+      var count = Math.floor(100/numOfOpts);
+      var extra;
+      if ((count*numOfOpts) == 100){
+        extra = 0;
+      } else {
+        extra = 100 - (count*numOfOpts);
+      }
 
       addRow(slide);
       d3.select(slideID).append("label").text("What did the public think?:");
       addRow(slide);
 
       d3.select(slideID).append("label").text(d.Option1);
-      addBtns(slide, Math.floor(100/numOfOpts));
+      addBtns(slide, (count + extra));
       addRow(slide);
 
       d3.select(slideID).append("label").text(d.Option2);
-      addBtns(slide, Math.floor(100/numOfOpts));
+      addBtns(slide, count);
       addRow(slide);
 
       if (d.Option3 != ""){
         d3.select(slideID).append("label").text(d.Option3);
-        addBtns(slide, Math.floor(100/numOfOpts));
+        addBtns(slide, count);
         addRow(slide);
       }
 
       if (d.Option4 != ""){
         d3.select(slideID).append("label").text(d.Option4);
-        addBtns(slide, Math.floor(100/numOfOpts));
+        addBtns(slide, count);
         addRow(slide);
       }
 
       if (d.Option5 != ""){
         d3.select(slideID).append("label").text(d.Option5);
-        addBtns(slide, Math.floor(100/numOfOpts));
+        addBtns(slide, count);
         addRow(slide);
       }
 
       if (d.Option6 != ""){
         d3.select(slideID).append("label").text(d.Option6);
-        addBtns(slide, Math.floor(100/numOfOpts));
+        addBtns(slide, count);
         addRow(slide);
       }
 
       if (d.Option7 != ""){
         d3.select(slideID).append("label").text(d.Option7);
-        addBtns(slide, Math.floor(100/numOfOpts));
+        addBtns(slide, count);
         addRow(slide);
       }
 
       if (d.Option8 != ""){
         d3.select(slideID).append("label").text(d.Option8);
-        addBtns(slide, Math.floor(100/numOfOpts));
+        addBtns(slide, count);
         addRow(slide);
       }
 
@@ -604,12 +560,6 @@ function readData(file, section){
       var qcode = d.QuestionCode;
       // end of referenced code
 
-      var total = document.createElement("label");
-      total.innerHTML = "Total: " + values[valuesNum].reduce((a,b) => a+b, 0) + "%";
-      total.id = "total" + i;
-      total.className = "total";
-      slide.appendChild(total);
-      addRow(slide);
 
       var confBtn = document.createElement('button');
       confBtn.innerHTML = "Confirm";
@@ -664,105 +614,152 @@ function readData(file, section){
         })
       };
 
-      // enablement/disablement of up/down buttons based on certain situations
-      for (var r = 0; r < btns[btnsNum].length; r++){
-        document.getElementById(btns[btnsNum][r]).addEventListener("click", function(){
-          total.innerHTML = "Total: " + values[valuesNum].reduce((a,b) => a+b, 0) + "%";
+      // Keeping the bars at 100%
+      for (var r = 0; r < lgUpBtns[btnsNum].length; r++){
+        document.getElementById(lgUpBtns[btnsNum][r]).addEventListener('click', function(){
+          var str = this.id;
+          var valueInd = parseInt(str.substr(7), 10);
+          var newStr = str.replace("upBtn", "bar");
+          var theBar = document.getElementById(newStr);
+          var perc = parseInt(theBar.innerHTML, 10);
+          for (var p = 0; p < hbars[barsNum].length; p++){
+            var random = Math.floor(Math.random() * hbars[barsNum].length);
+            var nextBar = document.getElementById(hbars[barsNum][random]);
+            var nextValueInd = parseInt((theBar.id).substr(5), 10);
+            var nextPerc = parseInt(nextBar.innerHTML, 10);
+
+            if ((nextBar.id != theBar.id) && (nextPerc >= 10) ){
+              nextBar.innerHTML = (nextPerc - 10) + "%";
+              nextBar.style.width = ((nextPerc - 10) * size) + "%";
+              values[valuesNum][nextValueInd-1] = nextPerc - 10;
+              break;
+            } else {continue ;}
+          }
+          theBar.style.width = ((perc + 10) * size) + "%";
+          theBar.innerHTML = (perc + 10) + "%";
+          values[valuesNum][valueInd-1] = perc + 10;
         });
       };
 
-      for (var p = 0; p < upBtns[btnsNum].length; p++){
-        document.getElementById(downBtns[btnsNum][p]).addEventListener("click", function(){
-          if (values[valuesNum].reduce((a,b) => a+b, 0) >= 90){
-            for (var q = 0; q < smUpBtns[btnsNum].length; q++){
-              document.getElementById(smUpBtns[btnsNum][q]).disabled = false;
-              document.getElementById(lgUpBtns[btnsNum][q]).disabled = true;
-            }
-          } else {
-            for (var q = 0; q < upBtns[btnsNum].length; q++){
-              document.getElementById(upBtns[btnsNum][q]).disabled = false;
-            }
-          }
+      for (var r = 0; r < smUpBtns[btnsNum].length; r++){
+        document.getElementById(smUpBtns[btnsNum][r]).addEventListener('click', function(){
+          var str = this.id;
+          var valueInd = parseInt(str.substr(9), 10);
+          var newStr = str.replace("smUpBtn", "bar");
+          var theBar = document.getElementById(newStr);
+          var perc = parseInt(theBar.innerHTML, 10);
+          for (var p = 0; p < hbars[barsNum].length; p++){
+            var random = Math.floor(Math.random() * hbars[barsNum].length);
+            var nextBar = document.getElementById(hbars[barsNum][random]);
+            var nextValueInd = parseInt((theBar.id).substr(5), 10);
+            var nextPerc = parseInt(nextBar.innerHTML, 10);
 
-          if (values[valuesNum].reduce((a,b) => a+b, 0) == 100){
-            for (var n = 0; n < upBtns[btnsNum].length; n++){
-              document.getElementById(upBtns[btnsNum][n]).disabled = true;
-            }
+            if ((nextBar.id != theBar.id) && (nextPerc >= 1) ){
+              nextBar.innerHTML = (nextPerc - 1) + "%";
+              nextBar.style.width = ((nextPerc - 1) * size) + "%";
+              values[valuesNum][nextValueInd-1] = nextPerc - 1;
+              break;
+            } else {continue ;}
           }
-        })
-        document.getElementById(upBtns[btnsNum][p]).addEventListener("click", function(){
-          if (values[valuesNum].reduce((a,b) => a+b, 0) >= 100){
-            for (var o = 0; o < upBtns[btnsNum].length; o++){
-              document.getElementById(upBtns[btnsNum][o]).disabled = true;
-            }
-          } else if ( (values[valuesNum].reduce((a,b) => a+b, 0) > 90) && (values[valuesNum].reduce((a,b) => a+b, 0)) < 100){
-              for (var l = 0; l < smUpBtns[btnsNum].length; l++){
-              document.getElementById(smUpBtns[btnsNum][l]).disabled = false;
-              document.getElementById(lgUpBtns[btnsNum][l]).disabled = true;
-            }
-          }
+          theBar.style.width = ((perc + 1) * size) + "%";
+          theBar.innerHTML = (perc + 1) + "%";
+          values[valuesNum][valueInd-1] = perc + 1;
         });
-      }
-
-      if (values[valuesNum].reduce((a,b) => a+b, 0) == 100){
-        for (var f= 0; f < upBtns[btnsNum].length; f++){
-          document.getElementById(upBtns[btnsNum][f]).disabled = true;
-        }
       };
 
-      if (values[valuesNum].reduce((a,b) => a+b, 0) > 90){
-        for (var f= 0; f < lgUpBtns[btnsNum].length; f++){
-          document.getElementById(lgUpBtns[btnsNum][f]).disabled = true;
-        }
+      for (var r = 0; r < smDownBtns[btnsNum].length; r++){
+        document.getElementById(smDownBtns[btnsNum][r]).addEventListener('click', function(){
+          var str = this.id;
+          var valueInd = parseInt(str.substr(11), 10);
+          var newStr = str.replace("smDownBtn", "bar");
+          var theBar = document.getElementById(newStr);
+          var perc = parseInt(theBar.innerHTML, 10);
+          for (var p = 0; p < hbars[barsNum].length; p++){
+            var random = Math.floor(Math.random() * hbars[barsNum].length);
+            var nextBar = document.getElementById(hbars[barsNum][random]);
+            var nextValueInd = parseInt((theBar.id).substr(5), 10);
+            var nextPerc = parseInt(nextBar.innerHTML, 10);
+
+            if ((nextBar.id != theBar.id) && (nextPerc < 100) ){
+              nextBar.innerHTML = (nextPerc + 1) + "%";
+              nextBar.style.width = ((nextPerc + 1) * size) + "%";
+              values[valuesNum][nextValueInd-1] = nextPerc + 1;
+              break;
+            } else {continue ;}
+          }
+          theBar.style.width = ((perc - 1) * size) + "%";
+          theBar.innerHTML = (perc - 1) + "%";
+          values[valuesNum][valueInd-1] = perc - 1;
+        });
       };
 
+      for (var r = 0; r < lgDownBtns[btnsNum].length; r++){
+        document.getElementById(lgDownBtns[btnsNum][r]).addEventListener('click', function(){
+          var str = this.id;
+          var valueInd = parseInt(str.substr(9), 10);
+          var newStr = str.replace("downBtn", "bar");
+          var theBar = document.getElementById(newStr);
+          var perc = parseInt(theBar.innerHTML, 10);
+          for (var p = 0; p < hbars[barsNum].length; p++){
+            var random = Math.floor(Math.random() * hbars[barsNum].length);
+            var nextBar = document.getElementById(hbars[barsNum][random]);
+            var nextValueInd = parseInt((theBar.id).substr(5), 10);
+            var nextPerc = parseInt((nextBar.innerHTML), 10);
+
+            if ((nextBar.id != theBar.id) && (nextPerc < 100) ){
+              nextBar.innerHTML = (nextPerc + 10) + "%";
+              nextBar.style.width = ((nextPerc + 10) * size) + "%";
+              values[valuesNum][nextValueInd-1] = nextPerc + 10;
+              break;
+            } else {continue ;}
+          }
+          theBar.style.width = ((perc - 10) * size) + "%";
+          theBar.innerHTML = (perc - 10) + "%";
+          values[valuesNum][valueInd] = perc - 10;
+        });
+      };
 
       // submitting data and disabling buttons after the confirm button is clicked
       document.getElementById(conBtnID).addEventListener('click', function(){
-        if ( values[valuesNum].reduce((a,b) => a+b, 0) != 100){
-          document.getElementById(conBtnID).type = "button";
-          document.getElementById(errTextID).style.display = "block";
+        document.getElementById(errTextID).style.display = "none";
+        document.getElementById(conBtnID).disabled = true;
+        writeData(uid, section, qcode, options[optionsNum].length, values[valuesNum]);
+        var endTime = Date.now();
+        var difference = (endTime - startTime)/1000;
+        saveTime(uid, section, qcode, difference);
+        saveUserScore(uid, values[valuesNum], trueAnswers[ansIndexNum], section, qcode, questionNum);
+        for (var m = 0; m < btns[btnsNum].length; m++){
+          document.getElementById(btns[btnsNum][m]).disabled = true;
         }
-        else {
-          document.getElementById(errTextID).style.display = "none";
-          document.getElementById(conBtnID).disabled = true;
-          writeData(uid, section, qcode, options[optionsNum].length, values[valuesNum]);
-          var endTime = Date.now();
-          var difference = (endTime - startTime)/1000;
-          saveTime(uid, section, qcode, difference);
-          saveUserScore(uid, values[valuesNum], trueAnswers[ansIndexNum], section, qcode, questionNum);
-          for (var m = 0; m < btns[btnsNum].length; m++){
-            document.getElementById(btns[btnsNum][m]).disabled = true;
-          }
 
-          for (var r1 = 0; r1 < rads[radsNum].length; r1++){
-            document.getElementById(rads[radsNum][r1]).disabled = true;
-          }
-          var selected = 0;
-          for (var r2 = 0; r2 < rads[radsNum].length; r2++){
-            if (document.getElementById(rads[radsNum][r2]).checked == true){
-              selected++;
-              var ans = document.getElementById(radLbls[radLblsNum][r2]).innerHTML;
-              writeAnswer(uid, section, qcode, ans);
-            }
-          }
-          if (selected == 0){
-            document.getElementById(conBtnID).type = "button";
-            document.getElementById(conBtnID).disabled = false;
-            document.getElementById(radErrTextID).style.display = "block";
-            for (var p = 0; rads[radsNum].length; p++){
-              document.getElementById(rads[radsNum][p]).disabled = false;
-            }
-          }
-          nextBtn.disabled = false;
-          document.getElementById(radErrTextID).style.display = "none";
-          slideNo++;
-          var nextSlide = "slide" + slideNo;
-          showSlide(nextSlide, currentSlideID, slideNo);
-          currentSlideID = "slide" + slideNo;
-          startTime = Date.now();
-          location.href = "#top";
+        for (var r1 = 0; r1 < rads[radsNum].length; r1++){
+          document.getElementById(rads[radsNum][r1]).disabled = true;
         }
+        var selected = 0;
+        for (var r2 = 0; r2 < rads[radsNum].length; r2++){
+          if (document.getElementById(rads[radsNum][r2]).checked == true){
+            selected++;
+            var ans = document.getElementById(radLbls[radLblsNum][r2]).innerHTML;
+            writeAnswer(uid, section, qcode, ans);
+          }
+        }
+        if (selected == 0){
+          document.getElementById(conBtnID).type = "button";
+          document.getElementById(conBtnID).disabled = false;
+          document.getElementById(radErrTextID).style.display = "block";
+          for (var p = 0; rads[radsNum].length; p++){
+            document.getElementById(rads[radsNum][p]).disabled = false;
+          }
+        }
+        nextBtn.disabled = false;
+        document.getElementById(radErrTextID).style.display = "none";
+        slideNo++;
+        var nextSlide = "slide" + slideNo;
+        showSlide(nextSlide, currentSlideID, slideNo);
+        currentSlideID = "slide" + slideNo;
+        startTime = Date.now();
+        location.href = "#top";
+
       })
       j = 1;
       k = 1;
@@ -794,6 +791,7 @@ if ($('body').is('.quiz1')){
 
 for (var num = 0; num < 62; num++){
   var v = "values" + (num + 1);
+  var barsNum = "bars" + (num + 1);
   var b = "btns" + (num + 1);
   var o = "options" + (num + 1);
   var r = "rads" + (num + 1);
@@ -801,12 +799,14 @@ for (var num = 0; num < 62; num++){
   var tr = "answers" + (num + 1);
   var q = "question" + (num + 1);
   values[v] = [];
+  hbars[barsNum] = [];
   btns[b] = [];
   downBtns[b] = [];
   upBtns[b] = [];
   smDownBtns[b] = [];
   smUpBtns[b] = [];
   lgUpBtns[b] = [];
+  lgDownBtns[b] = [];
   options[o] = [];
   rads[r] = [];
   radLbls[rl] = [];
