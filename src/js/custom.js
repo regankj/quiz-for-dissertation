@@ -622,22 +622,52 @@ function readData(file, section){
           var newStr = str.replace("upBtn", "bar");
           var theBar = document.getElementById(newStr);
           var perc = parseInt(theBar.innerHTML, 10);
-          for (var p = 0; p < hbars[barsNum].length; p++){
+          var downstr = str.replace("up", "down");
+          var smDownstr = str.replace("up", "smDown");
+          document.getElementById(downstr).disabled = false;
+          document.getElementById(smDownstr).disabled = false;
+          for (var p = 0; p < 50; p++){
             var random = Math.floor(Math.random() * hbars[barsNum].length);
             var nextBar = document.getElementById(hbars[barsNum][random]);
             var nextValueInd = parseInt((theBar.id).substr(5), 10);
             var nextPerc = parseInt(nextBar.innerHTML, 10);
+            var reduced = 0;
 
             if ((nextBar.id != theBar.id) && (nextPerc >= 10) ){
               nextBar.innerHTML = (nextPerc - 10) + "%";
               nextBar.style.width = ((nextPerc - 10) * size) + "%";
               values[valuesNum][nextValueInd-1] = nextPerc - 10;
+              reduced = 1;
+              theBar.style.width = ((perc + 10) * size) + "%";
+              theBar.innerHTML = (perc + 10) + "%";
+              values[valuesNum][valueInd-1] = perc + 10;
               break;
             } else {continue ;}
           }
-          theBar.style.width = ((perc + 10) * size) + "%";
-          theBar.innerHTML = (perc + 10) + "%";
-          values[valuesNum][valueInd-1] = perc + 10;
+
+          if (reduced != 1){
+            for (var q = 0; q < 50; q++){
+              var random = Math.floor(Math.random() * hbars[barsNum].length);
+              var nextBar = document.getElementById(hbars[barsNum][random]);
+              var nextValueInd = parseInt((theBar.id).substr(5), 10);
+              var nextPerc = parseInt(nextBar.innerHTML, 10);
+
+              if ((nextBar.id != theBar.id) && (nextPerc >= 0) ){
+                nextBar.innerHTML = "0%";
+                nextBar.style.width = "0%";
+                values[valuesNum][nextValueInd] = 0;
+                theBar.innerHTML = (perc + nextPerc) + "%";
+                theBar.style.width = ((perc + nextPerc)*size) + "%";
+                values[valuesNum][valueInd] = perc + nextPerc;
+                break;
+              } else {continue; }
+            }
+          }
+
+
+          if ((perc + 10) > 90){
+            document.getElementById(str).disabled = true;
+          }
         });
       };
 
@@ -648,7 +678,9 @@ function readData(file, section){
           var newStr = str.replace("smUpBtn", "bar");
           var theBar = document.getElementById(newStr);
           var perc = parseInt(theBar.innerHTML, 10);
-          for (var p = 0; p < hbars[barsNum].length; p++){
+          var downstr = str.replace("Up", "Down");
+          document.getElementById(downstr).disabled = false;
+          for (var p = 0; p < 50; p++){
             var random = Math.floor(Math.random() * hbars[barsNum].length);
             var nextBar = document.getElementById(hbars[barsNum][random]);
             var nextValueInd = parseInt((theBar.id).substr(5), 10);
@@ -658,12 +690,18 @@ function readData(file, section){
               nextBar.innerHTML = (nextPerc - 1) + "%";
               nextBar.style.width = ((nextPerc - 1) * size) + "%";
               values[valuesNum][nextValueInd-1] = nextPerc - 1;
+              theBar.style.width = ((perc + 1) * size) + "%";
+              theBar.innerHTML = (perc + 1) + "%";
+              values[valuesNum][valueInd-1] = perc + 1;
               break;
             } else {continue ;}
           }
-          theBar.style.width = ((perc + 1) * size) + "%";
-          theBar.innerHTML = (perc + 1) + "%";
-          values[valuesNum][valueInd-1] = perc + 1;
+
+
+
+          if ((perc + 1) == 100){
+            document.getElementById(str).disabled = true;
+          }
         });
       };
 
@@ -674,6 +712,8 @@ function readData(file, section){
           var newStr = str.replace("smDownBtn", "bar");
           var theBar = document.getElementById(newStr);
           var perc = parseInt(theBar.innerHTML, 10);
+          var upstr = str.replace("Down", "Up");
+          document.getElementById(upstr).disabled = false;
           for (var p = 0; p < hbars[barsNum].length; p++){
             var random = Math.floor(Math.random() * hbars[barsNum].length);
             var nextBar = document.getElementById(hbars[barsNum][random]);
@@ -690,6 +730,9 @@ function readData(file, section){
           theBar.style.width = ((perc - 1) * size) + "%";
           theBar.innerHTML = (perc - 1) + "%";
           values[valuesNum][valueInd-1] = perc - 1;
+          if ((perc - 1) == 0){
+            document.getElementById(str).disabled = true;
+          }
         });
       };
 
@@ -700,7 +743,11 @@ function readData(file, section){
           var newStr = str.replace("downBtn", "bar");
           var theBar = document.getElementById(newStr);
           var perc = parseInt(theBar.innerHTML, 10);
-          for (var p = 0; p < hbars[barsNum].length; p++){
+          var upstr = str.replace("downBtn", "upBtn");
+          var smUpstr = str.replace("downBtn", "smUpBtn");
+          document.getElementById(upstr).disabled = false;
+          document.getElementById(smUpstr).disabled = false;
+          for (var p = 0; p < 50; p++){
             var random = Math.floor(Math.random() * hbars[barsNum].length);
             var nextBar = document.getElementById(hbars[barsNum][random]);
             var nextValueInd = parseInt((theBar.id).substr(5), 10);
@@ -716,8 +763,40 @@ function readData(file, section){
           theBar.style.width = ((perc - 10) * size) + "%";
           theBar.innerHTML = (perc - 10) + "%";
           values[valuesNum][valueInd] = perc - 10;
+          if ((perc - 10) < 10){
+            document.getElementById(str).disabled = true;
+          }
         });
       };
+
+      for (var b = 0; b < btns[btnsNum].length; b++){
+        document.getElementById(btns[btnsNum][b]).addEventListener('click', function(){
+          for (var b1 = 0; b1 < hbars[barsNum].length; b1++){
+            var aBar = document.getElementById(hbars[barsNum][b1]);
+            var barPerc = parseInt(aBar.innerHTML, 10);
+            if (barPerc < 10){
+              var barid = aBar.id;
+              var btnid = barid.replace("bar", "downBtn");
+              document.getElementById(btnid).disabled = true;
+            }
+            if (barPerc == 0){
+              var barid = aBar.id;
+              var btnid = barid.replace("bar", "smDownBtn");
+              document.getElementById(btnid).disabled = true;
+            }
+            if (barPerc > 90){
+              var barid = aBar.id;
+              var btnid = barid.replace("bar", "upBtn");
+              document.getElementById(btnid).disabled = true;
+            }
+            if (barPerc == 100){
+              var barid = aBar.id;
+              var btnid = barid.replace("bar", "smUpBtn");
+              document.getElementById(btnid).disabled = true;
+            }
+          }
+        })
+      }
 
       // submitting data and disabling buttons after the confirm button is clicked
       document.getElementById(conBtnID).addEventListener('click', function(){
