@@ -590,29 +590,80 @@ function readData(file, section){
 
       addRow(slide);
 
-      // ensuring only one radio button can be checked at a time
-      for (var r3 = 0; r3 < rads[radsNum].length; r3++){
-        document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
-          var theRad = this;
-          for (var r4 = 0; r4 < rads[radsNum].length; r4++){
-            if (theRad != document.getElementById(rads[radsNum][r4])){
-              document.getElementById(rads[radsNum][r4]).checked = false;
+      if (qcode == "govpriotop2"){
+        for (var r3 = 0; r3 < rads[radsNum].length; r3++){
+          document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
+            var theRad = this;
+            if (theRad.checked == true){
+              theRad.checked = false;
+            } else {
+              theRad.checked = true;
+            }
+          })
+          document.getElementById(radLbls[radLblsNum][r3]).addEventListener('click', function(){
+            var theRadLbl = this;
+            var str = theRadLbl.id;
+            var newStr = str.replace("radLbl", "radio");
+            var activeRad = document.getElementById(newStr);
+            if (activeRad.checked == true){
+              activeRad.checked = false;
+            } else {
+              activeRad.checked = true;
+            }
+          })
+          document.getElementById(conBtnID).onclick = function(){
+            var selected = 0;
+            var ans1;
+            var ans2;
+            for (var r4 = 0; r4 < rads[radsNum].length; r4++){
+              if (document.getElementById(rads[radsNum][r4]).checked == true){
+                selected++;
+                ans1 = document.getElementById(radLbls[radLblsNum][r4]).innerHTML;
+                break;
+              }
+            }
+            for (var r5 = 0; r5 < rads[radsNum].length; r5++){
+              if (((document.getElementById(radLbls[radLblsNum][r5])) != ans1) && (document.getElementById(rads[radsNum][r5]).checked == true) ){
+                selected++;
+                ans2 = document.getElementById(radLbls[radLblsNum][r5]).innerHTML;
+              }
+            }
+            if (selected != 2){
+              var errText = document.getElementById(radErrTextID);
+              errText.innerHTML = "*Please select two answers";
+              errText.style.display = "block";
+            } else {
+              document.getElementById(radErrTextID).style.display = "none";
+              saveTopPrio(uid, section, qcode, ans1, ans2);
             }
           }
-        })
-        document.getElementById(radLbls[radLblsNum][r3]).addEventListener('click', function(){
-          var theRadLbl = this;
-          var str = theRadLbl.id;
-          var newStr = str.replace("radLbl", "radio");
-          var activeRad = document.getElementById(newStr);
-          activeRad.checked = true;
-          for (var r5 = 0; r5 < rads[radsNum].length; r5++){
-            if (activeRad != document.getElementById(rads[radsNum][r5])){
-              document.getElementById(rads[radsNum][r5]).checked = false;
+        }
+      } else {
+        // ensuring only one radio button can be checked at a time
+        for (var r3 = 0; r3 < rads[radsNum].length; r3++){
+          document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
+            var theRad = this;
+            for (var r4 = 0; r4 < rads[radsNum].length; r4++){
+              if (theRad != document.getElementById(rads[radsNum][r4])){
+                document.getElementById(rads[radsNum][r4]).checked = false;
+              }
             }
-          }
-        })
-      };
+          })
+          document.getElementById(radLbls[radLblsNum][r3]).addEventListener('click', function(){
+            var theRadLbl = this;
+            var str = theRadLbl.id;
+            var newStr = str.replace("radLbl", "radio");
+            var activeRad = document.getElementById(newStr);
+            activeRad.checked = true;
+            for (var r5 = 0; r5 < rads[radsNum].length; r5++){
+              if (activeRad != document.getElementById(rads[radsNum][r5])){
+                document.getElementById(rads[radsNum][r5]).checked = false;
+              }
+            }
+          })
+        };
+      }
+
 
       // Keeping the bars at 100%
       for (var r = 0; r < lgUpBtns[btnsNum].length; r++){
@@ -1372,6 +1423,13 @@ function savePrimingTest(uid, value){
     value: value
   });
 };
+
+function saveTopPrio(uid, section, qcode, value1, value2){
+  firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/their_answer/').set({
+    ans1: value1,
+    ans2: value2
+  })
+}
 
 // Calculate and save user score
 function saveUserScore(uid, user_answers, true_answers, section, qcode, qnum){
