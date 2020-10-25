@@ -30,7 +30,7 @@ research.
 
 ## Instructions
 
-Once the node modules have been installed, type "npm run start:dev" into the command line and press enter. This will start a local server at port 8080. In your web browser, go to the address localhost/8080 and you will be greeted by the first page which is the consent form. After this comes a page for the user to fill in some details, which is then followed by a brief political knowledge test. This has been included for research reasons. Upon completion, the user will arrive at the actual quiz. The quiz functions as follows:
+Once the node modules have been installed, type "npm run start:dev" into the command line and press enter. This will start a local server at port 8080. In your web browser, go to the address localhost:8080 and you will be greeted by the first page which is the consent form. After this comes a page for the user to fill in some details, which is then followed by a brief political knowledge test. This has been included for research reasons. Upon completion, the user will arrive at the actual quiz. The quiz functions as follows:
 
 * Firstly, select your own personal answer to the question using the radio buttons
 * Use the up/down buttons to adjust the horizontal bars, which represent the percentage of what you think the public thought
