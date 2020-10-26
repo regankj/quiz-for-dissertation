@@ -39,3 +39,5 @@ Once the node modules have been installed, type "npm run start:dev" into the com
   
 
 Once the quiz has been completed the user is presented with a page to offer any feedback. 
+
+deployed at https://regankj.github.io/quiz-for-dissertation/demo/
