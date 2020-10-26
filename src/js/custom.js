@@ -12,8 +12,8 @@ function setCookie(){
 
 function getCookie(){
   var decodedCookie = decodeURIComponent(document.cookie);
-  var uid = decodedCookie.replace("userid=", "");
-  return uid;
+  var c = decodedCookie.replace("userid=", "");
+  return c;
 }
 // end of referenced code
 
@@ -611,9 +611,13 @@ function readData(file, section){
         for (var r3 = 0; r3 < rads[radsNum].length; r3++){
           document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
             var theRad = this;
-            if (theRad.waschecked == true){
-              theRad.checked = false;
-            } 
+            if (theRad.checked == true){
+              theRad.onclick = function(){
+                theRad.checked = false;
+              };
+            } else {
+              theRad.checked = true;
+            }
           })
           document.getElementById(radLbls[radLblsNum][r3]).addEventListener('click', function(){
             var theRadLbl = this;
@@ -1117,39 +1121,11 @@ function finalSlides(){
   document.getElementById(conID).onclick = function(){
     theSlide.className = "active-slide";
     document.querySelector("#top h2").innerHTML = "Well Done!"
-    document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and also your answers compared to the actual ones";
+    document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and also your answers compared to the actual ones, sorted by highest to lowest score.";
     var totalScore = 0;
-    var best = 0;
-    var bestNum;
-    var secondBest = 0;
-    var secondBestNum;
-    var worst = 600;
-    var worstNum;
-    var secondWorst = 600;
-    var secondWorstNum;
     for (var s1 = 1; s1 < 62; s1++){
       var qnum = "question" + (s1);
       totalScore += userScores[qnum];
-      if (userScores[qnum] < worst){
-        worst = userScores[qnum];
-        worstNum = (s1);
-      }
-      else if (userScores[qnum] > best){
-        best = (userScores[qnum]);
-        bestNum = (s1);
-      }
-    }
-
-    for (var s2 = 1; s2 < 62; s2++){
-      var qnum = "question" + (s2);
-      if ((userScores[qnum] < secondWorst) && (userScores[qnum] > worst)){
-        secondWorst = userScores[qnum];
-        secondWorstNum = s2;
-      }
-      else if ((userScores[qnum] > secondBest) && (userScores[qnum] < best)){
-        secondBest = userScores[qnum];
-        secondBestNum = s2;
-      }
     }
 
     var meanScore = Math.round(totalScore / 61);
@@ -1184,17 +1160,31 @@ function finalSlides(){
     vis.id = "vis";
     theSlide.appendChild(vis);
 
-    for (var ind = 1; ind < 62; ind++){
+    delete userScores.question62;
+    var sortable = [];
+    for (var item in userScores){
+      sortable.push([item, userScores[item]]);
+    }
+
+    sortable.sort(function(a, b){
+      return a[1] - b[1];
+    });
+
+    sortable.reverse();
+
+    for (var ind = 0; ind < sortable.length; ind++){
       var qlbl = document.createElement("label");
-      qlbl.id = "questionLbl" + ind;
+      var q = sortable[ind][0];
+      var num = parseInt(q.replace("question", ""), 10);
+      qlbl.id = "questionLbl" + num;
       vis.appendChild(qlbl);
       addRow(vis);
       var optLbl = document.createElement("label");
-      optLbl.id = "keyOpts" + ind;
+      optLbl.id = "keyOpts" + num;
       vis.appendChild(optLbl);
       addRow(vis);
-      createChart(values, ind);
-      createChart(trueAnswers, ind);
+      createChart(values, num);
+      createChart(trueAnswers, num);
       addRow(vis);
     }
 
@@ -1203,7 +1193,12 @@ function finalSlides(){
 
 
     nextBtn.onclick = function(){
+      sortable.reverse();
       var uid = getCookie();
+      var worst = sortable[0][0];
+      var secondWorst = sortable[1][0];
+      var worstNum = parseInt(worst.replace("question", ""), 10);
+      var secondWorstNum = parseInt(secondWorst.replace("question", ""), 10);
       var worstSlide = "slide" + worstNum;
       var worstConf = "confirm" + worstNum;
       var wvaluesNum = "values" + worstNum;
