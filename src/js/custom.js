@@ -1,11 +1,28 @@
 const d3 = require('d3');
 
+/*
+Setting cookie as uer id
+taken from https://www.w3schools.com/js/js_cookies.asp
+accessed 26-10-20
+*/
+function setCookie(){
+  var uid = Date.now();
+  document.cookie = "userid=" + uid;
+}
+
+function getCookie(){
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var uid = decodedCookie.replace("userid=", "");
+  return uid;
+}
+
 
 // Functionality for initial page
 const contBtn = document.getElementById('continue');
 var uid = localStorage.getItem("idKey");
 if (contBtn){
   var linktoNext;
+  setCookie();
   contBtn.addEventListener('click', function(){
     const infoForm = document.getElementById('infoForm');
     const ageBox = document.getElementById('age');
@@ -35,8 +52,7 @@ if (contBtn){
 
      else {
        linktoNext = "knowledge.html";
-      uid++;
-      localStorage.setItem("idKey", uid);
+      var uid = getCookie();
       saveUserData(uid, age, gender, classBracket);
       ageBox.disabled = true;
       genderBox.disabled = true;
@@ -227,6 +243,7 @@ if ($('body').is(".knowledge")){
         document.getElementById("whichTV").disabled = true;
         document.getElementById('alertInput').disabled = true;
         testErr.style.display = "none";
+        var uid = getCookie();
         saveTest(uid, testValues);
         linktoNext = "quiz.html";
       }
@@ -423,6 +440,7 @@ function readData(file, section){
       slide.id = "slide" + i;
       var slideID = "#slide" + i;
       qform.appendChild(slide);
+      var uid = getCookie();
 
       var questionNum = "question" + i;
       var valuesNum = "values" + i;
@@ -680,7 +698,7 @@ function readData(file, section){
           for (var p = 0; p < 50; p++){
             var random = Math.floor(Math.random() * hbars[barsNum].length);
             var nextBar = document.getElementById(hbars[barsNum][random]);
-            var nextValueInd = parseInt((theBar.id).substr(5), 10);
+            var nextValueInd = parseInt((nextBar.id).substr(5), 10);
             var nextPerc = parseInt(nextBar.innerHTML, 10);
             var reduced = 0;
 
@@ -700,7 +718,7 @@ function readData(file, section){
             for (var q = 0; q < 50; q++){
               var random = Math.floor(Math.random() * hbars[barsNum].length);
               var nextBar = document.getElementById(hbars[barsNum][random]);
-              var nextValueInd = parseInt((theBar.id).substr(5), 10);
+              var nextValueInd = parseInt((nextBar.id).substr(5), 10);
               var nextPerc = parseInt(nextBar.innerHTML, 10);
 
               if ((nextBar.id != theBar.id) && (nextPerc >= 0) ){
@@ -734,7 +752,7 @@ function readData(file, section){
           for (var p = 0; p < 50; p++){
             var random = Math.floor(Math.random() * hbars[barsNum].length);
             var nextBar = document.getElementById(hbars[barsNum][random]);
-            var nextValueInd = parseInt((theBar.id).substr(5), 10);
+            var nextValueInd = parseInt((nextBar.id).substr(5), 10);
             var nextPerc = parseInt(nextBar.innerHTML, 10);
 
             if ((nextBar.id != theBar.id) && (nextPerc >= 1) ){
@@ -768,7 +786,7 @@ function readData(file, section){
           for (var p = 0; p < hbars[barsNum].length; p++){
             var random = Math.floor(Math.random() * hbars[barsNum].length);
             var nextBar = document.getElementById(hbars[barsNum][random]);
-            var nextValueInd = parseInt((theBar.id).substr(5), 10);
+            var nextValueInd = parseInt((nextBar.id).substr(5), 10);
             var nextPerc = parseInt(nextBar.innerHTML, 10);
 
             if ((nextBar.id != theBar.id) && (nextPerc < 100) ){
@@ -801,7 +819,7 @@ function readData(file, section){
           for (var p = 0; p < 50; p++){
             var random = Math.floor(Math.random() * hbars[barsNum].length);
             var nextBar = document.getElementById(hbars[barsNum][random]);
-            var nextValueInd = parseInt((theBar.id).substr(5), 10);
+            var nextValueInd = parseInt((nextBar.id).substr(5), 10);
             var nextPerc = parseInt((nextBar.innerHTML), 10);
 
             if ((nextBar.id != theBar.id) && (nextPerc < 100) ){
@@ -1188,6 +1206,7 @@ function finalSlides(){
 
 
     nextBtn.onclick = function(){
+      var uid = getCookie();
       var worstSlide = "slide" + worstNum;
       var worstConf = "confirm" + worstNum;
       var wvaluesNum = "values" + worstNum;
@@ -1465,6 +1484,7 @@ var fback = []
 var fback_checked = 0;
 // functionality for the feedback section of the quiz
 if ($('body').is('.feedback')){
+  var uid = getCookie();
   var yesRad = document.getElementById("yesChange");
   var noRad = document.getElementById("noChange");
   var notRad = document.getElementById("intNo");
