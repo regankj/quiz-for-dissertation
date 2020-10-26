@@ -15,7 +15,7 @@ function getCookie(){
   var uid = decodedCookie.replace("userid=", "");
   return uid;
 }
-
+// end of referenced code
 
 // Functionality for initial page
 const contBtn = document.getElementById('continue');
@@ -612,7 +612,7 @@ function readData(file, section){
         for (var r3 = 0; r3 < rads[radsNum].length; r3++){
           document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
             var theRad = this;
-            if (theRad.checked == true){
+            if (theRad.waschecked == true){
               theRad.checked = false;
             } else {
               theRad.checked = true;
