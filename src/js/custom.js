@@ -19,7 +19,6 @@ function getCookie(){
 
 // Functionality for initial page
 const contBtn = document.getElementById('continue');
-var uid = localStorage.getItem("idKey");
 if (contBtn){
   var linktoNext;
   setCookie();
@@ -614,9 +613,7 @@ function readData(file, section){
             var theRad = this;
             if (theRad.waschecked == true){
               theRad.checked = false;
-            } else {
-              theRad.checked = true;
-            }
+            } 
           })
           document.getElementById(radLbls[radLblsNum][r3]).addEventListener('click', function(){
             var theRadLbl = this;
