@@ -1,13 +1,13 @@
 const d3 = require('d3');
 
 /*
-Setting cookie as uer id
+Setting cookie as user id
 taken from https://www.w3schools.com/js/js_cookies.asp
 accessed 26-10-20
 */
 function setCookie(){
-  var uid = Date.now();
-  document.cookie = "userid=" + uid;
+  var id = Date.now();
+  document.cookie = "userid=" + id;
 }
 
 function getCookie(){
@@ -387,7 +387,7 @@ function addRads(slide){
   radCol.appendChild(rad);
   var radID = "radio" + i + "_" + k;
   var radLbl = document.createElement("label");
-  radLbl.className = "radLbl";
+  radLbl.className = "radLbl control-label";
   radLbl.id = "radLbl" + i + "_" + k;
   radLbl.for = radID;
   radCol.appendChild(radLbl);
@@ -452,7 +452,7 @@ function readData(file, section){
       var ansIndexNum = "answers" + i;
 
 
-      d3.select(slideID).append("label").text(i + ". " + d.Question);
+      d3.select(slideID).append("label").text("( " + i + " / 62 ). " + d.Question);
       qs.push(d.Question);
       addRow(slide);
       d3.select(slideID).append("label").text("Your Answer:");
@@ -725,10 +725,10 @@ function readData(file, section){
               if ((nextBar.id != theBar.id) && (nextPerc >= 0) ){
                 nextBar.innerHTML = "0%";
                 nextBar.style.width = "0%";
-                values[valuesNum][nextValueInd] = 0;
+                values[valuesNum][nextValueInd-1] = 0;
                 theBar.innerHTML = (perc + nextPerc) + "%";
                 theBar.style.width = ((perc + nextPerc)*size) + "%";
-                values[valuesNum][valueInd] = perc + nextPerc;
+                values[valuesNum][valueInd-1] = perc + nextPerc;
                 break;
               } else {continue; }
             }
@@ -788,7 +788,7 @@ function readData(file, section){
             var random = Math.floor(Math.random() * hbars[barsNum].length);
             var nextBar = document.getElementById(hbars[barsNum][random]);
             var nextValueInd = parseInt((nextBar.id).substr(5), 10);
-            var nextPerc = parseInt(nextBar.innerHTML, 10);
+            var nextPerc = parseInt((nextBar.innerHTML), 10);
 
             if ((nextBar.id != theBar.id) && (nextPerc < 100) ){
               nextBar.innerHTML = (nextPerc + 1) + "%";
@@ -832,7 +832,7 @@ function readData(file, section){
           }
           theBar.style.width = ((perc - 10) * size) + "%";
           theBar.innerHTML = (perc - 10) + "%";
-          values[valuesNum][valueInd] = perc - 10;
+          values[valuesNum][valueInd-1] = perc - 10;
           if ((perc - 10) < 10){
             document.getElementById(str).disabled = true;
           }
@@ -1027,10 +1027,12 @@ function createChart(data, qIndex){
 
   if (data == values){
     var vNum = "values" + qIndex;
-    var fill = "red";
+    var fill = "#e3546c";
+    var title = "Your Answers";
   } else {
     var vNum = "answers" + qIndex;
-    var fill = "blue";
+    var fill = "#042975";
+    var title = "Actual Answers";
   }
 
   var oNum = "options" + (qIndex);
@@ -1044,7 +1046,7 @@ function createChart(data, qIndex){
     document.getElementById(keyoptsID).textContent += o + " - "  + options[oNum][o] + " , ";
   }
 
-  xscale.domain(d3.range(data[vNum].length));
+  xscale.domain(options[oNum]);
   yscale.domain([0, maxValue]);
 
   var bars = svg.selectAll(".bar").data(data[vNum]);
@@ -1072,12 +1074,11 @@ taken from https://stackoverflow.com/a/11194968/12239467
 accessed 20-10-20
 */
   svg.append("text")
-      .attr("class", "y-label")
+      .attr("class", "title")
       .attr("text-anchor", "middle")
-      .attr("y", 0 - margin.left)
-      .attr("x", 0 - (height/2))
-      .attr("opacity", 1)
-      .text("(%)");
+      .attr("y", 0-margin.top)
+      .attr("x", 0 + (width/2))
+      .text(title);
 // end of referenced code
 
   svg.select('.x.axis')
@@ -1090,6 +1091,57 @@ accessed 20-10-20
       .duration(duration)
       .call(yaxis);
 
+}
+
+function twoWorst(array){
+  console.log("nothing");
+  /*
+  var worst = array[0][0];
+  var secondWorst = array[1][0];
+  var worstNum = parseInt(worst.replace("question", ""), 10);
+  var secondWorstNum = parseInt(secondWorst.replace("question", ""), 10);
+  var worstSlide = "slide" + worstNum;
+  var worstConf = "confirm" + worstNum;
+  var wvaluesNum = "values" + worstNum;
+  var currentSlide = "slide" + i;
+  var worstQnum = "question" + worstNum;
+
+  var secondWorstSlide = "slide" + secondWorstNum;
+  var secondWorstConf = "confirm" + secondWorstNum;
+  var swvaluesNum = "values" + secondWorstNum;
+  var secondWorstQnum = "question" + secondWorstNum;
+  var swbtns = "btns" + secondWorstNum;
+
+
+  document.getElementById(currentSlide).className = "slide";
+  document.getElementById(worstSlide).className = "active-slide";
+  document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
+  var radios = document.querySelectorAll(".radio");
+  var radioLbls = document.querySelectorAll(".radLbl");
+  for (var r = 0; r < radios.length; r++){
+    radios[r].style.display = "none";
+    radioLbls[r].style.display = "none";
+  }
+
+
+  document.getElementById(worstConf).onclick = function(){
+    writeData(uid, "re_assessment", worstQnum, values[wvaluesNum].length, values[wvaluesNum]);
+    document.getElementById(worstSlide).className = "slide";
+    document.getElementById(secondWorstSlide).className = "active-slide";
+    document.getElementById(secondWorstConf).disabled = false;
+    for (var w1 = 0; w1 < btns[swbtns].length; w1++){
+      document.getElementById(btns[swbtns][w1]).disabled = false;
+    };
+    document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your second lowest scoring question:";
+
+    document.getElementById(secondWorstConf).onclick = function(){
+      writeData(uid, "re_assessment", secondWorstQnum, values[swvaluesNum].length, values[swvaluesNum]);
+      setTimeout(function(){
+        window.location.href = "feedback.html";
+      }, 500);
+    }
+  }
+  */
 }
 
 function finalSlides(){
@@ -1118,10 +1170,11 @@ function finalSlides(){
   }
   var conID = "confirm" + i;
 
-  document.getElementById(conID).onclick = function(){
+  document.getElementById(conID).addEventListener('click', function(){
+    location.href = "#top";
     theSlide.className = "active-slide";
     document.querySelector("#top h2").innerHTML = "Well Done!"
-    document.querySelector("#top h6").innerHTML = "You have completed the quiz. Below is your mean score and also your answers compared to the actual ones, sorted by highest to lowest score.";
+    document.querySelector("#top h6").innerHTML = "You have completed the quiz.If you're interested, below is your mean score and also your answers compared to the actual ones, sorted by highest to lowest score.";
     var totalScore = 0;
     for (var s1 = 1; s1 < 62; s1++){
       var qnum = "question" + (s1);
@@ -1137,30 +1190,12 @@ function finalSlides(){
     theScore.innerHTML = meanScore;
     theSlide.appendChild(theScore);
 
-    var key = document.createElement("div");
-    key.className = "key";
-    var col1Lbl = document.createElement("label");
-    col1Lbl.innerHTML = "Your Answers";
-    var col1 = document.createElement("div");
-    col1.id = "colour1";
-    var col2 = document.createElement("div");
-    col2.id = "colour2";
-    var col2Lbl = document.createElement("label");
-    col2Lbl.innerHTML = "Actual Answers";
-
-    key.appendChild(col1);
-    key.appendChild(col1Lbl);
-    key.appendChild(col2);
-    key.appendChild(col2Lbl);
-
-    theSlide.appendChild(key);
-    addRow(theSlide);
-
-    var vis = document.createElement("div");
-    vis.id = "vis";
-    theSlide.appendChild(vis);
-
     delete userScores.question62;
+    /*
+    sorting js object
+    taken from https://stackoverflow.com/a/1069840/12239467
+    accessed 26-10-20
+    */
     var sortable = [];
     for (var item in userScores){
       sortable.push([item, userScores[item]]);
@@ -1169,8 +1204,21 @@ function finalSlides(){
     sortable.sort(function(a, b){
       return a[1] - b[1];
     });
-
+    // end of referenced code
     sortable.reverse();
+
+    var topNextBtn = document.createElement('button');
+    topNextBtn.innerHTML = "next >>";
+    topNextBtn.style.float = "right";
+    topNextBtn.className = "btn btn-primary my-md-3";
+    topNextBtn.type = "button";
+    theSlide.appendChild(topNextBtn);
+
+    addRow(theSlide);
+
+    var vis = document.createElement("div");
+    vis.id = "vis";
+    theSlide.appendChild(vis);
 
     for (var ind = 0; ind < sortable.length; ind++){
       var qlbl = document.createElement("label");
@@ -1190,55 +1238,65 @@ function finalSlides(){
 
 
     window.onbeforeunload = null;
+    var btnarray = [nextBtn, topNextBtn]
+    for (var item = 0; item < btnarray.length; item++){
+      btnarray[item].addEventListener('click',function(){
+        sortable.reverse();
+        var uid = getCookie();
+        var worst = sortable[0][0];
+        var secondWorst = sortable[1][0];
+        var worstNum = parseInt(worst.replace("question", ""), 10);
+        var secondWorstNum = parseInt(secondWorst.replace("question", ""), 10);
+        var worstSlide = "slide" + worstNum;
+        var worstConf = "confirm" + worstNum;
+        var wvaluesNum = "values" + worstNum;
+        var currentSlide = "slide" + i;
+        var worstQnum = "question" + worstNum;
+
+        var secondWorstSlide = "slide" + secondWorstNum;
+        var secondWorstConf = "confirm" + secondWorstNum;
+        var swvaluesNum = "values" + secondWorstNum;
+        var secondWorstQnum = "question" + secondWorstNum;
+        var swbtns = "btns" + secondWorstNum;
 
 
-    nextBtn.onclick = function(){
-      sortable.reverse();
-      var uid = getCookie();
-      var worst = sortable[0][0];
-      var secondWorst = sortable[1][0];
-      var worstNum = parseInt(worst.replace("question", ""), 10);
-      var secondWorstNum = parseInt(secondWorst.replace("question", ""), 10);
-      var worstSlide = "slide" + worstNum;
-      var worstConf = "confirm" + worstNum;
-      var wvaluesNum = "values" + worstNum;
-      var currentSlide = "slide" + i;
-      var worstQnum = "question" + worstNum;
-
-      var secondWorstSlide = "slide" + secondWorstNum;
-      var secondWorstConf = "confirm" + secondWorstNum;
-      var swvaluesNum = "values" + secondWorstNum;
-      var secondWorstQnum = "question" + secondWorstNum;
-      var swbtns = "btns" + secondWorstNum;
-      var swrads = "rads" + secondWorstNum;
-
-      document.getElementById(currentSlide).className = "slide";
-      document.getElementById(worstSlide).className = "active-slide";
-      document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
-
-      document.getElementById(worstConf).onclick = function(){
-        writeData(uid, "re_assessment", worstQnum, values[wvaluesNum].length, values[wvaluesNum]);
-        document.getElementById(worstSlide).className = "slide";
-        document.getElementById(secondWorstSlide).className = "active-slide";
-        document.getElementById(secondWorstConf).disabled = false;
-        for (var w1 = 0; w1 < btns[swbtns].length; w1++){
-          document.getElementById(btns[swbtns][w1]).disabled = false;
-        };
-        for (var w2 = 0; w2 < rads[swrads].length; w2++){
-          document.getElementById(rads[swrads][w2]).disabled = false;
+        document.getElementById(currentSlide).className = "slide";
+        document.getElementById(worstSlide).className = "active-slide";
+        document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
+        var radios = document.querySelectorAll(".radio");
+        var radioLbls = document.querySelectorAll(".radLbl");
+        for (var r = 0; r < radios.length; r++){
+          radios[r].style.display = "none";
+          radioLbls[r].style.display = "none";
         }
-        document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your second lowest scoring question:";
 
-        document.getElementById(secondWorstConf).onclick = function(){
-          writeData(uid, "re_assessment", secondWorstQnum, values[swvaluesNum].length, values[swvaluesNum]);
-          setTimeout(function(){
-            window.location.href = "feedback.html";
-          }, 500);
+
+        document.getElementById(worstConf).onclick = function(){
+          writeData(uid, "re_assessment", worstQnum, values[wvaluesNum].length, values[wvaluesNum]);
+          document.getElementById(worstSlide).className = "slide";
+          document.getElementById(secondWorstSlide).className = "active-slide";
+          document.getElementById(secondWorstConf).disabled = false;
+          for (var w1 = 0; w1 < btns[swbtns].length; w1++){
+            document.getElementById(btns[swbtns][w1]).disabled = false;
+          };
+          document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your second lowest scoring question:";
+          var radios = document.querySelectorAll(".radio");
+          var radioLbls = document.querySelectorAll(".radLbl");
+          for (var r = 0; r < radios.length; r++){
+            radios[r].style.display = "none";
+            radioLbls[r].style.display = "none";
+          }
+          document.getElementById(secondWorstConf).onclick = function(){
+            writeData(uid, "re_assessment", secondWorstQnum, values[swvaluesNum].length, values[swvaluesNum]);
+            setTimeout(function(){
+              window.location.href = "feedback.html";
+            }, 500);
+          }
         }
-      }
+      });
     }
-  }
-}
+  });
+};
 
 // reads in scoring csv file and adds the original BSAS results into arrays
 var ansIndexNum = 0;
