@@ -8,13 +8,6 @@
   width: 12px;
 }
 
-#colour1 {
-  background-color: red;
-}
-
-#colour2 {
-  background-color: blue;
-}
 
 svg {
   padding-right: 1.5em;
@@ -22,4 +15,8 @@ svg {
 
 .y-label {
   z-index: 2;
+}
+
+text {
+  white-space: pre-wrap;
 }

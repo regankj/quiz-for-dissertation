@@ -11871,9 +11871,6 @@ readers do not read off random characters that represent icons */
   background-color: #84CEEB;
   color: black; }
 
-.radLbl {
-  margin: 1em; }
-
 .slide {
   position: fixed;
   width: 100%;
@@ -11919,7 +11916,12 @@ button {
 .radio {
   border: 0px;
   width: 25%;
-  height: 1.5em; }
+  height: 1.5em;
+  float: left; }
+
+.radLbl {
+  margin: 1em;
+  display: flow-root; }
 
 #mturk {
   display: none;
@@ -11932,7 +11934,9 @@ button {
 
 @media (min-width: 500px) {
   #mturk {
-    margin-left: 27%; } }
+    margin-left: 27%; }
+  textarea {
+    width: 350px; } }
 
 #fbErrText {
   display: none; }
@@ -11949,15 +11953,12 @@ textarea {
   height: 12px;
   width: 12px; }
 
-#colour1 {
-  background-color: red; }
-
-#colour2 {
-  background-color: blue; }
-
 svg {
   padding-right: 1.5em; }
 
 .y-label {
   z-index: 2; }
+
+text {
+  white-space: pre-wrap; }
 

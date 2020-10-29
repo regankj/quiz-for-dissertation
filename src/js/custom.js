@@ -387,7 +387,7 @@ function addRads(slide){
   radCol.appendChild(rad);
   var radID = "radio" + i + "_" + k;
   var radLbl = document.createElement("label");
-  radLbl.className = "radLbl control-label";
+  radLbl.className = "radLbl";
   radLbl.id = "radLbl" + i + "_" + k;
   radLbl.for = radID;
   radCol.appendChild(radLbl);
@@ -983,21 +983,21 @@ function showSlide(n, currentSlideID, slideNo){
 function createChart(data, qIndex){
   var vis = document.getElementById("vis");
 
-  var width = 450;
-  var height = 450;
+  var width = 500;
+  var height = 750;
 
   if (window.matchMedia("(max-width: 500px)").matches){
     width = 300;
-    height = 300;
+    height = 750;
   }
 
   var maxValue = 100;
 
   var margin = {
     top: 30,
-    left: 50,
-    right: 50,
-    bottom: 70
+    left: 70,
+    right: 30,
+    bottom: 370
   };
 
   var svg = d3.select('#vis')
@@ -1021,7 +1021,8 @@ function createChart(data, qIndex){
 
   svg.append('g')
       .attr('transform', 'translate(0, ' + (height) + ')')
-      .attr('class', 'x axis');
+      .attr('class', 'x axis')
+
 
   svg.append('g').attr('class', 'y axis');
 
@@ -1039,12 +1040,6 @@ function createChart(data, qIndex){
 
   var qlblID = "questionLbl" + (qIndex);
   document.getElementById(qlblID).innerHTML = qIndex + ". " + qs[qIndex - 1];
-
-  var keyoptsID = "keyOpts" + qIndex;
-  document.getElementById(keyoptsID).innerHTML = "";
-  for (var o = 0; o < options[oNum].length; o++){
-    document.getElementById(keyoptsID).textContent += o + " - "  + options[oNum][o] + " , ";
-  }
 
   xscale.domain(options[oNum]);
   yscale.domain([0, maxValue]);
@@ -1064,12 +1059,12 @@ function createChart(data, qIndex){
       .attr("height", function(d, i){ return height - yscale(d); })
       .attr("y", function(d, i){ return yscale(d); })
       .attr("width", xscale.bandwidth())
-      .attr("x", function(d, i){ return xscale(i); });
+      .attr("x", function(d, i){ return xscale(options[oNum][i]); });
 
 
 
 /*
-adding a label to the y-axis
+adding a title to the chart
 taken from https://stackoverflow.com/a/11194968/12239467
 accessed 20-10-20
 */
@@ -1081,68 +1076,31 @@ accessed 20-10-20
       .text(title);
 // end of referenced code
 
+/*
+rotating x-axis labels
+taken from https://stackoverflow.com/a/16863559/12239467
+accessed 29-10-20
+*/
   svg.select('.x.axis')
       .transition()
       .duration(duration)
-      .call(xaxis);
+      .call(xaxis)
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-65)");
+
+// end of referenced code
 
   svg.select('.y.axis')
       .transition()
       .duration(duration)
       .call(yaxis);
 
+
 }
 
-function twoWorst(array){
-  console.log("nothing");
-  /*
-  var worst = array[0][0];
-  var secondWorst = array[1][0];
-  var worstNum = parseInt(worst.replace("question", ""), 10);
-  var secondWorstNum = parseInt(secondWorst.replace("question", ""), 10);
-  var worstSlide = "slide" + worstNum;
-  var worstConf = "confirm" + worstNum;
-  var wvaluesNum = "values" + worstNum;
-  var currentSlide = "slide" + i;
-  var worstQnum = "question" + worstNum;
-
-  var secondWorstSlide = "slide" + secondWorstNum;
-  var secondWorstConf = "confirm" + secondWorstNum;
-  var swvaluesNum = "values" + secondWorstNum;
-  var secondWorstQnum = "question" + secondWorstNum;
-  var swbtns = "btns" + secondWorstNum;
-
-
-  document.getElementById(currentSlide).className = "slide";
-  document.getElementById(worstSlide).className = "active-slide";
-  document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
-  var radios = document.querySelectorAll(".radio");
-  var radioLbls = document.querySelectorAll(".radLbl");
-  for (var r = 0; r < radios.length; r++){
-    radios[r].style.display = "none";
-    radioLbls[r].style.display = "none";
-  }
-
-
-  document.getElementById(worstConf).onclick = function(){
-    writeData(uid, "re_assessment", worstQnum, values[wvaluesNum].length, values[wvaluesNum]);
-    document.getElementById(worstSlide).className = "slide";
-    document.getElementById(secondWorstSlide).className = "active-slide";
-    document.getElementById(secondWorstConf).disabled = false;
-    for (var w1 = 0; w1 < btns[swbtns].length; w1++){
-      document.getElementById(btns[swbtns][w1]).disabled = false;
-    };
-    document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your second lowest scoring question:";
-
-    document.getElementById(secondWorstConf).onclick = function(){
-      writeData(uid, "re_assessment", secondWorstQnum, values[swvaluesNum].length, values[swvaluesNum]);
-      setTimeout(function(){
-        window.location.href = "feedback.html";
-      }, 500);
-    }
-  }
-  */
-}
 
 function finalSlides(){
   var theSlideID = "slide62";
@@ -1227,9 +1185,6 @@ function finalSlides(){
       qlbl.id = "questionLbl" + num;
       vis.appendChild(qlbl);
       addRow(vis);
-      var optLbl = document.createElement("label");
-      optLbl.id = "keyOpts" + num;
-      vis.appendChild(optLbl);
       addRow(vis);
       createChart(values, num);
       createChart(trueAnswers, num);
