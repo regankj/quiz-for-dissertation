@@ -1549,6 +1549,7 @@ if ($('body').is('.feedback')){
     } else {
       document.getElementById("fbErrText").style.display = "none";
       document.getElementById("mturk").style.display = "inline-block";
+      window.scrollBy(0, 400);
       var txt = txtArea.value;
       saveFeedback(uid, fback, txt);
       yesRad.disabled = true;
