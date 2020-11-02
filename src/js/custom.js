@@ -1352,20 +1352,20 @@ accessed 21-07-20
 // saves users answers to the database
 function writeData(uid, section, qcode, num, answers){
   if (num == 2){
-    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
       opt1: answers[num-2],
       opt2: answers[num-1]
     });
   }
   if (num == 3){
-    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
       opt1: answers[num-3],
       opt2: answers[num-2],
       opt3: answers[num-1]
     });
   }
   if (num == 4){
-    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
       opt1: answers[num-4],
       opt2: answers[num-3],
       opt3: answers[num-2],
@@ -1373,7 +1373,7 @@ function writeData(uid, section, qcode, num, answers){
     });
   }
   if (num == 5){
-    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
       opt1: answers[num-5],
       opt2: answers[num-4],
       opt3: answers[num-3],
@@ -1392,7 +1392,7 @@ function writeData(uid, section, qcode, num, answers){
     });
   }
   if (num == 7){
-    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
       opt1: answers[num-7],
       opt2: answers[num-6],
       opt3: answers[num-5],
@@ -1403,7 +1403,7 @@ function writeData(uid, section, qcode, num, answers){
     });
   }
   if (num == 9){
-    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
+    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
       opt1: answers[num-9],
       opt2: answers[num-8],
       opt3: answers[num-7],
@@ -1419,21 +1419,21 @@ function writeData(uid, section, qcode, num, answers){
 
 // time stamp for each question
 function saveTime(uid, section, qcode, time){
-  firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/timer/').set({
+  firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/timer/').set({
     Timer: time
   });
 }
 
 // save the user's actual answer
 function writeAnswer(uid, section, qcode, ans){
-  firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/their_answer/').set({
+  firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/their_answer/').set({
     answer: ans
   });
 };
 
 // save political knowledge test results
 function saveTest(uid, vals){
-  firebase.database().ref('/user' + uid + '/political_knowledge_test/').set({
+  firebase.database().ref('/' + uid + '/political_knowledge_test/').set({
     paperYN: vals[0],
     paper: vals[1],
     webYN: vals[2],
@@ -1455,7 +1455,7 @@ function saveTest(uid, vals){
 
 // function to save user details
 function saveUserData(uid, age, gender, income){
-  firebase.database().ref('/user' + uid + '/details/').set({
+  firebase.database().ref('/' + uid + '/details/').set({
     age: age,
     gender: gender,
     income: income
@@ -1463,13 +1463,13 @@ function saveUserData(uid, age, gender, income){
 };
 
 function savePrimingTest(uid, value){
-  firebase.database().ref('/user' + uid + '/answers/covid19/priming_test_value/').set({
+  firebase.database().ref('/' + uid + '/answers/covid19/priming_test_value/').set({
     value: value
   });
 };
 
 function saveTopPrio(uid, section, qcode, value1, value2){
-  firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/their_answer/').set({
+  firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/their_answer/').set({
     ans1: value1,
     ans2: value2
   })
@@ -1480,13 +1480,13 @@ function saveUserScore(uid, user_answers, true_answers, section, qcode, qnum){
   var userScore = sumDiff(user_answers, true_answers);
   var normScore = Math.round(100*(means[qnum] - userScore)/stanDs[qnum])
   userScores[qnum] = normScore;
-  firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/score/').set({
+  firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/score/').set({
     score: normScore
   });
 };
 // save user feedback to firebase
 function saveFeedback(uid, vals, text){
-  firebase.database().ref('/user' + uid + '/feedback/').set({
+  firebase.database().ref('/' + uid + '/feedback/').set({
     change_opinion: vals[0],
     interesting: vals[1],
     other_fb: text
@@ -1568,6 +1568,7 @@ if ($('body').is('.feedback')){
       document.getElementById("fbErrText").style.display = "inline-block";
     } else {
       document.getElementById("fbErrText").style.display = "none";
+      document.getElementById("mturk").innerHTML = "Survey Code: " + uid;
       document.getElementById("mturk").style.display = "inline-block";
       window.scrollBy(0, 400);
       var txt = txtArea.value;
