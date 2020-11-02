@@ -11830,14 +11830,8 @@ readers do not read off random characters that represent icons */
   color: black;
   float: right; }
 
-.hbar {
-  background-color: #5680E9;
-  height: 25px;
-  color: white;
-  margin: 1em;
-  padding-right: 5px;
-  text-align: right;
-  border-radius: 8.5%; }
+.form-control-range {
+  background-color: #5680E9; }
 
 .upBtn {
   border-radius: 30%;
@@ -11925,9 +11919,9 @@ button {
 
 #mturk {
   display: none;
-  background-color: #5680E9;
-  border-color: #84CEEB;
-  color: white;
+  font-size: 18px;
+  color: black;
+  border-color: #5680E9;
   padding: 50px;
   margin-top: 2em;
   border-radius: 8%; }

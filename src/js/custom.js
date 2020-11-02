@@ -286,6 +286,7 @@ var k = 1;
 var t = 1;
 var values = {};
 var hbars = {};
+var barSpans = {};
 var downBtns = {};
 var upBtns = {};
 var lgUpBtns = {};
@@ -316,84 +317,28 @@ function addSliders(slide, num){
   col.className = "col-md-6";
   slide.append(col);
   var bar = document.createElement("input");
+  bar.type = "range";
   bar.className = "form-control-range";
   bar.id = "bar" + i + "_" + j;
+  bar.value = num;
   col.appendChild(bar);
   var barSpan = document.createElement("span");
   barSpan.className = "font-weight-bold text-primary ml-2 mt-1";
   barSpan.id = "barSpan" + i + "_" + j;
   barSpan.innerHTML = num + "%";
   col.appendChild(barSpan);
-  barID = "bar" + i + "_" + j;
-  barSpanID = "barSpan" + i + "_" + j;
-  var barsNum = "bars" + i;
-  bars[barsNum].push(barID);
-  barSpans[barsNum].push(barSpanID);
-}
-
-function addBtns(slide, num){
-  const btnCol = document.createElement('div');
-  btnCol.className = "col-md-6";
-  slide.append(btnCol);
-  btnCol.style.display = "inline-block";
-  var upBtn = document.createElement('button');
-  var downBtn = document.createElement('button');
-  var smUpBtn = document.createElement('button');
-  var smDownBtn = document.createElement('button');
-  upBtn.innerHTML = ">>";
-  downBtn.innerHTML = "<<";
-  smUpBtn.innerHTML = ">";
-  smDownBtn.innerHTML = "<";
-  upBtn.className = "upBtn";
-  upBtn.id = "upBtn" + i + "_" + j;
-  smUpBtn.className = "smUpBtn";
-  smUpBtn.id = "smUpBtn" + i+ "_" + j;
-  downBtn.className = "downBtn";
-  downBtn.id = "downBtn" + i + "_" + j;
-  smDownBtn.className = "smDownBtn";
-  smDownBtn.id = "smDownBtn" + i + "_" + j;
-  upBtn.type = "button";
-  smUpBtn.type = "button";
-  downBtn.type = "button";
-  smDownBtn.type = "button";
-  btnCol.appendChild(downBtn);
-  btnCol.appendChild(smDownBtn);
-  btnCol.appendChild(smUpBtn);
-  btnCol.appendChild(upBtn);
-
-  const barCol = document.createElement('div');
-  var count = num;
-  barCol.className = "col-md-6";
-  slide.appendChild(barCol);
-  var bar = document.createElement('div');
-  bar.className = "hbar";
-  bar.id = "bar" + i + "_" + j;
-  barCol.appendChild(bar);
-  bar.innerHTML = count + "%";
-  bar.style.width = (count * size) + "%";
-
-  var downBtnID = "downBtn" + i + "_" + j;
-  var smDownBtnID = "smDownBtn" + i + "_" + j;
-  var smUpBtnID = "smUpBtn" + i + "_" + j;
-  var upBtnID = "upBtn" + i + "_" + j;
   var barID = "bar" + i + "_" + j;
-  var valueNum = "values" + i;
-  var valPos = j-1;
-  values[valueNum][valPos] = count;
-  var btnsNum = "btns" + i;
-  var hbarsNum = "bars" + i;
-  btns[btnsNum].push(downBtnID, smDownBtnID, smUpBtnID, upBtnID);
-  upBtns[btnsNum].push(smUpBtnID, upBtnID);
-  downBtns[btnsNum].push(smDownBtnID, downBtnID);
-  smDownBtns[btnsNum].push(smDownBtnID);
-  smUpBtns[btnsNum].push(smUpBtnID);
-  lgUpBtns[btnsNum].push(upBtnID);
-  lgDownBtns[btnsNum].push(downBtnID);
-  hbars[hbarsNum].push(barID);
+  var barSpanID = "barSpan" + i + "_" + j;
+  var barsNum = "bars" + i;
+  hbars[barsNum].push(barID);
+  barSpans[barsNum].push(barSpanID);
+  var valuesNum = "values" + i;
+  var valPos = j - 1;
 
+  values[valuesNum][valPos] = num;
 
   j++;
-};
+}
 
 function addRads(slide){
   var radCol = document.createElement('div');
@@ -495,48 +440,8 @@ function readData(file, section){
         document.getElementById(radLbls[radLblsNum][2]).innerHTML = d.Option3;
         options[optionsNum].push(d.Option3);
         numOfOpts++;
-
       }
 
-      if (d.Option4 != ""){
-        addRads(slide);
-        document.getElementById(radLbls[radLblsNum][3]).innerHTML = d.Option4;
-        options[optionsNum].push(d.Option4);
-        numOfOpts++;
-        addRow(slide);
-      }
-
-      if (d.Option5 != ""){
-        addRads(slide);
-        document.getElementById(radLbls[radLblsNum][4]).innerHTML = d.Option5;
-        options[optionsNum].push(d.Option5);
-        numOfOpts++;
-
-      }
-
-      if (d.Option6 != ""){
-        addRads(slide);
-        document.getElementById(radLbls[radLblsNum][5]).innerHTML = d.Option6;
-        options[optionsNum].push(d.Option6);
-        numOfOpts++;
-        addRow(slide);
-      }
-
-      if (d.Option7 != ""){
-        addRads(slide);
-        document.getElementById(radLbls[radLblsNum][6]).innerHTML = d.Option7;
-        options[optionsNum].push(d.Option7);
-        numOfOpts++;
-
-      }
-
-      if (d.Option8 != ""){
-        addRads(slide);
-        document.getElementById(radLbls[radLblsNum][7]).innerHTML = d.Option8;
-        options[optionsNum].push(d.Option8);
-        numOfOpts++;
-        addRow(slide);
-      }
       var count = Math.floor(100/numOfOpts);
       var extra;
       if ((count*numOfOpts) == 100){
@@ -550,49 +455,18 @@ function readData(file, section){
       addRow(slide);
 
       d3.select(slideID).append("label").text(d.Option1);
-      addBtns(slide, (count + extra));
+      addSliders(slide, (count + extra));
       addRow(slide);
 
       d3.select(slideID).append("label").text(d.Option2);
-      addBtns(slide, count);
+      addSliders(slide, count);
       addRow(slide);
 
       if (d.Option3 != ""){
         d3.select(slideID).append("label").text(d.Option3);
-        addBtns(slide, count);
+        addSliders(slide, count);
         addRow(slide);
       }
-
-      if (d.Option4 != ""){
-        d3.select(slideID).append("label").text(d.Option4);
-        addBtns(slide, count);
-        addRow(slide);
-      }
-
-      if (d.Option5 != ""){
-        d3.select(slideID).append("label").text(d.Option5);
-        addBtns(slide, count);
-        addRow(slide);
-      }
-
-      if (d.Option6 != ""){
-        d3.select(slideID).append("label").text(d.Option6);
-        addBtns(slide, count);
-        addRow(slide);
-      }
-
-      if (d.Option7 != ""){
-        d3.select(slideID).append("label").text(d.Option7);
-        addBtns(slide, count);
-        addRow(slide);
-      }
-
-      if (d.Option8 != ""){
-        d3.select(slideID).append("label").text(d.Option8);
-        addBtns(slide, count);
-        addRow(slide);
-      }
-
 
       var qcode = d.QuestionCode;
       // end of referenced code
@@ -627,265 +501,97 @@ function readData(file, section){
 
       addRow(slide);
 
-      if (qcode == "govpriotop2"){
-        for (var r3 = 0; r3 < rads[radsNum].length; r3++){
-          document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
-            var theRad = this;
-            if (theRad.checked == true){
-              theRad.onclick = function(){
-                theRad.checked = false;
-              };
-            } else {
-              theRad.checked = true;
-            }
-          })
-          document.getElementById(radLbls[radLblsNum][r3]).addEventListener('click', function(){
-            var theRadLbl = this;
-            var str = theRadLbl.id;
-            var newStr = str.replace("radLbl", "radio");
-            var activeRad = document.getElementById(newStr);
-            if (activeRad.checked == true){
-              activeRad.checked = false;
-            } else {
-              activeRad.checked = true;
-            }
-          })
-          document.getElementById(conBtnID).onclick = function(){
-            var selected = 0;
-            var ans1;
-            var ans2;
-            for (var r4 = 0; r4 < rads[radsNum].length; r4++){
-              if (document.getElementById(rads[radsNum][r4]).checked == true){
-                selected++;
-                ans1 = document.getElementById(radLbls[radLblsNum][r4]).innerHTML;
-                break;
-              }
-            }
-            for (var r5 = 0; r5 < rads[radsNum].length; r5++){
-              if (((document.getElementById(radLbls[radLblsNum][r5])) != ans1) && (document.getElementById(rads[radsNum][r5]).checked == true) ){
-                selected++;
-                ans2 = document.getElementById(radLbls[radLblsNum][r5]).innerHTML;
-              }
-            }
-            if (selected != 2){
-              var errText = document.getElementById(radErrTextID);
-              errText.innerHTML = "*Please select two answers";
-              errText.style.display = "block";
-            } else {
-              document.getElementById(radErrTextID).style.display = "none";
-              saveTopPrio(uid, section, qcode, ans1, ans2);
-            }
-          }
-        }
-      } else {
-        // ensuring only one radio button can be checked at a time
-        for (var r3 = 0; r3 < rads[radsNum].length; r3++){
-          document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
-            var theRad = this;
-            for (var r4 = 0; r4 < rads[radsNum].length; r4++){
-              if (theRad != document.getElementById(rads[radsNum][r4])){
-                document.getElementById(rads[radsNum][r4]).checked = false;
-              }
-            }
-          })
-          document.getElementById(radLbls[radLblsNum][r3]).addEventListener('click', function(){
-            var theRadLbl = this;
-            var str = theRadLbl.id;
-            var newStr = str.replace("radLbl", "radio");
-            var activeRad = document.getElementById(newStr);
-            activeRad.checked = true;
-            for (var r5 = 0; r5 < rads[radsNum].length; r5++){
-              if (activeRad != document.getElementById(rads[radsNum][r5])){
-                document.getElementById(rads[radsNum][r5]).checked = false;
-              }
-            }
-          })
-        };
-      }
-
-
-      // Keeping the bars at 100%
-      for (var r = 0; r < lgUpBtns[btnsNum].length; r++){
-        document.getElementById(lgUpBtns[btnsNum][r]).addEventListener('click', function(){
-          var str = this.id;
-          var valueInd = parseInt(str.substr(7), 10);
-          var newStr = str.replace("upBtn", "bar");
-          var theBar = document.getElementById(newStr);
-          var perc = parseInt(theBar.innerHTML, 10);
-          var downstr = str.replace("up", "down");
-          var smDownstr = str.replace("up", "smDown");
-          document.getElementById(downstr).disabled = false;
-          document.getElementById(smDownstr).disabled = false;
-          for (var p = 0; p < 50; p++){
-            var random = Math.floor(Math.random() * hbars[barsNum].length);
-            var nextBar = document.getElementById(hbars[barsNum][random]);
-            var nextValueInd = parseInt((nextBar.id).substr(5), 10);
-            var nextPerc = parseInt(nextBar.innerHTML, 10);
-            var reduced = 0;
-
-            if ((nextBar.id != theBar.id) && (nextPerc >= 10) ){
-              nextBar.innerHTML = (nextPerc - 10) + "%";
-              nextBar.style.width = ((nextPerc - 10) * size) + "%";
-              values[valuesNum][nextValueInd-1] = nextPerc - 10;
-              reduced = 1;
-              theBar.style.width = ((perc + 10) * size) + "%";
-              theBar.innerHTML = (perc + 10) + "%";
-              values[valuesNum][valueInd-1] = perc + 10;
-              break;
-            } else {continue ;}
-          }
-
-          if (reduced != 1){
-            for (var q = 0; q < 50; q++){
-              var random = Math.floor(Math.random() * hbars[barsNum].length);
-              var nextBar = document.getElementById(hbars[barsNum][random]);
-              var nextValueInd = parseInt((nextBar.id).substr(5), 10);
-              var nextPerc = parseInt(nextBar.innerHTML, 10);
-
-              if ((nextBar.id != theBar.id) && (nextPerc >= 0) ){
-                nextBar.innerHTML = "0%";
-                nextBar.style.width = "0%";
-                values[valuesNum][nextValueInd-1] = 0;
-                theBar.innerHTML = (perc + nextPerc) + "%";
-                theBar.style.width = ((perc + nextPerc)*size) + "%";
-                values[valuesNum][valueInd-1] = perc + nextPerc;
-                break;
-              } else {continue; }
-            }
-          }
-
-
-          if ((perc + 10) > 90){
-            document.getElementById(str).disabled = true;
-          }
-        });
-      };
-
-      for (var r = 0; r < smUpBtns[btnsNum].length; r++){
-        document.getElementById(smUpBtns[btnsNum][r]).addEventListener('click', function(){
-          var str = this.id;
-          var valueInd = parseInt(str.substr(9), 10);
-          var newStr = str.replace("smUpBtn", "bar");
-          var theBar = document.getElementById(newStr);
-          var perc = parseInt(theBar.innerHTML, 10);
-          var downstr = str.replace("Up", "Down");
-          document.getElementById(downstr).disabled = false;
-          for (var p = 0; p < 50; p++){
-            var random = Math.floor(Math.random() * hbars[barsNum].length);
-            var nextBar = document.getElementById(hbars[barsNum][random]);
-            var nextValueInd = parseInt((nextBar.id).substr(5), 10);
-            var nextPerc = parseInt(nextBar.innerHTML, 10);
-
-            if ((nextBar.id != theBar.id) && (nextPerc >= 1) ){
-              nextBar.innerHTML = (nextPerc - 1) + "%";
-              nextBar.style.width = ((nextPerc - 1) * size) + "%";
-              values[valuesNum][nextValueInd-1] = nextPerc - 1;
-              theBar.style.width = ((perc + 1) * size) + "%";
-              theBar.innerHTML = (perc + 1) + "%";
-              values[valuesNum][valueInd-1] = perc + 1;
-              break;
-            } else {continue ;}
-          }
-
-
-
-          if ((perc + 1) == 100){
-            document.getElementById(str).disabled = true;
-          }
-        });
-      };
-
-      for (var r = 0; r < smDownBtns[btnsNum].length; r++){
-        document.getElementById(smDownBtns[btnsNum][r]).addEventListener('click', function(){
-          var str = this.id;
-          var valueInd = parseInt(str.substr(11), 10);
-          var newStr = str.replace("smDownBtn", "bar");
-          var theBar = document.getElementById(newStr);
-          var perc = parseInt(theBar.innerHTML, 10);
-          var upstr = str.replace("Down", "Up");
-          document.getElementById(upstr).disabled = false;
-          for (var p = 0; p < hbars[barsNum].length; p++){
-            var random = Math.floor(Math.random() * hbars[barsNum].length);
-            var nextBar = document.getElementById(hbars[barsNum][random]);
-            var nextValueInd = parseInt((nextBar.id).substr(5), 10);
-            var nextPerc = parseInt((nextBar.innerHTML), 10);
-
-            if ((nextBar.id != theBar.id) && (nextPerc < 100) ){
-              nextBar.innerHTML = (nextPerc + 1) + "%";
-              nextBar.style.width = ((nextPerc + 1) * size) + "%";
-              values[valuesNum][nextValueInd-1] = nextPerc + 1;
-              break;
-            } else {continue ;}
-          }
-          theBar.style.width = ((perc - 1) * size) + "%";
-          theBar.innerHTML = (perc - 1) + "%";
-          values[valuesNum][valueInd-1] = perc - 1;
-          if ((perc - 1) == 0){
-            document.getElementById(str).disabled = true;
-          }
-        });
-      };
-
-      for (var r = 0; r < lgDownBtns[btnsNum].length; r++){
-        document.getElementById(lgDownBtns[btnsNum][r]).addEventListener('click', function(){
-          var str = this.id;
-          var valueInd = parseInt(str.substr(9), 10);
-          var newStr = str.replace("downBtn", "bar");
-          var theBar = document.getElementById(newStr);
-          var perc = parseInt(theBar.innerHTML, 10);
-          var upstr = str.replace("downBtn", "upBtn");
-          var smUpstr = str.replace("downBtn", "smUpBtn");
-          document.getElementById(upstr).disabled = false;
-          document.getElementById(smUpstr).disabled = false;
-          for (var p = 0; p < 50; p++){
-            var random = Math.floor(Math.random() * hbars[barsNum].length);
-            var nextBar = document.getElementById(hbars[barsNum][random]);
-            var nextValueInd = parseInt((nextBar.id).substr(5), 10);
-            var nextPerc = parseInt((nextBar.innerHTML), 10);
-
-            if ((nextBar.id != theBar.id) && (nextPerc < 100) ){
-              nextBar.innerHTML = (nextPerc + 10) + "%";
-              nextBar.style.width = ((nextPerc + 10) * size) + "%";
-              values[valuesNum][nextValueInd-1] = nextPerc + 10;
-              break;
-            } else {continue ;}
-          }
-          theBar.style.width = ((perc - 10) * size) + "%";
-          theBar.innerHTML = (perc - 10) + "%";
-          values[valuesNum][valueInd-1] = perc - 10;
-          if ((perc - 10) < 10){
-            document.getElementById(str).disabled = true;
-          }
-        });
-      };
-
-      for (var b = 0; b < btns[btnsNum].length; b++){
-        document.getElementById(btns[btnsNum][b]).addEventListener('click', function(){
-          for (var b1 = 0; b1 < hbars[barsNum].length; b1++){
-            var aBar = document.getElementById(hbars[barsNum][b1]);
-            var barPerc = parseInt(aBar.innerHTML, 10);
-            if (barPerc < 10){
-              var barid = aBar.id;
-              var btnid = barid.replace("bar", "downBtn");
-              document.getElementById(btnid).disabled = true;
-            }
-            if (barPerc == 0){
-              var barid = aBar.id;
-              var btnid = barid.replace("bar", "smDownBtn");
-              document.getElementById(btnid).disabled = true;
-            }
-            if (barPerc > 90){
-              var barid = aBar.id;
-              var btnid = barid.replace("bar", "upBtn");
-              document.getElementById(btnid).disabled = true;
-            }
-            if (barPerc == 100){
-              var barid = aBar.id;
-              var btnid = barid.replace("bar", "smUpBtn");
-              document.getElementById(btnid).disabled = true;
+      // ensuring only one radio button can be checked at a time
+      for (var r3 = 0; r3 < rads[radsNum].length; r3++){
+        document.getElementById(rads[radsNum][r3]).addEventListener('click', function(){
+          var theRad = this;
+          for (var r4 = 0; r4 < rads[radsNum].length; r4++){
+            if (theRad != document.getElementById(rads[radsNum][r4])){
+              document.getElementById(rads[radsNum][r4]).checked = false;
             }
           }
         })
+        document.getElementById(radLbls[radLblsNum][r3]).addEventListener('click', function(){
+          var theRadLbl = this;
+          var str = theRadLbl.id;
+          var newStr = str.replace("radLbl", "radio");
+          var activeRad = document.getElementById(newStr);
+          activeRad.checked = true;
+          for (var r5 = 0; r5 < rads[radsNum].length; r5++){
+            if (activeRad != document.getElementById(rads[radsNum][r5])){
+              document.getElementById(rads[radsNum][r5]).checked = false;
+            }
+          }
+        })
+      };
+
+      // keeping the sliders at 100%
+      if (numOfOpts == 2){
+        for (var b = 0; b < hbars[barsNum].length; b++){
+          document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
+            var str = this.id;
+            var ind = parseInt(str.substr(5), 10) - 1;
+            var bar1 = document.getElementById(hbars[barsNum][0]);
+            var bar2 = document.getElementById(hbars[barsNum][1]);
+            var span1 = document.getElementById(barSpans[barsNum][0]);
+            var span2 = document.getElementById(barSpans[barsNum][1]);
+            if (ind == 0){
+              span1.innerHTML = bar1.value + "%";
+              bar2.value = 100 - bar1.value;
+              span2.innerHTML = bar2.value + "%";
+            } else {
+              span2.innerHTML = bar2.value + "%";
+              bar1.value = 100 - bar2.value;
+              span1.innerHTML = bar1.value + "%";
+            }
+            values[valuesNum][0] = bar1.value;
+            values[valuesNum][1] = bar2.value;
+          })
+        }
+      } else {
+        for (var b = 0; b < hbars[barsNum].length; b++){
+          document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
+            var str = this.id;
+            var ind = parseInt(str.substr(5), 10) - 1;
+            var bar1 = document.getElementById(hbars[barsNum][0]);
+            var bar2 = document.getElementById(hbars[barsNum][1]);
+            var bar3 = document.getElementById(hbars[barsNum][2]);
+            var span1 = document.getElementById(barSpans[barsNum][0]);
+            var span2 = document.getElementById(barSpans[barsNum][1]);
+            var span3 = document.getElementById(barSpans[barsNum][2]);
+
+            if (ind == 0){
+              span1.innerHTML = bar1.value + "%";
+              bar2.value = 100 - bar1.value - bar3.value;
+              span2.innerHTML = bar2.value + "%";
+              if (bar2.value == 0){
+                span2.innerHTML = "0%";
+                bar3.value = 100 - bar1.value;
+                span3.innerHTML = bar3.value + "%";
+              }
+            } else if (ind == 1){
+              span2.innerHTML = bar2.value + "%";
+              bar1.value = 100 - bar2.value - bar3.value;
+              span1.innerHTML = bar1.value + "%";
+              if (bar1.value == 0){
+                span1.innerHTML = "0%";
+                bar3.value = 100 - bar2.value;
+                span3.innerHTML = bar3.value + "%";
+              }
+            } else {
+              span3.innerHTML = bar3.value + "%";
+              var diff = 100 - bar3.value;
+              bar1.value = Math.floor(diff/2);
+              span1.innerHTML = bar1.value + "%";
+              bar2.value = 100 - bar1.value - bar3.value;
+              span2.innerHTML = bar2.value + "%";
+            }
+
+            values[valuesNum][0] = bar1.value;
+            values[valuesNum][1] = bar2.value;
+            values[valuesNum][2] = bar3.value;
+          });
+        }
       }
 
       // submitting data and disabling buttons after the confirm button is clicked
@@ -928,8 +634,8 @@ function readData(file, section){
         currentSlideID = "slide" + slideNo;
         startTime = Date.now();
         location.href = "#top";
+      });
 
-      })
       j = 1;
       k = 1;
     });
@@ -969,6 +675,7 @@ for (var num = 0; num < 62; num++){
   var q = "question" + (num + 1);
   values[v] = [];
   hbars[barsNum] = [];
+  barSpans[barsNum] = [];
   btns[b] = [];
   downBtns[b] = [];
   upBtns[b] = [];
@@ -1582,96 +1289,4 @@ if ($('body').is('.feedback')){
       txtArea.disabled = true;
     }
   })
-}
-
-if ($('body').is('.app')){
-  var value1 = document.getElementById('valuespan1');
-  var value2 = document.getElementById('valuespan2');
-  var value3 = document.getElementById('valuespan3');
-  var range1 = document.getElementById('range1');
-  var range2 = document.getElementById("range2");
-  var range3 = document.getElementById("range3");
-
-  var value4 = document.getElementById('valuespan4');
-  var value5 = document.getElementById('valuespan5');
-  var value6 = document.getElementById('valuespan6');
-  var range4 = document.getElementById('range4');
-  var range5 = document.getElementById("range5");
-  var range6 = document.getElementById("range6");
-
-  var sliders = [range1, range2, range3]
-  var slidersLbls = [value1, value2, value3];
-  value1.innerHTML = range1.value + "%";
-  value2.innerHTML = range2.value + "%";
-  value3.innerHTML = range3.value + "%";
-
-  var bars2 = [range4, range5, range6];
-  var barLbls2 = [value4, value5, value6];
-  value4.innerHTML = range4.value + "%";
-  value5.innerHTML = range5.value + "%";
-  value6.innerHTML = range6.value + "%";
-
-  for (var i = 0; i < sliders.length; i++){
-    sliders[i].addEventListener('input', function(){
-      var str = this.id;
-      var ind = parseInt(str.replace("range", ""), 10) - 1;
-      var bar1 = sliders[ind];
-      var bar2 = sliders[(ind+1)%3];
-      var bar3 = sliders[(ind+2)%3];
-      var val1 = slidersLbls[ind];
-      var val2 = slidersLbls[(ind+1)%3];
-      var val3 = slidersLbls[(ind+2)%3];
-
-      val1.innerHTML = bar1.value + "%";
-      var diff = 100 - bar1.value;
-      bar2.value = Math.floor(diff/2);
-      val2.innerHTML = bar2.value + "%";
-      bar3.value = 100 - bar1.value - bar2.value;
-      val3.innerHTML = bar3.value + "%";
-
-    })
-  }
-
-  for (var j = 0; j < bars2.length; j++){
-    bars2[j].addEventListener('input', function(){
-      var str = this.id;
-      var ind = parseInt(str.replace("range", ""), 10) - 4;
-      var bar1 = bars2[(ind)];
-      var bar2 = bars2[(ind+1)%3];
-      var bar3 = bars2[(ind+2)%3];
-      var val1 = barLbls2[ind];
-      var val2 = barLbls2[(ind+1)%3];
-      var val3 = barLbls2[(ind+2)%3];
-      if (ind == 0){
-        val1.innerHTML = bar1.value + "%";
-        bar2.value = 100 - bar1.value - bar3.value;
-        val2.innerHTML = bar2.value + "%";
-        if (bar2.value == 0){
-          bar2.value = 0;
-          val2.innerHTML = 0 + "%";
-          bar3.value = 100 - bar1.value;
-          val3.innerHTML = bar3.value + "%";
-        }
-      } else if (ind == 1){
-        val1.innerHTML = bar1.value + "%";
-        bar3.value = 100 - bar1.value - bar2.value;
-        val3.innerHTML = bar3.value + "%";
-        if (bar3.value == 0){
-          bar3.value = 0;
-          val3.innerHTML = 0 + "%";
-          bar2.value = 100 - bar1.value;
-          val2.innerHTML = bar2.value + "%";
-        }
-      } else {
-        val1.innerHTML = bar1.value + "%";
-        var diff = 100 - bar1.value;
-        bar2.value = Math.floor(diff/2);
-        val2.innerHTML = bar2.value + "%";
-        bar3.value = 100 - bar1.value - bar2.value;
-        val3.innerHTML = bar3.value + "%";
-
-      }
-
-    })
-  }
 }
