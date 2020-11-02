@@ -311,6 +311,26 @@ function addRow(slide){
   newRow.appendChild(col);
 };
 
+function addSliders(slide, num){
+  const col = document.createElement("div");
+  col.className = "col-md-6";
+  slide.append(col);
+  var bar = document.createElement("input");
+  bar.className = "form-control-range";
+  bar.id = "bar" + i + "_" + j;
+  col.appendChild(bar);
+  var barSpan = document.createElement("span");
+  barSpan.className = "font-weight-bold text-primary ml-2 mt-1";
+  barSpan.id = "barSpan" + i + "_" + j;
+  barSpan.innerHTML = num + "%";
+  col.appendChild(barSpan);
+  barID = "bar" + i + "_" + j;
+  barSpanID = "barSpan" + i + "_" + j;
+  var barsNum = "bars" + i;
+  bars[barsNum].push(barID);
+  barSpans[barsNum].push(barSpanID);
+}
+
 function addBtns(slide, num){
   const btnCol = document.createElement('div');
   btnCol.className = "col-md-6";
@@ -1561,4 +1581,96 @@ if ($('body').is('.feedback')){
       txtArea.disabled = true;
     }
   })
+}
+
+if ($('body').is('#sliders')){
+  var value1 = document.getElementById('valuespan1');
+var value2 = document.getElementById('valuespan2');
+var value3 = document.getElementById('valuespan3');
+var range1 = document.getElementById('range1');
+var range2 = document.getElementById("range2");
+var range3 = document.getElementById("range3");
+
+var value4 = document.getElementById('valuespan4');
+var value5 = document.getElementById('valuespan5');
+var value6 = document.getElementById('valuespan6');
+var range4 = document.getElementById('range4');
+var range5 = document.getElementById("range5");
+var range6 = document.getElementById("range6");
+
+var sliders = [range1, range2, range3]
+var slidersLbls = [value1, value2, value3];
+value1.innerHTML = range1.value + "%";
+value2.innerHTML = range2.value + "%";
+value3.innerHTML = range3.value + "%";
+
+var bars2 = [range4, range5, range6];
+var barLbls2 = [value4, value5, value6];
+value4.innerHTML = range4.value + "%";
+value5.innerHTML = range5.value + "%";
+value6.innerHTML = range6.value + "%";
+
+for (var i = 0; i < sliders.length; i++){
+  sliders[i].addEventListener('input', function(){
+    var str = this.id;
+    var ind = parseInt(str.replace("range", ""), 10) - 1;
+    var bar1 = sliders[ind];
+    var bar2 = sliders[(ind+1)%3];
+    var bar3 = sliders[(ind+2)%3];
+    var val1 = slidersLbls[ind];
+    var val2 = slidersLbls[(ind+1)%3];
+    var val3 = slidersLbls[(ind+2)%3];
+
+    val1.innerHTML = bar1.value + "%";
+    var diff = 100 - bar1.value;
+    bar2.value = Math.floor(diff/2);
+    val2.innerHTML = bar2.value + "%";
+    bar3.value = 100 - bar1.value - bar2.value;
+    val3.innerHTML = bar3.value + "%";
+
+  })
+}
+
+for (var j = 0; j < bars2.length; j++){
+  bars2[j].addEventListener('input', function(){
+    var str = this.id;
+    var ind = parseInt(str.replace("range", ""), 10) - 4;
+    var bar1 = bars2[(ind)];
+    var bar2 = bars2[(ind+1)%3];
+    var bar3 = bars2[(ind+2)%3];
+    var val1 = barLbls2[ind];
+    var val2 = barLbls2[(ind+1)%3];
+    var val3 = barLbls2[(ind+2)%3];
+    if (ind == 0){
+      val1.innerHTML = bar1.value + "%";
+      bar2.value = 100 - bar1.value - bar3.value;
+      val2.innerHTML = bar2.value + "%";
+      if (bar2.value == 0){
+        bar2.value = 0;
+        val2.innerHTML = 0 + "%";
+        bar3.value = 100 - bar1.value;
+        val3.innerHTML = bar3.value + "%";
+      }
+    } else if (ind == 1){
+      val1.innerHTML = bar1.value + "%";
+      bar3.value = 100 - bar1.value - bar2.value;
+      val3.innerHTML = bar3.value + "%";
+      if (bar3.value == 0){
+        bar3.value = 0;
+        val3.innerHTML = 0 + "%";
+        bar2.value = 100 - bar1.value;
+        val2.innerHTML = bar2.value + "%";
+      }
+    } else {
+      val1.innerHTML = bar1.value + "%";
+      var diff = 100 - bar1.value;
+      bar2.value = Math.floor(diff/2);
+      val2.innerHTML = bar2.value + "%";
+      bar3.value = 100 - bar1.value - bar2.value;
+      val3.innerHTML = bar3.value + "%";
+
+    }
+
+  })
+}
 }
