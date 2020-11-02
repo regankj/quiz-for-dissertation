@@ -1274,10 +1274,11 @@ if ($('body').is('.feedback')){
     if (fback_checked < 2){
       document.getElementById("fbErrText").style.display = "inline-block";
     } else {
-      document.getElementById("fbErrText").style.display = "none";
+      document.getElementById("fbErrText").className = "alert alert-success";
+      document.getElementById("fbErrText").innerHTML = "Survey Code: " + uid;
+      document.getElementById("fbErrText").style.display = "inline-block";
       document.getElementById("mturk").innerHTML = "Survey Code: " + uid;
       document.getElementById("mturk").style.display = "inline-block";
-      window.scrollBy(0, 400);
       var txt = txtArea.value;
       saveFeedback(uid, fback, txt);
       yesRad.disabled = true;

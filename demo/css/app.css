@@ -11917,18 +11917,7 @@ button {
   margin: 1em;
   display: flow-root; }
 
-#mturk {
-  display: none;
-  font-size: 18px;
-  color: black;
-  border-color: #5680E9;
-  padding: 50px;
-  margin-top: 2em;
-  border-radius: 8%; }
-
 @media (min-width: 500px) {
-  #mturk {
-    margin-left: 27%; }
   textarea {
     width: 350px; } }
 
