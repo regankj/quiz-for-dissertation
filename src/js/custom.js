@@ -20,41 +20,17 @@ function getCookie(){
 // Functionality for initial page
 const contBtn = document.getElementById('continue');
 if (contBtn){
-  var linktoNext;
+  var classBox = document.getElementById('classSurvey');
   setCookie();
   contBtn.addEventListener('click', function(){
-    const infoForm = document.getElementById('infoForm');
-    const ageBox = document.getElementById('age');
-    const genderBox = document.getElementById('Gender');
-    const classBox = document.getElementById('classSurvey');
-    var age = ageBox.options[ageBox.selectedIndex].text;
-    var gender = genderBox.options[genderBox.selectedIndex].text;
     var classBracket = classBox.options[classBox.selectedIndex].text;
-    var theLink = document.querySelector("#theLink");
 
-    if (age == "Choose..." || gender == "Choose..." || classBracket == "Choose..."){
+    if (classBracket == "Choose..."){
       document.getElementById("infoErr").style.display = "inline-block";
-      ageBox.disabled = false;
-      genderBox.disabled = false;
       classBox.disabled = false;
-      linktoNext = "javascript: ;";
-    } else if (classBracket == "International Elite" || classBracket == "London Middle Class" ||
-              classBracket ==  "Old Affluent Workers" || classBracket == "Managerial Working Class" ||
-              classBracket == "Self Employed Service Workers"){
-                ageBox.disabled = true;
-                genderBox.disabled = true;
-                classBox.disabled = true;
-                contBtn.disabled = true;
-                document.getElementById("infoErr").style.display = "none";
-                linktoNext = "alert.html";
-              }
-
-     else {
-       linktoNext = "knowledge.html";
+    } else {
       var uid = getCookie();
-      saveUserData(uid, age, gender, classBracket);
-      ageBox.disabled = true;
-      genderBox.disabled = true;
+      saveClassSurvey(uid, classBracket);
       classBox.disabled = true;
       contBtn.disabled = true;
       document.getElementById("infoErr").style.display = "none";
@@ -68,7 +44,7 @@ if (contBtn){
   */
   contBtn.onclick = function(){
     setTimeout(function(){
-      window.location.href = linktoNext;
+      window.location.href = "knowledge.html";
     }, 500);
   };
   // end of referenced code
@@ -255,7 +231,7 @@ if ($('body').is(".knowledge")){
 
     testBtn.onclick = function(){
       setTimeout(function(){
-        window.location.href = linktoNext;
+        window.location.href = "quiz.html";
       }, 500);
     };
 
@@ -287,13 +263,6 @@ var t = 1;
 var values = {};
 var hbars = {};
 var barSpans = {};
-var downBtns = {};
-var upBtns = {};
-var lgUpBtns = {};
-var smUpBtns = {};
-var smDownBtns = {};
-var lgDownBtns = {};
-var btns = {};
 var rads = {};
 var radLbls = {};
 var options = {};
@@ -417,7 +386,7 @@ function readData(file, section){
       var ansIndexNum = "answers" + i;
 
 
-      d3.select(slideID).append("label").text("( " + i + " / 62 ). " + d.Question);
+      d3.select(slideID).append("label").text("( " + i + " / 39 ). " + d.Question);
       qs.push(d.Question);
       addRow(slide);
       d3.select(slideID).append("label").text("Your Answer:");
@@ -468,7 +437,7 @@ function readData(file, section){
         addRow(slide);
       }
 
-      var qcode = d.QuestionCode;
+      var qcode = d.key;
       // end of referenced code
 
 
@@ -562,29 +531,29 @@ function readData(file, section){
 
             if (ind == 0){
               span1.innerHTML = bar1.value + "%";
-              bar2.value = 100 - bar1.value - bar3.value;
-              span2.innerHTML = bar2.value + "%";
-              if (bar2.value == 0){
-                span2.innerHTML = "0%";
-                bar3.value = 100 - bar1.value;
-                span3.innerHTML = bar3.value + "%";
+              bar3.value = 100 - bar1.value - bar2.value;
+              span3.innerHTML = bar3.value + "%";
+              if (bar3.value == 0){
+                span3.innerHTML = "0%";
+                bar2.value = 100 - bar1.value;
+                span2.innerHTML = bar2.value + "%";
               }
-            } else if (ind == 1){
-              span2.innerHTML = bar2.value + "%";
+            } else if (ind == 2){
+              span3.innerHTML = bar3.value + "%";
               bar1.value = 100 - bar2.value - bar3.value;
               span1.innerHTML = bar1.value + "%";
               if (bar1.value == 0){
                 span1.innerHTML = "0%";
-                bar3.value = 100 - bar2.value;
-                span3.innerHTML = bar3.value + "%";
+                bar2.value = 100 - bar3.value;
+                span2.innerHTML = bar2.value + "%";
               }
             } else {
-              span3.innerHTML = bar3.value + "%";
-              var diff = 100 - bar3.value;
+              span2.innerHTML = bar2.value + "%";
+              var diff = 100 - bar2.value;
               bar1.value = Math.floor(diff/2);
               span1.innerHTML = bar1.value + "%";
-              bar2.value = 100 - bar1.value - bar3.value;
-              span2.innerHTML = bar2.value + "%";
+              bar3.value = 100 - bar1.value - bar2.value;
+              span3.innerHTML = bar3.value + "%";
             }
 
             values[valuesNum][0] = bar1.value;
@@ -602,10 +571,11 @@ function readData(file, section){
         var endTime = Date.now();
         var difference = (endTime - startTime)/1000;
         saveTime(uid, section, qcode, difference);
-        saveUserScore(uid, values[valuesNum], trueAnswers[ansIndexNum], section, qcode, questionNum);
-        for (var m = 0; m < btns[btnsNum].length; m++){
-          document.getElementById(btns[btnsNum][m]).disabled = true;
+        if (qcode != "covid19"){
+          saveUserScore(uid, values[valuesNum], trueAnswers[ansIndexNum], section, qcode, questionNum);
         }
+
+
 
         for (var r1 = 0; r1 < rads[radsNum].length; r1++){
           document.getElementById(rads[radsNum][r1]).disabled = true;
@@ -646,7 +616,7 @@ function readData(file, section){
 
 if ($('body').is('.quiz1')){
   readData("Sample-Data/questions.csv", "answers");
-  readTrueAns("Sample-Data/scoring.csv");
+  readTrueAns("Sample-Data/questions.csv");
   const nextBtn = document.getElementById('nextBtn');
   nextBtn.addEventListener('click', function(){
     slideNo++;
@@ -662,12 +632,12 @@ if ($('body').is('.quiz1')){
   window.onbeforeunload = function(){
     return "Are you sure? All of your progress will be lost.";
   }
+
 };
 
-for (var num = 0; num < 62; num++){
+for (var num = 0; num < 39; num++){
   var v = "values" + (num + 1);
   var barsNum = "bars" + (num + 1);
-  var b = "btns" + (num + 1);
   var o = "options" + (num + 1);
   var r = "rads" + (num + 1);
   var rl = "radLbls" + (num + 1);
@@ -676,13 +646,6 @@ for (var num = 0; num < 62; num++){
   values[v] = [];
   hbars[barsNum] = [];
   barSpans[barsNum] = [];
-  btns[b] = [];
-  downBtns[b] = [];
-  upBtns[b] = [];
-  smDownBtns[b] = [];
-  smUpBtns[b] = [];
-  lgUpBtns[b] = [];
-  lgDownBtns[b] = [];
   options[o] = [];
   rads[r] = [];
   radLbls[rl] = [];
@@ -701,6 +664,7 @@ function showSlide(n, currentSlideID, slideNo){
   document.getElementById(n).className = "active-slide";
   // end of referenced code
   if (slideNo == i){
+
     finalSlides();
   }
 }
@@ -830,155 +794,212 @@ accessed 29-10-20
 
 
 function finalSlides(){
-  var theSlideID = "slide62";
-  var theSlide = document.getElementById(theSlideID);
-  var rand = Math.random();
-  savePrimingTest(uid, rand);
-  if (rand >= 0.5 && rand < 0.75){
-    var link = document.createElement('a');
-    link.innerHTML = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
-    link.target = "_blank";
-    link.href = "https://www.theguardian.com/world/2020/jul/12/face-masks-shops-will-not-be-mandatory-england-gove-suggests";
-    theSlide.prepend(link);
-    addRow(theSlide);
-    theSlide.prepend("Please read the following article from The Guardian before answering this question");
-  } else if (rand >= 0.75){
-    var link = document.createElement('a');
-    link.innerHTML = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
-    link.target = "_blank";
-    link.href = "https://www.theguardian.com/world/2020/may/04/scientists-disagree-over-face-masks-effect-on-covid-19";
-    theSlide.prepend(link);
-    addRow(theSlide);
-    theSlide.prepend("Please read the following article from The Guardian before answering this question");
-
-
-  }
-  var conID = "confirm" + i;
-
+  var uid = getCookie();
+  var slideID = "slide39";
+  var theSlide = document.getElementById(slideID);
+  var conID = "confirm39";
   document.getElementById(conID).addEventListener('click', function(){
+    var num = 0;
+    theSlide.innerHTML = "";
     location.href = "#top";
     theSlide.className = "active-slide";
-    document.querySelector("#top h2").innerHTML = "Well Done!"
-    document.querySelector("#top h6").innerHTML = "You have completed the quiz.If you're interested, below is your mean score and also your answers compared to the actual ones, sorted by highest to lowest score.";
-    var totalScore = 0;
-    for (var s1 = 1; s1 < 62; s1++){
-      var qnum = "question" + (s1);
-      totalScore += userScores[qnum];
-    }
+    document.querySelector("#top h2").innerHTML = "Nearly There!"
+    document.querySelector("#top h6").innerHTML = "Please answer the following demographic questions, we will then compute your score.";
+    d3.csv("Sample-Data/demographics.csv").then(function(data){
+      data.forEach(function(d){
+        num++;
+        var lbl = document.createElement("label");
+        lbl.innerHTML = d.Question;
+        theSlide.appendChild(lbl);
 
-    var meanScore = Math.round(totalScore / 61);
-    theSlide.innerHTML = "";
-    var scoreLbl = document.createElement("h5");
-    var theScore = document.createElement("h4");
-    scoreLbl.innerHTML = "Your Mean Score: ";
-    theSlide.appendChild(scoreLbl);
-    theScore.innerHTML = meanScore;
-    theSlide.appendChild(theScore);
+        var box = document.createElement("select");
+        box.className = "form-control";
+        box.id = "dropdown" + num;
+        var boxID = "#dropdown" + num;
+        theSlide.appendChild(box);
 
-    delete userScores.question62;
-    /*
-    sorting js object
-    taken from https://stackoverflow.com/a/1069840/12239467
-    accessed 26-10-20
-    */
-    var sortable = [];
-    for (var item in userScores){
-      sortable.push([item, userScores[item]]);
-    }
+        var choose = document.createElement("option");
+        choose.innerHTML = "Choose...";
+        choose.selected;
+        box.appendChild(choose);
 
-    sortable.sort(function(a, b){
-      return a[1] - b[1];
+        d3.select(boxID).append("option").text(d.Option1);
+        d3.select(boxID).append("option").text(d.Option2);
+        if (d.Option3 != ""){
+          d3.select(boxID).append("option").text(d.Option3);
+        };
+        if (d.Option4 != ""){
+          d3.select(boxID).append("option").text(d.Option4);
+        };
+        if (d.Option5 != ""){
+          d3.select(boxID).append("option").text(d.Option5);
+        };
+        if (d.Option6 != ""){
+          d3.select(boxID).append("option").text(d.Option6);
+        };
+
+        addRow(theSlide);
+      });
     });
-    // end of referenced code
-    sortable.reverse();
 
-    var topNextBtn = document.createElement('button');
-    topNextBtn.innerHTML = "next >>";
-    topNextBtn.style.float = "right";
-    topNextBtn.className = "btn btn-primary my-md-3";
-    topNextBtn.type = "button";
-    theSlide.appendChild(topNextBtn);
-
+    var demoBtn = document.createElement("button");
+    demoBtn.type = "button";
+    demoBtn.className = "btn btn-primary my-md-3";
+    demoBtn.id = "demographicBtn";
+    demoBtn.innerHTML = "Confirm & Next";
+    theSlide.appendChild(demoBtn);
     addRow(theSlide);
 
-    var vis = document.createElement("div");
-    vis.id = "vis";
-    theSlide.appendChild(vis);
+    var demoErr = document.createElement("div");
+    demoErr.className = "alert alert-danger";
+    demoErr.role = "alert";
+    demoErr.id = "demoErr";
+    demoErr.style.display = "none";
+    demoErr.innerHTML = "*Please complete the whole form.";
+    theSlide.appendChild(demoErr);
 
-    for (var ind = 0; ind < sortable.length; ind++){
-      var qlbl = document.createElement("label");
-      var q = sortable[ind][0];
-      var num = parseInt(q.replace("question", ""), 10);
-      qlbl.id = "questionLbl" + num;
-      vis.appendChild(qlbl);
-      addRow(vis);
-      addRow(vis);
-      createChart(values, num);
-      createChart(trueAnswers, num);
-      addRow(vis);
-    }
+    document.getElementById("demographicBtn").onclick =  function(){
+      var genderBox = document.getElementById("dropdown1");
+      var ageBox = document.getElementById("dropdown2");
+      var raceBox = document.getElementById('dropdown3');
+      var eduBox = document.getElementById("dropdown4");
+      var houseBox = document.getElementById('dropdown5');
 
+      var gender = genderBox.options[genderBox.selectedIndex].text;
+      var age = ageBox.options[ageBox.selectedIndex].text;
+      var race = raceBox.options[raceBox.selectedIndex].text;
+      var edu = eduBox.options[eduBox.selectedIndex].text;
+      var house = houseBox.options[houseBox.selectedIndex].text;
 
-    window.onbeforeunload = null;
-    var btnarray = [nextBtn, topNextBtn]
-    for (var item = 0; item < btnarray.length; item++){
-      btnarray[item].addEventListener('click',function(){
+      if (gender == "Choose..." || age == "Choose..." || race == "Choose..." || edu == "Choose..." ||house == "Choose..."){
+        document.getElementById("demoErr").style.display = "inline-block";
+      } else {
+        document.getElementById("demoErr").style.display = "none";
+        saveUserData(uid, age, gender, race, edu, house);
+
+        location.href = "#top";
+        theSlide.className = "active-slide";
+        document.querySelector("#top h2").innerHTML = "Well Done!"
+        document.querySelector("#top h6").innerHTML = "You have completed the quiz.If you're interested, below is your mean score and also your answers compared to the actual ones, sorted by highest to lowest score (reading this is optional).";
+        var totalScore = 0;
+        for (var s1 = 1; s1 < 39; s1++){
+          var qnum = "question" + (s1);
+          totalScore += userScores[qnum];
+        }
+
+        var meanScore = Math.round(totalScore / 38);
+        theSlide.innerHTML = "";
+        var scoreLbl = document.createElement("h5");
+        var theScore = document.createElement("h4");
+        scoreLbl.innerHTML = "Your Mean Score: ";
+        theSlide.appendChild(scoreLbl);
+        theScore.innerHTML = meanScore;
+        theSlide.appendChild(theScore);
+
+        delete userScores.question39;
+        /*
+        sorting js object
+        taken from https://stackoverflow.com/a/1069840/12239467
+        accessed 26-10-20
+        */
+        var sortable = [];
+        for (var item in userScores){
+          sortable.push([item, userScores[item]]);
+        }
+
+        sortable.sort(function(a, b){
+          return a[1] - b[1];
+        });
+        // end of referenced code
         sortable.reverse();
-        var uid = getCookie();
-        var worst = sortable[0][0];
-        var secondWorst = sortable[1][0];
-        var worstNum = parseInt(worst.replace("question", ""), 10);
-        var secondWorstNum = parseInt(secondWorst.replace("question", ""), 10);
-        var worstSlide = "slide" + worstNum;
-        var worstConf = "confirm" + worstNum;
-        var wvaluesNum = "values" + worstNum;
-        var currentSlide = "slide" + i;
-        var worstQnum = "question" + worstNum;
 
-        var secondWorstSlide = "slide" + secondWorstNum;
-        var secondWorstConf = "confirm" + secondWorstNum;
-        var swvaluesNum = "values" + secondWorstNum;
-        var secondWorstQnum = "question" + secondWorstNum;
-        var swbtns = "btns" + secondWorstNum;
+        var topNextBtn = document.createElement('button');
+        topNextBtn.innerHTML = "next >>";
+        topNextBtn.style.float = "right";
+        topNextBtn.className = "btn btn-primary my-md-3";
+        topNextBtn.type = "button";
+        theSlide.appendChild(topNextBtn);
 
+        addRow(theSlide);
 
-        document.getElementById(currentSlide).className = "slide";
-        document.getElementById(worstSlide).className = "active-slide";
-        document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
-        var radios = document.querySelectorAll(".radio");
-        var radioLbls = document.querySelectorAll(".radLbl");
-        for (var r = 0; r < radios.length; r++){
-          radios[r].style.display = "none";
-          radioLbls[r].style.display = "none";
+        var vis = document.createElement("div");
+        vis.id = "vis";
+        theSlide.appendChild(vis);
+
+        for (var ind = 0; ind < sortable.length; ind++){
+          var qlbl = document.createElement("label");
+          var q = sortable[ind][0];
+          var num = parseInt(q.replace("question", ""), 10);
+          qlbl.id = "questionLbl" + num;
+          vis.appendChild(qlbl);
+          addRow(vis);
+          addRow(vis);
+          createChart(values, num);
+          createChart(trueAnswers, num);
+          addRow(vis);
         }
 
+        window.onbeforeunload = null;
+        var btnarray = [nextBtn, topNextBtn]
+        for (var item = 0; item < btnarray.length; item++){
+          btnarray[item].addEventListener('click',function(){
+            sortable.reverse();
+            var uid = getCookie();
+            var worst = sortable[0][0];
+            var secondWorst = sortable[1][0];
+            var worstNum = parseInt(worst.replace("question", ""), 10);
+            var secondWorstNum = parseInt(secondWorst.replace("question", ""), 10);
+            var worstSlide = "slide" + worstNum;
+            var worstConf = "confirm" + worstNum;
+            var wvaluesNum = "values" + worstNum;
+            var currentSlide = "slide" + i;
+            var worstQnum = "question" + worstNum;
 
-        document.getElementById(worstConf).onclick = function(){
-          writeData(uid, "re_assessment", worstQnum, values[wvaluesNum].length, values[wvaluesNum]);
-          document.getElementById(worstSlide).className = "slide";
-          document.getElementById(secondWorstSlide).className = "active-slide";
-          document.getElementById(secondWorstConf).disabled = false;
-          for (var w1 = 0; w1 < btns[swbtns].length; w1++){
-            document.getElementById(btns[swbtns][w1]).disabled = false;
-          };
-          document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your second lowest scoring question:";
-          var radios = document.querySelectorAll(".radio");
-          var radioLbls = document.querySelectorAll(".radLbl");
-          for (var r = 0; r < radios.length; r++){
-            radios[r].style.display = "none";
-            radioLbls[r].style.display = "none";
-          }
-          document.getElementById(secondWorstConf).onclick = function(){
-            writeData(uid, "re_assessment", secondWorstQnum, values[swvaluesNum].length, values[swvaluesNum]);
-            setTimeout(function(){
-              window.location.href = "feedback.html";
-            }, 500);
-          }
+            var secondWorstSlide = "slide" + secondWorstNum;
+            var secondWorstConf = "confirm" + secondWorstNum;
+            var swvaluesNum = "values" + secondWorstNum;
+            var secondWorstQnum = "question" + secondWorstNum;
+            var swbtns = "btns" + secondWorstNum;
+
+
+            document.getElementById(currentSlide).className = "slide";
+            document.getElementById(worstSlide).className = "active-slide";
+            document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
+            var radios = document.querySelectorAll(".radio");
+            var radioLbls = document.querySelectorAll(".radLbl");
+            for (var r = 0; r < radios.length; r++){
+              radios[r].style.display = "none";
+              radioLbls[r].style.display = "none";
+            }
+
+
+            document.getElementById(worstConf).onclick = function(){
+              writeData(uid, "re_assessment", worstQnum, values[wvaluesNum].length, values[wvaluesNum]);
+              document.getElementById(worstSlide).className = "slide";
+              document.getElementById(secondWorstSlide).className = "active-slide";
+              document.getElementById(secondWorstConf).disabled = false;
+              document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your second lowest scoring question:";
+              var radios = document.querySelectorAll(".radio");
+              var radioLbls = document.querySelectorAll(".radLbl");
+              for (var r = 0; r < radios.length; r++){
+                radios[r].style.display = "none";
+                radioLbls[r].style.display = "none";
+              }
+              document.getElementById(secondWorstConf).onclick = function(){
+                writeData(uid, "re_assessment", secondWorstQnum, values[swvaluesNum].length, values[swvaluesNum]);
+                setTimeout(function(){
+                  window.location.href = "feedback.html";
+                }, 500);
+              }
+            }
+          });
         }
-      });
-    }
+      };
+    };
   });
+
 };
+
 
 // reads in scoring csv file and adds the original BSAS results into arrays
 var ansIndexNum = 0;
@@ -989,25 +1010,10 @@ function readTrueAns(file){
       var ansIndex = "answers" + ansIndexNum;
       var qIndex = "question" + ansIndexNum;
 
-      trueAnswers[ansIndex][0] = parseInt(d.option1);
-      trueAnswers[ansIndex][1] = parseInt(d.option2);
-      if (d.option3 != ""){
-        trueAnswers[ansIndex][2] = parseInt(d.option3);
-      }
-      if (d.option4 != ""){
-        trueAnswers[ansIndex][3] = parseInt(d.option4);
-      }
-      if (d.option5 != ""){
-        trueAnswers[ansIndex][4] = parseInt(d.option5);
-      }
-      if (d.option6 != ""){
-        trueAnswers[ansIndex][5] = parseInt(d.option6);
-      }
-      if (d.option7 != ""){
-        trueAnswers[ansIndex][6] = parseInt(d.option7);
-      }
-      if (d.option8 != ""){
-        trueAnswers[ansIndex][7] = parseInt(d.option8);
+      trueAnswers[ansIndex][0] = parseInt(d.score1);
+      trueAnswers[ansIndex][1] = parseInt(d.score2);
+      if (d.Option3 != ""){
+        trueAnswers[ansIndex][2] = parseInt(d.score3);
       }
 
       means[qIndex] = parseFloat(d.mean);
@@ -1016,12 +1022,12 @@ function readTrueAns(file){
       var sum = trueAnswers[ansIndex].reduce((a,b) => a+b, 0);
 
       if (sum != 100){
-        for (var a = 0; a < trueAnswers[ansIndex].length; a++){
+        for (var a = 0; a < trueAnswers[ansIndex].length-1; a++){
           trueAnswers[ansIndex][a] = ((trueAnswers[ansIndex][a])/sum) * 100;
         }
       }
     })
-  })
+  });
 };
 
 /*
@@ -1071,57 +1077,6 @@ function writeData(uid, section, qcode, num, answers){
       opt3: answers[num-1]
     });
   }
-  if (num == 4){
-    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
-      opt1: answers[num-4],
-      opt2: answers[num-3],
-      opt3: answers[num-2],
-      opt4: answers[num-1]
-    });
-  }
-  if (num == 5){
-    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
-      opt1: answers[num-5],
-      opt2: answers[num-4],
-      opt3: answers[num-3],
-      opt4: answers[num-2],
-      opt5: answers[num-1]
-    });
-  }
-  if (num == 6){
-    firebase.database().ref('/user' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
-      opt1: answers[num-6],
-      opt2: answers[num-5],
-      opt3: answers[num-4],
-      opt4: answers[num-3],
-      opt5: answers[num-2],
-      opt6: answers[num-1]
-    });
-  }
-  if (num == 7){
-    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
-      opt1: answers[num-7],
-      opt2: answers[num-6],
-      opt3: answers[num-5],
-      opt4: answers[num-4],
-      opt5: answers[num-3],
-      opt6: answers[num-2],
-      opt7: answers[num-1]
-    });
-  }
-  if (num == 9){
-    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
-      opt1: answers[num-9],
-      opt2: answers[num-8],
-      opt3: answers[num-7],
-      opt4: answers[num-6],
-      opt5: answers[num-5],
-      opt6: answers[num-4],
-      opt7: answers[num-3],
-      opt8: answers[num-2],
-      opt9: answers[num-1]
-    });
-  }
 };
 
 // time stamp for each question
@@ -1161,26 +1116,22 @@ function saveTest(uid, vals){
 };
 
 // function to save user details
-function saveUserData(uid, age, gender, income){
+function saveUserData(uid, age, gender, race, edu, house){
   firebase.database().ref('/' + uid + '/details/').set({
     age: age,
     gender: gender,
-    income: income
+    race: race,
+    education: edu,
+    adults_in_house: house
   });
 };
 
-function savePrimingTest(uid, value){
-  firebase.database().ref('/' + uid + '/answers/covid19/priming_test_value/').set({
-    value: value
+function saveClassSurvey(uid, ans){
+  firebase.database().ref('/' + uid + '/details/class_survey/').set({
+    class: ans
   });
 };
 
-function saveTopPrio(uid, section, qcode, value1, value2){
-  firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/their_answer/').set({
-    ans1: value1,
-    ans2: value2
-  })
-}
 
 // Calculate and save user score
 function saveUserScore(uid, user_answers, true_answers, section, qcode, qnum){

@@ -1,63 +1,40 @@
-QuestionCode,Question,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8
-raceori4,To which of these racial groups do you consider you belong?,Asian origin,Black origin,Mixed/other origin,White origin,,,,
-religsum,Would you describe yourself as having,Christian Religion,Non-Christian Religion,No religion,,,,,
-hedqual2,What is your highest educational qualification?,Degree level or higher,Higher education below degree level,A level or equivalent,"GCSE, O level or equivalent",No qualification,,,
-hhtypee,Besides yourself are there any other adults in your household?,Yes,No,,,,,,
-childhh,"If you have any children, do they live with you?",Yes,No,,,,,,
-partyidn,Which political party would you be most likely to vote for at the next election?,Conservative,Green Party,Labour,Liberal Democrat,Don't know or None,Other party,Scottish National Party,
-smnews,"How often, if at all, do you read news on a social media site such as Facebook or Twitter? ","Less often than once a month, or never",At least once a month but less than once per week,At least once a week but not every day,At least once per day,,,,
-politics,How much interest do you have in politics? ,"... a great deal,","quite a lot,","some,","not very much,","or, none at all?",,,
-redistrb,Government should redistribute income from the better-off to less well-off,Agree,Neither agree nor disagree,Disagree,,,,,
-bigbusnn,Big business benefits owners at the expense of workers ,Agree,Neither agree nor disagree,Disagree,,,,,
-wealth,Ordinary working people do not get their fair share of the nation's wealth,Agree,Neither agree nor disagree,Disagree,,,,,
-richlaw,There is one law for the rich and one for the poor ,Agree,Neither agree nor disagree,Disagree,,,,,
-indust4,Management will always try to get the better of employees if it gets the chance ,Agree,Neither agree nor disagree,Disagree,,,,,
-tradvals,Young people today don't have enough respect for traditional British values ,Agree,Neither agree nor disagree,Disagree,,,,,
-stifsent,People who break the law should be given stiffer sentences ,Agree,Neither agree nor disagree,Disagree,,,,,
-deathapp,"For some crimes, the death penalty is the most appropriate sentence",Agree,Neither agree nor disagree,Disagree,,,,,
-obey,Schools should teach children to obey authority ,Agree,Neither agree nor disagree,Disagree,,,,,
-wronglaw,"The law should always be obeyed, even if a particular law is wrong",Agree,Neither agree nor disagree,Disagree,,,,,
-censor,Censorship of films and magazines is necessary to uphold moral standards ,Agree,Neither agree nor disagree,Disagree,,,,,
-welfhelp,The welfare state encourages people to stop helping each other ,Agree,Neither agree nor disagree,Disagree,,,,,
-morewelf,The government should spend more money on welfare benefits for the poor ,Agree,Neither agree nor disagree,Disagree,,,,,
-unempjob,"Around here, most unemployed people could find a job if they really wanted one ",Agree,Neither agree nor disagree,Disagree,,,,,
-sochelp,Many people who get social security dont really deserve any help ,Agree,Neither agree nor disagree,Disagree,,,,,
-dolefidl,Most people on the dole are fiddling in one way or another ,Agree,Neither agree nor disagree,Disagree,,,,,
-welffeet,"If welfare benefits werent so generous, people would learn to stand on their own two feet",Agree,Neither agree nor disagree,Disagree,,,,,
-damlives,Cutting benefits would damage too many peoples lives ,Agree,Neither agree nor disagree,Disagree,,,,,
-proudwlf,The creation of the welfare state is one of Britain's proudest achievements ,Agree,Neither agree nor disagree,Disagree,,,,,
-govpriotop2,What do you think should be the government's highest two priorities? ,Cut crime,Help the economy grow,Improve people`s health,Improve standards of education,Improve the environment,Make housing more affordable,Reduce living costs,Reduce poverty
-poverty1,"Is someone in Britain in poverty if they had enough to buy the things they really needed, but not enough to buy the things most people take for granted","Yes, in poverty","No, not in poverty",,,,,,
-poverty2,"Is someone in Britain in poverty if they had enough to eat and live, but not enough to buy other things they needed","Yes, in poverty","No, not in poverty",,,,,,
-homsbult,Would you support or oppose more homes being built in your local area? ,Oppose,Neither support nor oppose,Support,,,,,
-srsoccl1,Do you think of yourself as belonging to a particular class?,No,"Yes, middle class","Yes, other ","Yes, working class",,,,
-cycdang,It is too dangerous for me to cycle on the roads ,Agree,Neither agree nor disagree,Disagree,,,,,
-plnenvt,"People should be able to travel by plane as much as they like, even if it harms the environment",Agree,Neither agree nor disagree,Disagree,,,,,
-plnuppri,"The price of a plane ticket should reflect the environmental damage that flying causes, even if this makes air travel much more expensive",Agree,Neither agree nor disagree,Disagree,,,,,
-carreduc,For the environment everyone should reduce how much they use cars ,Agree,Neither agree nor disagree,Disagree,,,,,
-carwalk2,Many of the short journeys that I now make by car I could just as easily walk ,Agree,Neither agree nor disagree,Disagree,I never/rarely travel by car for less than 2 miles,,,,
-carbus2,Many of the short journeys that I now make by car I could just as easily go by bus ,Agree,Neither agree nor disagree,Disagree,I never/rarely travel by car for less than 2 miles,,,,
-carbike2,Many of the short journeys that I now make by car I could just as easily cycle ,Agree,Neither agree nor disagree,Disagree,I never/rarely travel by car for less than 2 miles,,,,
-tstgov,Do you tend to trust or tend not to trust the Government? ,Trust it a great deal,Tend to trust it,Tend to distrust it,Distrust it greatly,,,,
-trstmed,Do you tend to trust or tend not to trust the media? ,Trust it a great deal,Tend to trust it,Tend to distrust it,Distrust it greatly,,,,
-trstpol,Do you tend to trust or tend not to trust the police? ,Trust it a great deal,Tend to trust it,Tend to distrust it,Distrust it greatly,,,,
-trstbank,Do you tend to trust or tend not to trust high street banks and financial institutions? ,Trust it a great deal,Tend to trust it,Tend to distrust it,Distrust it greatly,,,,
-sciutr1,How much do you trust university scientists to do their work with the intention of benefiting the public?,A lot,Some,Not much/at all,,,,,
-peoptrst,"Generally speaking, would you say that people can be trusted?",People can almost always be trusted,People can usually be trusted,You must usually be careful in dealing with people,You must always be careful in dealing with people,,,,
-cenchang,Which of the following statements express your views about the Census: Changes over time in the statistics accurately reflect what is changing in the UK? ,Strongly agree,Tend to agree,Tend to disagree,Strongly disagree,,,,
-tchwk,Do you think teachers work…,Not nearly hard enough,Not hard enough,About the right amount,Too hard,Far too hard,,,
-prevfr,Which of these statements comes closest to your view about extremism vs free speech in universities and colleges? ,Responsibility to protect free speech on campus,Responsibility to protect students from hearing extremist views,,,,,,
-instubn2,"Do the benefits for Britain of international students outweigh the costs they bring, or costs outweigh benefits?",The benefits and costs to Britain are about equal,The benefits to Britain are a little greater than the costs,The benefits to Britain are much greater than the costs,The costs to Britain are a little greater than the benefits,The costs to Britain are much greater than the benefits,,,
-unisubj,Should students choose a university course based on ,...how much they are likely to earn after graduating,...how interested they are in the subject?,,,,,,
-rthdssa2,Do you think of disabled people as the same as everyone else?,Most of the time,Some of the time,Hardly ever,Never,,,,
-sexrole2,Do you agree or disagree a husband`s job is to earn money,Agree,Neither agree or disagree,Disagree,,,,,
-relprob1,"Please consider and tell me if you agree or disagree: looking around the world,  religions bring more conflict than peace? ",Agree,Neither agree or disagree,Disagree,,,,,
-bodimr,Does how you look affect how you feel about yourself? ,How I look doesn`t really affect how I feel about myself,I feel much better about myself when I think I look good,,,,,,
-aborwrgb,Do you think it is wrong to have an abortion if the family has a very low income and cannot afford any more children? ,Always or almost always wrong,"Wrong only sometimes, or can’t choose",Not wrong at all,,,,,
-gpaysup,How right or wrong it is for men to be paid more on average than women in a supermarket where most of the check out workers a women and most of the managers are men?,Wrong,Neither right nor wrong,Right,,,,,
-tranneed,Do you agree or disagree that most people who are transgender have gone through this process because of a very superficial and temporary need?,Agree,Neither agree nor disagree,Disagree,,,,,
-pms,Is it wrong for a man and woman have sexual relations before marriage?,Always or mostly wrong,Rarely or sometimes wrong,Not wrong at all,,,,,
-homosex,Are sexual relations between two adults of the same sex,Always or mostly wrong,Rarely or sometimes wrong,Not wrong at all,,,,,
-ruhappy,"If you were to consider your life in general these days, how happy would you say you are on the whole?",Not at all happy,Not very happy,Fairly Happy,Very happy,,,,
-remlea,Do you think of yourself as a Remainer or a Leaver?,Leaver,Remainer,Do not think of self in that way,,,,,
-covid19,"Thinking of the restrictions imposed during coronavirus (COVID-19) lockdown, do you think",It’s important to follow the rules completely,It’s important to follow the rules for the most part,It doesn’t matter whether or not the rules are followed,,,,,
+key,year,mean,sd,sdmean,sdsd,score1,score2,score3,Option1,Option2,Option3,Question
+redistrb,2018,46.336617,24.039211,0.251005,0.154073,42,28,29,Agree,Neither agree nor disagree,Disagree,Government should redistribute income from the better-off to less well-off
+bigbusnn,2018,66.734079,29.810543,0.267145,0.181497,60,27,12,Agree,Neither agree nor disagree,Disagree,Big business benefits owners at the expense of workers 
+wealth,2018,70.652181,30.587538,0.249451,0.191802,62,26,10,Agree,Neither agree nor disagree,Disagree,Ordinary working people do not get their fair share of the nation's wealth
+richlaw,2018,65.846894,29.560532,0.293858,0.156298,60,21,17,Agree,Neither agree nor disagree,Disagree,There is one law for the rich and one for the poor 
+indust4,2018,56.311583,27.304545,0.232269,0.157663,52,28,18,Agree,Neither agree nor disagree,Disagree,Management will always try to get the better of employees if it gets the chance 
+tradvals,2018,61.186386,28.538006,0.293022,0.161339,56,26,16,Agree,Neither agree nor disagree,Disagree,Young people today don't have enough respect for traditional British values 
+stifsent,2018,74.902919,31.312979,0.30415,0.180148,65,24,9,Agree,Neither agree nor disagree,Disagree,People who break the law should be given stiffer sentences 
+deathapp,2018,54.031975,27.102281,0.295087,0.190688,46,15,38,Agree,Neither agree nor disagree,Disagree,"For some crimes, the death penalty is the most appropriate sentence"
+obey,2018,81.605857,32.365592,0.34345,0.174593,70,18,10,Agree,Neither agree nor disagree,Disagree,Schools should teach children to obey authority 
+wronglaw,2018,44.529513,23.478868,0.223397,0.209167,37,35,27,Agree,Neither agree nor disagree,Disagree,"The law should always be obeyed, even if a particular law is wrong"
+censor,2018,55.504889,26.937113,0.256254,0.160557,52,24,22,Agree,Neither agree nor disagree,Disagree,Censorship of films and magazines is necessary to uphold moral standards 
+welfhelp,2018,46.016831,24.086948,0.239203,0.183849,24,36,39,Agree,Neither agree nor disagree,Disagree,The welfare state encourages people to stop helping each other 
+morewelf,2018,45.633382,23.813048,0.254292,0.173101,41,31,27,Agree,Neither agree nor disagree,Disagree,The government should spend more money on welfare benefits for the poor 
+unempjob,2018,60.037644,28.194231,0.267297,0.180883,56,25,18,Agree,Neither agree nor disagree,Disagree,"Around here, most unemployed people could find a job if they really wanted one "
+sochelp,2018,47.792031,24.834656,0.245336,0.186416,21,38,39,Agree,Neither agree nor disagree,Disagree,Many people who get social security dont really deserve any help 
+dolefidl,2018,44.375716,23.420913,0.229346,0.188679,27,35,36,Agree,Neither agree nor disagree,Disagree,Most people on the dole are fiddling in one way or another 
+welffeet,2018,45.250694,23.723584,0.231432,0.19351,40,27,32,Agree,Neither agree nor disagree,Disagree,"If welfare benefits werent so generous, people would learn to stand on their own two feet"
+damlives,2018,60.508861,28.520436,0.268591,0.173219,55,30,14,Agree,Neither agree nor disagree,Disagree,Cutting benefits would damage too many peoples lives 
+proudwlf,2018,64.467202,29.509698,0.319232,0.203089,56,32,10,Agree,Neither agree nor disagree,Disagree,The creation of the welfare state is one of Britain's proudest achievements 
+poverty1,2018,52.238059,35.671777,0.325106,0.199629,21,51,,"Yes, in poverty","No, not in poverty",,"Is someone in Britain in poverty if they had enough to buy the things they really needed, but not enough to buy the things most people take for granted"
+poverty2,2018,40.362741,28.888414,0.294063,0.1721,41,31,,"Yes, in poverty","No, not in poverty",,"Is someone in Britain in poverty if they had enough to eat and live, but not enough to buy other things they needed"
+homsbult,2018,62.95845,28.862746,0.318029,0.174234,14,11,36,Oppose,Neither support nor oppose,Support,Would you support or oppose more homes being built in your local area? 
+plnuppri,2017,49.725093,25.168508,0.260846,0.179756,9,5,5,Agree,Neither agree nor disagree,Disagree,"The price of a plane ticket should reflect the environmental damage that flying causes, even if this makes air travel much more expensive"
+tstgov,2018,41.453384,29.509425,0.311015,0.186796,21,30,,Trust,Distrust,,Do you tend to trust or tend not to trust the Government? 
+trstmed,2018,64.599869,41.153431,0.414848,0.246277,10,40,,Trust,Distrust,,Do you tend to trust or tend not to trust the media? 
+trstpol,2018,68.19574,42.503271,0.45892,0.213768,42,9,,Trust,Distrust,,Do you tend to trust or tend not to trust the police? 
+trstbank,2018,43.033833,30.443274,0.291013,0.166332,30,19,,Trust,Distrust,,Do you tend to trust or tend not to trust high street banks and financial institutions? 
+peoptrst,2018,39.834393,28.580386,0.279297,0.176115,39,31,,Yes,No,,"Generally speaking, would you say that people can be trusted?"
+prevfr,2017,39.487638,28.389069,0.291626,0.157743,39,32,,Responsibility to protect free speech on campus,Responsibility to protect students from hearing extremist views,,Which of these statements comes closest to your view about extremism vs free speech in universities and colleges? 
+unisubj,2018,66.342748,41.832724,0.421921,0.26014,13,56,,...how much they are likely to earn after graduating,...how interested they are in the subject?,,Should students choose a university course based on 
+sexrole2,2018,75.804205,31.471637,0.280818,0.183035,5,11,33,Agree,Neither agree or disagree,Disagree,Do you agree or disagree a husband`s job is to earn money
+relprob1,2018,71.87338,30.760354,0.329402,0.178559,32,10,7,Agree,Neither agree or disagree,Disagree,"Please consider and tell me if you agree or disagree: looking around the world,  religions bring more conflict than peace? "
+bodimr,2017,43.155431,30.513531,0.254731,0.176326,22,35,,How I look doesn`t really affect how I feel about myself,I feel much better about myself when I think I look good,,Does how you look affect how you feel about yourself? 
+gpaysup,2018,47.173653,24.506836,0.226039,0.174168,29,16,24,Wrong,Neither right nor wrong,Right,How right or wrong it is for men to be paid more on average than women in a supermarket where most of the check out workers a women and most of the managers are men?
+tranneed,2018,72.081635,30.802119,0.271869,0.185449,9,15,45,Agree,Neither agree nor disagree,Disagree,Do you agree or disagree that most people who are transgender have gone through this process because of a very superficial and temporary need?
+homosex,2018,93.152849,33.715336,0.342711,0.215035,11,4,54,Always or mostly wrong,Sometimes wrong,Rarely or never wrong,Are sexual relations between two adults of the same sex
+ruhappy,2018,81.12862,45.84904,0.455808,0.260211,5,45,,Not happy,Happy,,"If you were to consider your life in general these days, how happy would you say you are on the whole?"
+remlea,2018,53.056654,26.596166,0.27668,0.178972,26,13,36,Leaver,I do not think of myself as either remainer or leaver,Remainer,"Considering Brexit, do you think of yourself as a Remainer or a Leaver?"
+covid19,,0,0,0,0,0,0,0,It’s important to follow the rules completely,It’s important to follow the rules for the most part,It doesn’t matter whether or not the rules are followed,"Thinking of the restrictions imposed during coronavirus (COVID-19) lockdown, do you think"
