@@ -525,8 +525,11 @@ function readData(file, section){
           })
         }
       } else {
+        var prev1;
+        var prev2;
+        var prev3;
         for (var b = 0; b < hbars[barsNum].length; b++){
-          document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
+          document.getElementById(hbars[barsNum][b]).addEventListener('change', function(){
             var str = this.id;
             var ind = parseInt(str.substr(splice), 10) - 1;
             var bar1 = document.getElementById(hbars[barsNum][0]);
@@ -545,6 +548,10 @@ function readData(file, section){
                 bar2.value = 100 - bar1.value;
                 span2.innerHTML = bar2.value + "%";
               }
+              prev1 = bar1.value;
+              prev2 = bar2.value;
+              prev3 = bar3.value;
+
             } else if (ind == 2){
               span3.innerHTML = bar3.value + "%";
               bar1.value = 100 - bar2.value - bar3.value;
@@ -554,13 +561,22 @@ function readData(file, section){
                 bar2.value = 100 - bar3.value;
                 span2.innerHTML = bar2.value + "%";
               }
+              prev1 = bar1.value;
+              prev2 = bar2.value;
+              prev3 = bar3.value;
+
             } else {
+
               span2.innerHTML = bar2.value + "%";
-              var diff = 100 - bar2.value;
-              bar1.value = Math.floor(diff/2);
+              var diff = bar2.value - prev2;
+              bar1.value = prev1 - Math.floor(diff/2);
               span1.innerHTML = bar1.value + "%";
               bar3.value = 100 - bar1.value - bar2.value;
               span3.innerHTML = bar3.value + "%";
+
+              prev1 = bar1.value;
+              prev2 = bar2.value;
+              prev3 = bar3.value;
             }
 
             values[valuesNum][0] = bar1.value;
