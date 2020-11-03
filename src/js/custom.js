@@ -494,12 +494,19 @@ function readData(file, section){
         })
       };
 
+      var splice;
+      if (i >= 10){
+        splice = 6;
+      } else {
+        splice = 5;
+      }
+
       // keeping the sliders at 100%
       if (numOfOpts == 2){
         for (var b = 0; b < hbars[barsNum].length; b++){
           document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
             var str = this.id;
-            var ind = parseInt(str.substr(5), 10) - 1;
+            var ind = parseInt(str.substr(splice), 10) - 1;
             var bar1 = document.getElementById(hbars[barsNum][0]);
             var bar2 = document.getElementById(hbars[barsNum][1]);
             var span1 = document.getElementById(barSpans[barsNum][0]);
@@ -521,7 +528,7 @@ function readData(file, section){
         for (var b = 0; b < hbars[barsNum].length; b++){
           document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
             var str = this.id;
-            var ind = parseInt(str.substr(5), 10) - 1;
+            var ind = parseInt(str.substr(splice), 10) - 1;
             var bar1 = document.getElementById(hbars[barsNum][0]);
             var bar2 = document.getElementById(hbars[barsNum][1]);
             var bar3 = document.getElementById(hbars[barsNum][2]);
