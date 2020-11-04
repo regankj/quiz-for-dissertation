@@ -540,7 +540,7 @@ function readData(file, section){
       } else {
         var prev1;
         var prev2;
-        var prev3;
+        var prev3 = 33;
         for (var b = 0; b < hbars[barsNum].length; b++){
           document.getElementById(hbars[barsNum][b]).addEventListener('change', function(){
             var str = this.id;
