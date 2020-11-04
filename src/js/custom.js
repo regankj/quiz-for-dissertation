@@ -284,6 +284,7 @@ var userScores = {};
 var means = {};
 var stanDs = {};
 var qs = [];
+var qcodes = [];
 
 function addRow(slide){
   const newRow = document.createElement('div');
@@ -451,6 +452,7 @@ function readData(file, section){
       }
 
       var qcode = d.key;
+      qcodes.push(qcode);
       // end of referenced code
 
 
@@ -903,6 +905,7 @@ function finalSlides(){
     demoErr.style.display = "none";
     demoErr.innerHTML = "*Please complete the whole form.";
     theSlide.appendChild(demoErr);
+    addRow(theSlide);
 
     document.getElementById("demographicBtn").onclick =  function(){
       var genderBox = document.getElementById("dropdown1");
@@ -1000,12 +1003,17 @@ function finalSlides(){
             var wvaluesNum = "values" + worstNum;
             var currentSlide = "slide" + i;
             var worstQnum = "question" + worstNum;
+            var worstQcode = qcodes[worstNum-1];
 
             var secondWorstSlide = "slide" + secondWorstNum;
             var secondWorstConf = "confirm" + secondWorstNum;
             var swvaluesNum = "values" + secondWorstNum;
             var secondWorstQnum = "question" + secondWorstNum;
             var swbtns = "btns" + secondWorstNum;
+            var swQcode = qcodes[secondWorstNum];
+
+            var prevWorst = values[wvaluesNum];
+            var prevsw = values[swvaluesNum];
 
 
             document.getElementById(currentSlide).className = "slide";
@@ -1020,7 +1028,8 @@ function finalSlides(){
 
 
             document.getElementById(worstConf).onclick = function(){
-              writeData(uid, "re_assessment", worstQnum, values[wvaluesNum].length, values[wvaluesNum]);
+              writeData(uid, "answers", worstQcode, prevWorst.length, prevWorst )
+              writeData(uid, "re_assessment", worstQcode, values[wvaluesNum].length, values[wvaluesNum]);
               document.getElementById(worstSlide).className = "slide";
               document.getElementById(secondWorstSlide).className = "active-slide";
               document.getElementById(secondWorstConf).disabled = false;
@@ -1035,7 +1044,8 @@ function finalSlides(){
                 var str = this.id;
                 var n = str.replace("confirm", "errText");
                 document.getElementById(n).style.display = "none";
-                writeData(uid, "re_assessment", secondWorstQnum, values[swvaluesNum].length, values[swvaluesNum]);
+                writeData(uid, "answers", swQcode, prevsw.length, prevsw);
+                writeData(uid, "re_assessment", swQcode, values[swvaluesNum].length, values[swvaluesNum]);
                 setTimeout(function(){
                   window.location.href = "feedback.html";
                 }, 500);
