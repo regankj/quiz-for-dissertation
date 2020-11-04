@@ -29,11 +29,18 @@ if (contBtn){
       document.getElementById("infoErr").style.display = "inline-block";
       classBox.disabled = false;
     } else {
+      var fail;
       var uid = getCookie();
       saveClassSurvey(uid, classBracket);
       classBox.disabled = true;
       contBtn.disabled = true;
       document.getElementById("infoErr").style.display = "none";
+      if (classBracket == "International Elite" || classBracket == "London Middle Class" || classBracket == "Old Affluent Workers" || classBracket == "Managerial Working Class" || classBracket == "Self Employed Service Workers"){
+            fail = "Yes";
+      } else {
+            fail = "No";
+      }
+      alertnessTest(uid, "Class_Survey", fail);
     }
 
   });
@@ -63,7 +70,9 @@ if ($('body').is(".knowledge")){
   var yesTV = document.getElementById('yesTV');
   var noTV = document.getElementById('noTV');
   var testForm = document.getElementById('test');
-  var linktoNext = "quiz.html";
+  var interestBox = document.getElementById("pol_interest");
+  var partyBox = document.getElementById("pol_party");
+
 
   noPaper.addEventListener('click', function(){
     yesPaper.checked = false;
@@ -92,13 +101,11 @@ if ($('body').is(".knowledge")){
   yesTV.addEventListener('click', function(){
     noTV.checked = false;
     testValues[4] = "Yes";
-    document.getElementById('whichTV').style.display = "block";
   })
 
   noTV.addEventListener('click', function(){
     yesTV.checked = false;
     testValues[4] = "No";
-    document.getElementById('whichTV').style.display = "none";
   })
 
   d3.csv('Sample-Data/test.csv').then(function(data){
@@ -141,7 +148,7 @@ if ($('body').is(".knowledge")){
           var theRad = this;
           var str = theRad.id;
           var radNum = parseInt(str.substr(10), 10);
-          var ind = Math.floor((radNum/4.1)) + 6;
+          var ind = Math.floor((radNum/4.1)) + 7;
           var newStr = str.replace("rad", "radLbl");
           testValues[ind] = document.getElementById(newStr).innerHTML;
           for (var t3 = 0; t3 < testRads.length; t3++){
@@ -154,7 +161,7 @@ if ($('body').is(".knowledge")){
           var theRadLbl = this;
           var str = theRadLbl.id;
           var radNum = parseInt(str.substr(13), 10);
-          var ind = Math.floor((radNum/4.1)) + 6;
+          var ind = Math.floor((radNum/4.1)) + 7;
           testValues[ind] = theRadLbl.innerHTML;
           var newStr = str.replace("radLbl", "rad");
           var activeRad = document.getElementById(newStr);
@@ -200,15 +207,17 @@ if ($('body').is(".knowledge")){
           checkedRads++;
         }
       };
+      var interest = interestBox.options[interestBox.selectedIndex].text;
+      var party = partyBox.options[partyBox.selectedIndex].text;
 
-      if (checkedRads != 12){
+      if (checkedRads != 12 || interest == "Choose..." || party == "Choose..."){
         testErr.style.display = "inline-block";
-        linktoNext = "javascript: ;";
       } else {
         testValues[1] = document.getElementById("whatPaper").value;
         testValues[3] = document.getElementById("whichNewsSite").value;
-        testValues[5] = document.getElementById("whichTV").value;
-        testValues[15] = document.getElementById('alertInput').value;
+        testValues[5] = interest;
+        testValues[6] = party;
+        testValues[16] = document.getElementById('alertInput').value;
         var radios = document.querySelectorAll('.radio');
         for (var t5 = 0; t5 < radios.length; t5++){
           radios[t5].disabled = true;
@@ -220,20 +229,22 @@ if ($('body').is(".knowledge")){
         testErr.style.display = "none";
         var uid = getCookie();
         saveTest(uid, testValues);
-        linktoNext = "quiz.html";
-      }
-      var alertString = document.getElementById("alertInput").value;
-      var newString = alertString.replace(/[^A-Z0-9]+/ig, "");
-      if ((newString.toLowerCase()) != "alert"){
-        linktoNext = "alert.html";
+        var fail;
+        var alertString = document.getElementById("alertInput").value;
+        var newString = alertString.replace(/[^A-Z0-9]+/ig, "");
+        if ((newString.toLowerCase()) != "alert"){
+          fail = "Yes";
+        } else {
+          fail = "No";
+        }
+        alertnessTest(uid, "political_knowledge_test", fail);
+
+        setTimeout(function(){
+          window.location.href = "quiz.html";
+        }, 500);
       }
     });
 
-    testBtn.onclick = function(){
-      setTimeout(function(){
-        window.location.href = "quiz.html";
-      }, 500);
-    };
 
     document.getElementById("radForTest36").addEventListener('click', function(){
       document.getElementById("alertInput").style.display = "inline-block";
@@ -1124,17 +1135,18 @@ function saveTest(uid, vals){
     webYN: vals[2],
     web: vals[3],
     tvYN: vals[4],
-    tv: vals[5],
-    speaker_HOC: vals[6],
-    brexit: vals[7],
-    sci_advisor: vals[8],
-    unemployment: vals[9],
-    seats_HOC: vals[10],
-    fiveG: vals[11],
-    elec_source: vals[12],
-    party_HOC: vals[13],
-    alert: vals[14],
-    alert_text: vals[15]
+    political_interest: vals[5],
+    party_vote: vals[6],
+    speaker_HOC: vals[7],
+    brexit: vals[8],
+    sci_advisor: vals[9],
+    unemployment: vals[10],
+    seats_HOC: vals[11],
+    fiveG: vals[12],
+    elec_source: vals[13],
+    party_HOC: vals[14],
+    alert: vals[15],
+    alert_text: vals[16]
   });
 };
 
@@ -1173,6 +1185,13 @@ function saveFeedback(uid, vals, text){
     other_fb: text
   });
 };
+
+function alertnessTest(uid, test, fail){
+  firebase.database().ref('/' + uid + '/alertness_tests/' + test + '/').set({
+    failed: fail
+  });
+};
+
 // end of referenced code
 
 
