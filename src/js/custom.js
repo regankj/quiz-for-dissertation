@@ -17,11 +17,14 @@ function getCookie(){
 }
 // end of referenced code
 
+if ($("body").is(".consent")){
+  setCookie();
+}
+
 // Functionality for initial page
 const contBtn = document.getElementById('continue');
 if (contBtn){
   var classBox = document.getElementById('classSurvey');
-  setCookie();
   contBtn.addEventListener('click', function(){
     var classBracket = classBox.options[classBox.selectedIndex].text;
 
@@ -224,7 +227,6 @@ if ($('body').is(".knowledge")){
         };
         document.getElementById("whatPaper").disabled = true;
         document.getElementById("whichNewsSite").disabled = true;
-        document.getElementById("whichTV").disabled = true;
         document.getElementById('alertInput').disabled = true;
         testErr.style.display = "none";
         var uid = getCookie();
@@ -584,6 +586,16 @@ function readData(file, section){
               span1.innerHTML = bar1.value + "%";
               bar3.value = 100 - bar1.value - bar2.value;
               span3.innerHTML = bar3.value + "%";
+              if (bar3.value == 0){
+                span3.innerHTML = "0%";
+                bar1.value = 100 - bar2.value;
+                span1.innerHTML = bar1.value + "%";
+              }
+              if (bar1.value == 0){
+                span1.innerHTML = "0%";
+                bar3.value = 100 = bar2.value;
+                span3.innerHTML = bar3.value + "%";
+              }
 
               prev1 = bar1.value;
               prev2 = bar2.value;
@@ -1020,6 +1032,9 @@ function finalSlides(){
                 radioLbls[r].style.display = "none";
               }
               document.getElementById(secondWorstConf).onclick = function(){
+                var str = this.id;
+                var n = str.replace("confirm", "errText");
+                document.getElementById(n).style.display = "none";
                 writeData(uid, "re_assessment", secondWorstQnum, values[swvaluesNum].length, values[swvaluesNum]);
                 setTimeout(function(){
                   window.location.href = "feedback.html";
