@@ -709,7 +709,7 @@ function showSlide(n, currentSlideID, slideNo){
   document.getElementById(n).className = "active-slide";
   // end of referenced code
   if (slideNo == i){
-
+    document.getElementById("nextBtn").style.display = "none";
     finalSlides();
   }
 }
@@ -844,6 +844,7 @@ function finalSlides(){
   var theSlide = document.getElementById(slideID);
   var conID = "confirm39";
   document.getElementById(conID).addEventListener('click', function(){
+    document.getElementById("nextBtn").style.display = "none";
     var num = 0;
     theSlide.innerHTML = "";
     location.href = "#top";
@@ -927,6 +928,7 @@ function finalSlides(){
         theSlide.className = "active-slide";
         document.querySelector("#top h2").innerHTML = "Well Done!"
         document.querySelector("#top h6").innerHTML = "You have completed the quiz.If you're interested, below is your mean score and also your answers compared to the actual ones, sorted by highest to lowest score (reading this is optional).";
+        document.getElementById("nextBtn").style.display = "inline-block";
         var totalScore = 0;
         for (var s1 = 1; s1 < 39; s1++){
           var qnum = "question" + (s1);
