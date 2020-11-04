@@ -538,8 +538,8 @@ function readData(file, section){
           })
         }
       } else {
-        var prev1;
-        var prev2;
+        var prev1 = 34;
+        var prev2 = 33;
         var prev3 = 33;
         for (var b = 0; b < hbars[barsNum].length; b++){
           document.getElementById(hbars[barsNum][b]).addEventListener('change', function(){
@@ -593,7 +593,7 @@ function readData(file, section){
               }
               if (bar1.value == 0){
                 span1.innerHTML = "0%";
-                bar3.value = 100 = bar2.value;
+                bar3.value = 100 - bar2.value;
                 span3.innerHTML = bar3.value + "%";
               }
 
