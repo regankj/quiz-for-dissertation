@@ -286,6 +286,7 @@ var stanDs = {};
 var qs = [];
 var qcodes = [];
 var worstAns = [];
+var sworstAns = [];
 
 function addRow(slide){
   const newRow = document.createElement('div');
@@ -1031,17 +1032,17 @@ function finalSlides(){
             var secondWorstOnum = "options" + secondWorstNum;
             var swQcode = qcodes[secondWorstNum];
 
-            worstQs(theSlide, worstNum, 39);
+            worstQs(theSlide, worstNum, 39, worstAns);
 
 
             document.getElementById(worstConf).onclick = function(){
               writeData(uid, "re_assessment", worstQcode, worstAns.length, worstAns);
-              worstQs(theSlide, secondWorstNum, 39);
+              worstQs(theSlide, secondWorstNum, 39, sworstAns);
               document.getElementById(secondWorstConf).onclick = function(){
-                writeData(uid, "re_assessment", swQcode, worstAns.length, worstAns);
+                writeData(uid, "re_assessment", swQcode, sworstAns.length, sworstAns);
                 setTimeout(function(){
                   window.location.href = "feedback.html";
-                }, 1000);
+                }, 500);
               }
             }
           });
@@ -1052,7 +1053,7 @@ function finalSlides(){
 
 };
 
-function worstQs(theSlide, worstNum, n){
+function worstQs(theSlide, worstNum, n, array){
   document.getElementById("nextBtn").style.display = "none";
   var oNum = "options" + worstNum;
   var barNum = "bars" + n;
@@ -1091,6 +1092,8 @@ function worstQs(theSlide, worstNum, n){
   theSlide.appendChild(wConfBtn);
 
   if (hbars[barNum].length == 2){
+    array[0] = 50;
+    array[1] = 50;
     for (var b = 0; b < hbars[barNum].length; b++){
       document.getElementById(hbars[barNum][b]).addEventListener('input', function(){
         var str = this.id;
@@ -1108,11 +1111,14 @@ function worstQs(theSlide, worstNum, n){
           bar1.value = 100 - bar2.value;
           span1.innerHTML = bar1.value + "%";
         }
-        worstAns[0] = bar1.value;
-        worstAns[1] = bar2.value;
+        array[0] = bar1.value;
+        array[1] = bar2.value;
       })
     }
   } else {
+    array[0] = 34;
+    array[1] = 33;
+    array[2] = 33;
     var prop = 0.5;
     for (var b = 0; b < hbars[barNum].length; b++){
       document.getElementById(hbars[barNum][b]).addEventListener('input', function(){
@@ -1174,9 +1180,9 @@ function worstQs(theSlide, worstNum, n){
 
         }
 
-        worstAns[0] = bar1.value;
-        worstAns[1] = bar2.value;
-        worstAns[2] = bar3.value;
+        array[0] = bar1.value;
+        array[1] = bar2.value;
+        array[2] = bar3.value;
       });
     }
   }
