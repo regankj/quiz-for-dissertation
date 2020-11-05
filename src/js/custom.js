@@ -285,6 +285,7 @@ var means = {};
 var stanDs = {};
 var qs = [];
 var qcodes = [];
+var worstAns = [];
 
 function addRow(slide){
   const newRow = document.createElement('div');
@@ -423,7 +424,11 @@ function readData(file, section){
         document.getElementById(radLbls[radLblsNum][2]).innerHTML = d.Option3;
         options[optionsNum].push(d.Option3);
         numOfOpts++;
+        addRow(slide);
       }
+
+      var qcode = d.key;
+      qcodes.push(qcode);
 
       var count = Math.floor(100/numOfOpts);
       var extra;
@@ -433,26 +438,28 @@ function readData(file, section){
         extra = 100 - (count*numOfOpts);
       }
 
-      addRow(slide);
-      d3.select(slideID).append("label").text("What did the public think?:");
-      addRow(slide);
+      if (qcode != "covid19" ){
+        addRow(slide);
+        d3.select(slideID).append("label").text("What did the public think?:");
+        addRow(slide);
 
-      d3.select(slideID).append("label").text(d.Option1);
-      addSliders(slide, (count + extra));
-      addRow(slide);
+        d3.select(slideID).append("label").text(d.Option1);
+        addSliders(slide, (count + extra));
+        addRow(slide);
 
-      d3.select(slideID).append("label").text(d.Option2);
-      addSliders(slide, count);
-      addRow(slide);
-
-      if (d.Option3 != ""){
-        d3.select(slideID).append("label").text(d.Option3);
+        d3.select(slideID).append("label").text(d.Option2);
         addSliders(slide, count);
         addRow(slide);
+
+        if (d.Option3 != ""){
+          d3.select(slideID).append("label").text(d.Option3);
+          addSliders(slide, count);
+          addRow(slide);
+        }
       }
 
-      var qcode = d.key;
-      qcodes.push(qcode);
+
+
       // end of referenced code
 
 
@@ -516,95 +523,97 @@ function readData(file, section){
         splice = 5;
       }
 
-      // keeping the sliders at 100%
-      if (numOfOpts == 2){
-        for (var b = 0; b < hbars[barsNum].length; b++){
-          document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
-            var str = this.id;
-            var ind = parseInt(str.substr(splice), 10) - 1;
-            var bar1 = document.getElementById(hbars[barsNum][0]);
-            var bar2 = document.getElementById(hbars[barsNum][1]);
-            var span1 = document.getElementById(barSpans[barsNum][0]);
-            var span2 = document.getElementById(barSpans[barsNum][1]);
-            if (ind == 0){
-              span1.innerHTML = bar1.value + "%";
-              bar2.value = 100 - bar1.value;
-              span2.innerHTML = bar2.value + "%";
-            } else {
-              span2.innerHTML = bar2.value + "%";
-              bar1.value = 100 - bar2.value;
-              span1.innerHTML = bar1.value + "%";
-            }
-            values[valuesNum][0] = bar1.value;
-            values[valuesNum][1] = bar2.value;
-          })
-        }
-      } else {
-        var prop = 0.5;
-        for (var b = 0; b < hbars[barsNum].length; b++){
-          document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
-            var str = this.id;
-            var ind = parseInt(str.substr(splice), 10) - 1;
-            var bar1 = document.getElementById(hbars[barsNum][0]);
-            var bar2 = document.getElementById(hbars[barsNum][1]);
-            var bar3 = document.getElementById(hbars[barsNum][2]);
-            var span1 = document.getElementById(barSpans[barsNum][0]);
-            var span2 = document.getElementById(barSpans[barsNum][1]);
-            var span3 = document.getElementById(barSpans[barsNum][2]);
-
-
-
-
-            if (ind == 0){
-              span1.innerHTML = bar1.value + "%";
-              bar3.value = 100 - bar1.value - bar2.value;
-              span3.innerHTML = bar3.value + "%";
-              if (bar3.value == 0){
-                span3.innerHTML = "0%";
+      if (qcode != "covid19"){
+        // keeping the sliders at 100%
+        if (numOfOpts == 2){
+          for (var b = 0; b < hbars[barsNum].length; b++){
+            document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
+              var str = this.id;
+              var ind = parseInt(str.substr(splice), 10) - 1;
+              var bar1 = document.getElementById(hbars[barsNum][0]);
+              var bar2 = document.getElementById(hbars[barsNum][1]);
+              var span1 = document.getElementById(barSpans[barsNum][0]);
+              var span2 = document.getElementById(barSpans[barsNum][1]);
+              if (ind == 0){
+                span1.innerHTML = bar1.value + "%";
                 bar2.value = 100 - bar1.value;
                 span2.innerHTML = bar2.value + "%";
-              }
-              prop = (bar1.value)/(100-bar2.value);
-
-
-
-            } else if (ind == 2){
-              span3.innerHTML = bar3.value + "%";
-              bar1.value = 100 - bar2.value - bar3.value;
-              span1.innerHTML = bar1.value + "%";
-              if (bar1.value == 0){
-                span1.innerHTML = "0%";
-                bar2.value = 100 - bar3.value;
+              } else {
                 span2.innerHTML = bar2.value + "%";
-              }
-              prop = (bar1.value)/(100-bar2.value);
-
-            } else {
-
-              span2.innerHTML = bar2.value + "%";
-              var diff = 100 - bar2.value;
-              bar1.value = Math.floor(diff*prop);
-              span1.innerHTML = bar1.value + "%";
-              bar3.value = 100 - bar1.value - bar2.value;
-              span3.innerHTML = bar3.value + "%";
-              if (bar3.value == 0){
-                span3.innerHTML = "0%";
                 bar1.value = 100 - bar2.value;
                 span1.innerHTML = bar1.value + "%";
               }
-              if (bar1.value == 0){
-                span1.innerHTML = "0%";
-                bar3.value = 100 - bar2.value;
+              values[valuesNum][0] = bar1.value;
+              values[valuesNum][1] = bar2.value;
+            })
+          }
+        } else {
+          var prop = 0.5;
+          for (var b = 0; b < hbars[barsNum].length; b++){
+            document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
+              var str = this.id;
+              var ind = parseInt(str.substr(splice), 10) - 1;
+              var bar1 = document.getElementById(hbars[barsNum][0]);
+              var bar2 = document.getElementById(hbars[barsNum][1]);
+              var bar3 = document.getElementById(hbars[barsNum][2]);
+              var span1 = document.getElementById(barSpans[barsNum][0]);
+              var span2 = document.getElementById(barSpans[barsNum][1]);
+              var span3 = document.getElementById(barSpans[barsNum][2]);
+
+
+
+
+              if (ind == 0){
+                span1.innerHTML = bar1.value + "%";
+                bar3.value = 100 - bar1.value - bar2.value;
                 span3.innerHTML = bar3.value + "%";
+                if (bar3.value == 0){
+                  span3.innerHTML = "0%";
+                  bar2.value = 100 - bar1.value;
+                  span2.innerHTML = bar2.value + "%";
+                }
+                prop = (bar1.value)/(100-bar2.value);
+
+
+
+              } else if (ind == 2){
+                span3.innerHTML = bar3.value + "%";
+                bar1.value = 100 - bar2.value - bar3.value;
+                span1.innerHTML = bar1.value + "%";
+                if (bar1.value == 0){
+                  span1.innerHTML = "0%";
+                  bar2.value = 100 - bar3.value;
+                  span2.innerHTML = bar2.value + "%";
+                }
+                prop = (bar1.value)/(100-bar2.value);
+
+              } else {
+
+                span2.innerHTML = bar2.value + "%";
+                var diff = 100 - bar2.value;
+                bar1.value = Math.floor(diff*prop);
+                span1.innerHTML = bar1.value + "%";
+                bar3.value = 100 - bar1.value - bar2.value;
+                span3.innerHTML = bar3.value + "%";
+                if (bar3.value == 0){
+                  span3.innerHTML = "0%";
+                  bar1.value = 100 - bar2.value;
+                  span1.innerHTML = bar1.value + "%";
+                }
+                if (bar1.value == 0){
+                  span1.innerHTML = "0%";
+                  bar3.value = 100 - bar2.value;
+                  span3.innerHTML = bar3.value + "%";
+                }
+
+
               }
 
-
-            }
-
-            values[valuesNum][0] = bar1.value;
-            values[valuesNum][1] = bar2.value;
-            values[valuesNum][2] = bar3.value;
-          });
+              values[valuesNum][0] = bar1.value;
+              values[valuesNum][1] = bar2.value;
+              values[valuesNum][2] = bar3.value;
+            });
+          }
         }
       }
 
@@ -612,11 +621,11 @@ function readData(file, section){
       document.getElementById(conBtnID).addEventListener('click', function(){
         document.getElementById(errTextID).style.display = "none";
         document.getElementById(conBtnID).disabled = true;
-        writeData(uid, section, qcode, options[optionsNum].length, values[valuesNum]);
         var endTime = Date.now();
         var difference = (endTime - startTime)/1000;
         saveTime(uid, section, qcode, difference);
         if (qcode != "covid19"){
+          writeData(uid, section, qcode, options[optionsNum].length, values[valuesNum]);
           saveUserScore(uid, values[valuesNum], trueAnswers[ansIndexNum], section, qcode, questionNum);
         }
 
@@ -927,7 +936,7 @@ function finalSlides(){
         location.href = "#top";
         theSlide.className = "active-slide";
         document.querySelector("#top h2").innerHTML = "Well Done!"
-        document.querySelector("#top h6").innerHTML = "You have completed the quiz.If you're interested, below is your mean score and also your answers compared to the actual ones, sorted by highest to lowest score (reading this is optional).";
+        document.querySelector("#top h6").innerHTML = "You have completed the quiz. If you're interested, below is your mean score and also your answers compared to the actual ones, sorted by highest to lowest score (reading this is optional).";
         document.getElementById("nextBtn").style.display = "inline-block";
         var totalScore = 0;
         for (var s1 = 1; s1 < 39; s1++){
@@ -997,54 +1006,23 @@ function finalSlides(){
             var secondWorst = sortable[1][0];
             var worstNum = parseInt(worst.replace("question", ""), 10);
             var secondWorstNum = parseInt(secondWorst.replace("question", ""), 10);
-            var worstSlide = "slide" + worstNum;
-            var worstConf = "confirm" + worstNum;
-            var wvaluesNum = "values" + worstNum;
-            var currentSlide = "slide" + i;
-            var worstQnum = "question" + worstNum;
+            var worstOnum = "options" + worstNum;
             var worstQcode = qcodes[worstNum-1];
+            var worstConf = "wConf" + worstNum;
 
-            var secondWorstSlide = "slide" + secondWorstNum;
-            var secondWorstConf = "confirm" + secondWorstNum;
-            var swvaluesNum = "values" + secondWorstNum;
-            var secondWorstQnum = "question" + secondWorstNum;
-            var swbtns = "btns" + secondWorstNum;
+
+            var secondWorstConf = "wConf" + secondWorstNum;
+            var secondWorstOnum = "options" + secondWorstNum;
             var swQcode = qcodes[secondWorstNum];
 
-            var prevWorst = values[wvaluesNum];
-            var prevsw = values[swvaluesNum];
-
-
-            document.getElementById(currentSlide).className = "slide";
-            document.getElementById(worstSlide).className = "active-slide";
-            document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
-            var radios = document.querySelectorAll(".radio");
-            var radioLbls = document.querySelectorAll(".radLbl");
-            for (var r = 0; r < radios.length; r++){
-              radios[r].style.display = "none";
-              radioLbls[r].style.display = "none";
-            }
+            worstQs(theSlide, worstNum, 39);
 
 
             document.getElementById(worstConf).onclick = function(){
-              writeData(uid, "answers", worstQcode, prevWorst.length, prevWorst )
-              writeData(uid, "re_assessment", worstQcode, values[wvaluesNum].length, values[wvaluesNum]);
-              document.getElementById(worstSlide).className = "slide";
-              document.getElementById(secondWorstSlide).className = "active-slide";
-              document.getElementById(secondWorstConf).disabled = false;
-              document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your second lowest scoring question:";
-              var radios = document.querySelectorAll(".radio");
-              var radioLbls = document.querySelectorAll(".radLbl");
-              for (var r = 0; r < radios.length; r++){
-                radios[r].style.display = "none";
-                radioLbls[r].style.display = "none";
-              }
+              writeData(uid, "re_assessment", worstQcode, worstAns.length, worstAns);
+              worstQs(theSlide, secondWorstNum, 39);
               document.getElementById(secondWorstConf).onclick = function(){
-                var str = this.id;
-                var n = str.replace("confirm", "errText");
-                document.getElementById(n).style.display = "none";
-                writeData(uid, "answers", swQcode, prevsw.length, prevsw);
-                writeData(uid, "re_assessment", swQcode, values[swvaluesNum].length, values[swvaluesNum]);
+                writeData(uid, "re_assessment", swQcode, worstAns.length, worstAns);
                 setTimeout(function(){
                   window.location.href = "feedback.html";
                 }, 500);
@@ -1058,6 +1036,134 @@ function finalSlides(){
 
 };
 
+function worstQs(theSlide, worstNum, n){
+  var oNum = "options" + worstNum;
+  var barNum = "bars" + n;
+  theSlide.innerHTML = ""
+  document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
+  var qlbl = document.createElement("label");
+  qlbl.innerHTML = qs[worstNum-1];
+  theSlide.appendChild(qlbl);
+  addRow(theSlide);
+  for (var o = 0; o < options[oNum].length; o++){
+    var lbl = document.createElement("label");
+    lbl.innerHTML = options[oNum][o];
+    theSlide.appendChild(lbl);
+    addRow(theSlide);
+    var count = Math.floor(100/options[oNum].length);
+    var extra = 0;
+    if (count == 100){
+      extra = 0;
+    } else {
+      extra = 100 - (count*(options[oNum].length));
+    }
+    if (o == 0){
+      addSliders(theSlide, count + extra);
+    }
+    else {
+    addSliders(theSlide, count);
+    }
+
+    addRow(theSlide);
+  }
+  j = 1;
+  var wConfBtn = document.createElement('button');
+  wConfBtn.className = "btn btn-primary my-md-3";
+  wConfBtn.innerHTML = "Confirm & Next";
+  wConfBtn.id = "wConf" + worstNum;
+  theSlide.appendChild(wConfBtn);
+
+  if (hbars[barNum].length == 2){
+    for (var b = 0; b < hbars[barNum].length; b++){
+      document.getElementById(hbars[barNum][b]).addEventListener('input', function(){
+        var str = this.id;
+        var ind = parseInt(str.substr(6), 10) - 1;
+        var bar1 = document.getElementById(hbars[barNum][0]);
+        var bar2 = document.getElementById(hbars[barNum][1]);
+        var span1 = document.getElementById(barSpans[barNum][0]);
+        var span2 = document.getElementById(barSpans[barNum][1]);
+        if (ind == 0){
+          span1.innerHTML = bar1.value + "%";
+          bar2.value = 100 - bar1.value;
+          span2.innerHTML = bar2.value + "%";
+        } else {
+          span2.innerHTML = bar2.value + "%";
+          bar1.value = 100 - bar2.value;
+          span1.innerHTML = bar1.value + "%";
+        }
+        worstAns[0] = bar1.value;
+        worstAns[1] = bar2.value;
+      })
+    }
+  } else {
+    var prop = 0.5;
+    for (var b = 0; b < hbars[barNum].length; b++){
+      document.getElementById(hbars[barNum][b]).addEventListener('input', function(){
+        var str = this.id;
+        var ind = parseInt(str.substr(6), 10) - 1;
+        var bar1 = document.getElementById(hbars[barNum][0]);
+        var bar2 = document.getElementById(hbars[barNum][1]);
+        var bar3 = document.getElementById(hbars[barNum][2]);
+        var span1 = document.getElementById(barSpans[barNum][0]);
+        var span2 = document.getElementById(barSpans[barNum][1]);
+        var span3 = document.getElementById(barSpans[barNum][2]);
+
+
+
+
+        if (ind == 0){
+          span1.innerHTML = bar1.value + "%";
+          bar3.value = 100 - bar1.value - bar2.value;
+          span3.innerHTML = bar3.value + "%";
+          if (bar3.value == 0){
+            span3.innerHTML = "0%";
+            bar2.value = 100 - bar1.value;
+            span2.innerHTML = bar2.value + "%";
+          }
+          prop = (bar1.value)/(100-bar2.value);
+
+
+
+        } else if (ind == 2){
+          span3.innerHTML = bar3.value + "%";
+          bar1.value = 100 - bar2.value - bar3.value;
+          span1.innerHTML = bar1.value + "%";
+          if (bar1.value == 0){
+            span1.innerHTML = "0%";
+            bar2.value = 100 - bar3.value;
+            span2.innerHTML = bar2.value + "%";
+          }
+          prop = (bar1.value)/(100-bar2.value);
+
+        } else {
+
+          span2.innerHTML = bar2.value + "%";
+          var diff = 100 - bar2.value;
+          bar1.value = Math.floor(diff*prop);
+          span1.innerHTML = bar1.value + "%";
+          bar3.value = 100 - bar1.value - bar2.value;
+          span3.innerHTML = bar3.value + "%";
+          if (bar3.value == 0){
+            span3.innerHTML = "0%";
+            bar1.value = 100 - bar2.value;
+            span1.innerHTML = bar1.value + "%";
+          }
+          if (bar1.value == 0){
+            span1.innerHTML = "0%";
+            bar3.value = 100 - bar2.value;
+            span3.innerHTML = bar3.value + "%";
+          }
+
+
+        }
+
+        worstAns[0] = bar1.value;
+        worstAns[1] = bar2.value;
+        worstAns[2] = bar3.value;
+      });
+    }
+  }
+}
 
 // reads in scoring csv file and adds the original BSAS results into arrays
 var ansIndexNum = 0;
@@ -1082,6 +1188,7 @@ function readTrueAns(file){
       if (sum != 100){
         for (var a = 0; a < trueAnswers[ansIndex].length-1; a++){
           trueAnswers[ansIndex][a] = ((trueAnswers[ansIndex][a])/sum) * 100;
+
         }
       }
     })
