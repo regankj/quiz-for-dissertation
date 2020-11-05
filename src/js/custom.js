@@ -673,11 +673,13 @@ if ($('body').is('.quiz1')){
   readTrueAns("Sample-Data/questions.csv");
   const nextBtn = document.getElementById('nextBtn');
   nextBtn.addEventListener('click', function(){
-    slideNo++;
-    var nextSlide = "slide" + slideNo;
-    showSlide(nextSlide, currentSlideID, slideNo);
-    currentSlideID = "slide" + slideNo;
-    startTime = Date.now();
+    if (slideNo < 39){
+      slideNo++;
+      var nextSlide = "slide" + slideNo;
+      showSlide(nextSlide, currentSlideID, slideNo);
+      currentSlideID = "slide" + slideNo;
+      startTime = Date.now();
+    }
   });
   window.addEventListener('load', function(){
     startTime = Date.now();
@@ -688,6 +690,13 @@ if ($('body').is('.quiz1')){
   }
 
 };
+
+function showNextSlide(slideNo, currentSlideID){
+  slideNo++;
+  var nextSlide = "slide" + slideNo;
+  showSlide(nextSlide, currentSlideID, slideNo);
+  currentSlideID = "slide" + slideNo;
+}
 
 for (var num = 0; num < 39; num++){
   var v = "values" + (num + 1);
@@ -860,18 +869,20 @@ function finalSlides(){
     theSlide.className = "active-slide";
     document.querySelector("#top h2").innerHTML = "Nearly There!"
     document.querySelector("#top h6").innerHTML = "Please answer the following demographic questions, we will then compute your score.";
+    var demoDiv = document.createElement("div");
+    theSlide.appendChild(demoDiv);
     d3.csv("Sample-Data/demographics.csv").then(function(data){
       data.forEach(function(d){
         num++;
         var lbl = document.createElement("label");
         lbl.innerHTML = d.Question;
-        theSlide.appendChild(lbl);
+        demoDiv.appendChild(lbl);
 
         var box = document.createElement("select");
         box.className = "form-control";
         box.id = "dropdown" + num;
         var boxID = "#dropdown" + num;
-        theSlide.appendChild(box);
+        demoDiv.appendChild(box);
 
         var choose = document.createElement("option");
         choose.innerHTML = "Choose...";
@@ -893,17 +904,22 @@ function finalSlides(){
           d3.select(boxID).append("option").text(d.Option6);
         };
 
-        addRow(theSlide);
+        addRow(demoDiv);
       });
+
     });
+
+    var btnDiv = document.createElement("div");
+    btnDiv.id = "btnDiv";
+    theSlide.appendChild(btnDiv);
 
     var demoBtn = document.createElement("button");
     demoBtn.type = "button";
     demoBtn.className = "btn btn-primary my-md-3";
     demoBtn.id = "demographicBtn";
     demoBtn.innerHTML = "Confirm & Next";
-    theSlide.appendChild(demoBtn);
-    addRow(theSlide);
+    btnDiv.appendChild(demoBtn);
+    addRow(btnDiv);
 
     var demoErr = document.createElement("div");
     demoErr.className = "alert alert-danger";
@@ -911,7 +927,7 @@ function finalSlides(){
     demoErr.id = "demoErr";
     demoErr.style.display = "none";
     demoErr.innerHTML = "*Please complete the whole form.";
-    theSlide.appendChild(demoErr);
+    btnDiv.appendChild(demoErr);
     addRow(theSlide);
 
     document.getElementById("demographicBtn").onclick =  function(){
@@ -999,7 +1015,7 @@ function finalSlides(){
         window.onbeforeunload = null;
         var btnarray = [nextBtn, topNextBtn]
         for (var item = 0; item < btnarray.length; item++){
-          btnarray[item].addEventListener('click',function(){
+          btnarray[item].addEventListener('click', function(){
             sortable.reverse();
             var uid = getCookie();
             var worst = sortable[0][0];
@@ -1025,7 +1041,7 @@ function finalSlides(){
                 writeData(uid, "re_assessment", swQcode, worstAns.length, worstAns);
                 setTimeout(function(){
                   window.location.href = "feedback.html";
-                }, 500);
+                }, 800);
               }
             }
           });
@@ -1037,6 +1053,7 @@ function finalSlides(){
 };
 
 function worstQs(theSlide, worstNum, n){
+  document.getElementById("nextBtn").style.display = "none";
   var oNum = "options" + worstNum;
   var barNum = "bars" + n;
   theSlide.innerHTML = ""
@@ -1186,7 +1203,7 @@ function readTrueAns(file){
       var sum = trueAnswers[ansIndex].reduce((a,b) => a+b, 0);
 
       if (sum != 100){
-        for (var a = 0; a < trueAnswers[ansIndex].length-1; a++){
+        for (var a = 0; a < trueAnswers[ansIndex].length; a++){
           trueAnswers[ansIndex][a] = ((trueAnswers[ansIndex][a])/sum) * 100;
 
         }
