@@ -1041,7 +1041,7 @@ function finalSlides(){
                 writeData(uid, "re_assessment", swQcode, worstAns.length, worstAns);
                 setTimeout(function(){
                   window.location.href = "feedback.html";
-                }, 750);
+                }, 1000);
               }
             }
           });
