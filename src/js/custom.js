@@ -1039,9 +1039,8 @@ function finalSlides(){
               worstQs(theSlide, secondWorstNum, 39);
               document.getElementById(secondWorstConf).onclick = function(){
                 writeData(uid, "re_assessment", swQcode, worstAns.length, worstAns);
-                setTimeout(function(){
-                  window.location.href = "feedback.html";
-                }, 800);
+                window.location.href = "feedback.html";
+
               }
             }
           });
