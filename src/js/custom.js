@@ -647,18 +647,18 @@ function readData(file, section){
           document.getElementById(conBtnID).type = "button";
           document.getElementById(conBtnID).disabled = false;
           document.getElementById(radErrTextID).style.display = "block";
-          for (var p = 0; rads[radsNum].length; p++){
-            document.getElementById(rads[radsNum][p]).disabled = false;
-          }
         }
         nextBtn.disabled = false;
         document.getElementById(radErrTextID).style.display = "none";
-        slideNo++;
-        var nextSlide = "slide" + slideNo;
-        showSlide(nextSlide, currentSlideID, slideNo);
-        currentSlideID = "slide" + slideNo;
-        startTime = Date.now();
-        location.href = "#top";
+        if (qcode != "covid19"){
+          slideNo++;
+          var nextSlide = "slide" + slideNo;
+          showSlide(nextSlide, currentSlideID, slideNo);
+          currentSlideID = "slide" + slideNo;
+          startTime = Date.now();
+          location.href = "#top";
+        }
+
       });
 
       j = 1;
@@ -1016,7 +1016,7 @@ function finalSlides(){
         window.onbeforeunload = null;
         var btnarray = [nextBtn, topNextBtn]
         for (var item = 0; item < btnarray.length; item++){
-          btnarray[item].addEventListener('click', function(){
+          btnarray[item].onclick = function(){
             sortable.reverse();
             var uid = getCookie();
             var worst = sortable[0][0];
@@ -1038,14 +1038,15 @@ function finalSlides(){
             document.getElementById(worstConf).onclick = function(){
               writeData(uid, "re_assessment", worstQcode, worstAns.length, worstAns);
               worstQs(theSlide, secondWorstNum, 39, sworstAns);
-              document.getElementById(secondWorstConf).onclick = function(){
+              document.getElementById(secondWorstConf).onclick =  function(){
                 writeData(uid, "re_assessment", swQcode, sworstAns.length, sworstAns);
                 setTimeout(function(){
                   window.location.href = "feedback.html";
                 }, 500);
-              }
+
+              };
             }
-          });
+          };
         }
       };
     };
@@ -1087,6 +1088,7 @@ function worstQs(theSlide, worstNum, n, array){
   j = 1;
   var wConfBtn = document.createElement('button');
   wConfBtn.className = "btn btn-primary my-md-3";
+  wConfBtn.type = "button";
   wConfBtn.innerHTML = "Confirm & Next";
   wConfBtn.id = "wConf" + worstNum;
   theSlide.appendChild(wConfBtn);
