@@ -465,6 +465,7 @@ function readData(file, section){
 
 
       var confBtn = document.createElement('button');
+      confBtn.type = "button";
       confBtn.innerHTML = "Confirm";
       confBtn.id = "confirm" + i;
       confBtn.className = "btn btn-primary my-md-3";
