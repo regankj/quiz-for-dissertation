@@ -649,16 +649,18 @@ function readData(file, section){
           document.getElementById(conBtnID).disabled = false;
           document.getElementById(radErrTextID).style.display = "block";
         }
-        nextBtn.disabled = false;
-        document.getElementById(radErrTextID).style.display = "none";
-        if (qcode != "covid19"){
-          slideNo++;
-          var nextSlide = "slide" + slideNo;
-          showSlide(nextSlide, currentSlideID, slideNo);
-          currentSlideID = "slide" + slideNo;
-          startTime = Date.now();
-          location.href = "#top";
+        else {
+          document.getElementById(radErrTextID).style.display = "none";
+          if (qcode != "covid19"){
+            slideNo++;
+            var nextSlide = "slide" + slideNo;
+            showSlide(nextSlide, currentSlideID, slideNo);
+            currentSlideID = "slide" + slideNo;
+            startTime = Date.now();
+            location.href = "#top";
+          }
         }
+
 
       });
 
@@ -1094,7 +1096,7 @@ function worstQs(theSlide, worstNum, n, array){
   wConfBtn.id = "wConf" + worstNum;
   theSlide.appendChild(wConfBtn);
 
-  if (hbars[barNum].length == 2){
+  if (options[oNum].length == 2){
     array[0] = 50;
     array[1] = 50;
     for (var b = 0; b < hbars[barNum].length; b++){
