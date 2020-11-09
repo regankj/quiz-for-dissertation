@@ -872,7 +872,11 @@ function finalSlides(){
     location.href = "#top";
     theSlide.className = "active-slide";
     document.querySelector("#top h2").innerHTML = "Nearly There!"
-    document.querySelector("#top h6").innerHTML = "Please answer the following demographic questions, we will then compute your score.";
+    document.querySelector("#top h6").innerHTML = "";
+    var heading = document.createElement("h6");
+    heading.innerHTML = "Please answer the following demographic questions, we will then compute your score.";
+    theSlide.appendChild(heading);
+    addRow(theSlide);
     var demoDiv = document.createElement("div");
     theSlide.appendChild(demoDiv);
     d3.csv("Sample-Data/demographics.csv").then(function(data){
@@ -956,7 +960,11 @@ function finalSlides(){
         location.href = "#top";
         theSlide.className = "active-slide";
         document.querySelector("#top h2").innerHTML = "Well Done!"
-        document.querySelector("#top h6").innerHTML = "You have completed the quiz. If you're interested, below is your mean score and also your answers compared to the actual ones, sorted by highest to lowest score (reading this is optional).";
+        document.querySelector("#top h6").innerHTML = "";
+        var heading = document.createElement("h6");
+        heading.innerHTML = "You have completed the quiz. If you're interested, below is your mean score and also your answers compared to the actual ones, sorted by lowest to highest score (reading this is optional).";
+        theSlide.appendChild(heading);
+        addRow(theSlide);
         document.getElementById("nextBtn").style.display = "inline-block";
         var totalScore = 0;
         for (var s1 = 1; s1 < 39; s1++){
@@ -988,7 +996,7 @@ function finalSlides(){
           return a[1] - b[1];
         });
         // end of referenced code
-        sortable.reverse();
+
 
         var topNextBtn = document.createElement('button');
         topNextBtn.innerHTML = "next >>";
@@ -1020,7 +1028,6 @@ function finalSlides(){
         var btnarray = [nextBtn, topNextBtn]
         for (var item = 0; item < btnarray.length; item++){
           btnarray[item].onclick = function(){
-            sortable.reverse();
             var uid = getCookie();
             var worst = sortable[0][0];
             var secondWorst = sortable[1][0];
@@ -1062,7 +1069,11 @@ function worstQs(theSlide, worstNum, n, array){
   var oNum = "options" + worstNum;
   var barNum = "bars" + n;
   theSlide.innerHTML = ""
-  document.querySelector("#top h6").innerHTML = "We will now test you again on the two questions you scored lowest on. This was your lowest scoring question:";
+  document.querySelector("#top h6").innerHTML = "";
+  var heading = document.createElement("h6");
+  heading.innerHTML = "We will now test you again on the two questions you scored lowest on.";
+  theSlide.appendChild(heading);
+  addRow(theSlide);
   var qlbl = document.createElement("label");
   qlbl.innerHTML = qs[worstNum-1];
   theSlide.appendChild(qlbl);
