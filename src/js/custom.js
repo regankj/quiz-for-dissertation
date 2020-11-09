@@ -676,15 +676,6 @@ if ($('body').is('.quiz1')){
   readData("Sample-Data/questions.csv", "answers");
   readTrueAns("Sample-Data/questions.csv");
   const nextBtn = document.getElementById('nextBtn');
-  nextBtn.addEventListener('click', function(){
-    if (slideNo < 39){
-      slideNo++;
-      var nextSlide = "slide" + slideNo;
-      showSlide(nextSlide, currentSlideID, slideNo);
-      currentSlideID = "slide" + slideNo;
-      startTime = Date.now();
-    }
-  });
   window.addEventListener('load', function(){
     startTime = Date.now();
   });
