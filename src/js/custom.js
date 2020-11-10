@@ -137,7 +137,7 @@ if ($('body').is(".knowledge")){
           var theRadLbl = this;
           var str = theRadLbl.id;
           var radNum = parseInt(str.substr(13), 10);
-          var ind = Math.floor((radNum/4.1)) + 7;
+          var ind = Math.floor((radNum/4.1)) + 8;
           testValues[ind] = theRadLbl.innerHTML;
           var newStr = str.replace("radLbl", "rad");
           var activeRad = document.getElementById(newStr);
@@ -524,45 +524,45 @@ function readData(file, section){
 
               if (ind == 0){
                 span1.innerHTML = bar1.value + "%";
-                bar3.value = 100 - bar1.value - bar2.value;
-                span3.innerHTML = bar3.value + "%";
-                if (bar3.value == 0){
-                  span3.innerHTML = "0%";
-                  bar2.value = 100 - bar1.value;
-                  span2.innerHTML = bar2.value + "%";
+                bar2.value = 100 - bar1.value - bar3.value;
+                span2.innerHTML = bar2.value + "%";
+                if (bar2.value == 0){
+                  span2.innerHTML = "0%";
+                  bar3.value = 100 - bar1.value;
+                  span3.innerHTML = bar3.value + "%";
                 }
-                prop = (bar1.value)/(100-bar2.value);
+                prop = (bar1.value)/(100-bar3.value);
 
 
 
-              } else if (ind == 2){
-                span3.innerHTML = bar3.value + "%";
+              } else if (ind == 1){
+                span2.innerHTML = bar2.value + "%";
                 bar1.value = 100 - bar2.value - bar3.value;
                 span1.innerHTML = bar1.value + "%";
                 if (bar1.value == 0){
                   span1.innerHTML = "0%";
-                  bar2.value = 100 - bar3.value;
-                  span2.innerHTML = bar2.value + "%";
+                  bar3.value = 100 - bar2.value;
+                  span3.innerHTML = bar3.value + "%";
                 }
-                prop = (bar1.value)/(100-bar2.value);
+                prop = (bar1.value)/(100-bar3.value);
 
               } else {
 
-                span2.innerHTML = bar2.value + "%";
-                var diff = 100 - bar2.value;
+                span3.innerHTML = bar3.value + "%";
+                var diff = 100 - bar3.value;
                 bar1.value = Math.floor(diff*prop);
                 span1.innerHTML = bar1.value + "%";
-                bar3.value = 100 - bar1.value - bar2.value;
-                span3.innerHTML = bar3.value + "%";
-                if (bar3.value == 0){
-                  span3.innerHTML = "0%";
-                  bar1.value = 100 - bar2.value;
+                bar2.value = 100 - bar1.value - bar3.value;
+                span2.innerHTML = bar2.value + "%";
+                if (bar2.value == 0){
+                  span2.innerHTML = "0%";
+                  bar1.value = 100 - bar3.value;
                   span1.innerHTML = bar1.value + "%";
                 }
                 if (bar1.value == 0){
                   span1.innerHTML = "0%";
-                  bar3.value = 100 - bar2.value;
-                  span3.innerHTML = bar3.value + "%";
+                  bar2.value = 100 - bar3.value;
+                  span2.innerHTML = bar2.value + "%";
                 }
 
 
@@ -745,7 +745,7 @@ function createChart(data, qIndex){
   document.getElementById(qlblID).innerHTML = qIndex + ". " + qs[qIndex - 1];
 
   var rLblID = "resultLbl" + qIndex;
-  document.getElementById(rLblID).innerHTML = "Question difficulty: " + diffs[qIndex - 1] + ". Points available: " + maxScores[qIndex-1] + ". You scored: " + userScores[qNum];
+  document.getElementById(rLblID).innerHTML = "Question difficulty: " + diffs[qIndex - 1] + ". Points available: " + Math.round(maxScores[qIndex-1]/10) + ". You scored: " + Math.round(userScores[qNum]/10);
 
   xscale.domain(options[oNum]);
   yscale.domain([0, maxValue]);
@@ -965,7 +965,7 @@ function finalSlides(){
         var theScore = document.createElement("label");
         scoreLbl.innerHTML = "Interested to know how you did? ";
         theSlide.appendChild(scoreLbl);
-        theScore.innerHTML = "Your total score was " + roundScore + " out of a possible " + totalMax + " (" + Math.round((roundScore/totalMax)*100) + "%). Below you can see how your guesses compared to the real data, ordered from worst to best.";
+        theScore.innerHTML = "Your total score was " + Math.round(roundScore/10) + " out of a possible " + Math.round(totalMax/10) + " (" + Math.round((roundScore/totalMax)*100) + "%). Below you can see how your guesses compared to the real data, ordered from worst to best.";
         theSlide.appendChild(theScore);
 
         delete userScores.question21;
@@ -1031,7 +1031,7 @@ function finalSlides(){
 
             var secondWorstConf = "wConf" + secondWorstNum;
             var secondWorstOnum = "options" + secondWorstNum;
-            var swQcode = qcodes[secondWorstNum];
+            var swQcode = qcodes[secondWorstNum-1];
 
             worstQs(theSlide, worstNum, 21, worstAns);
 
@@ -1143,45 +1143,45 @@ function worstQs(theSlide, worstNum, n, array){
 
         if (ind == 0){
           span1.innerHTML = bar1.value + "%";
-          bar3.value = 100 - bar1.value - bar2.value;
-          span3.innerHTML = bar3.value + "%";
-          if (bar3.value == 0){
-            span3.innerHTML = "0%";
-            bar2.value = 100 - bar1.value;
-            span2.innerHTML = bar2.value + "%";
+          bar2.value = 100 - bar1.value - bar3.value;
+          span2.innerHTML = bar2.value + "%";
+          if (bar2.value == 0){
+            span2.innerHTML = "0%";
+            bar3.value = 100 - bar1.value;
+            span3.innerHTML = bar3.value + "%";
           }
-          prop = (bar1.value)/(100-bar2.value);
+          prop = (bar1.value)/(100-bar3.value);
 
 
 
-        } else if (ind == 2){
-          span3.innerHTML = bar3.value + "%";
+        } else if (ind == 1){
+          span2.innerHTML = bar2.value + "%";
           bar1.value = 100 - bar2.value - bar3.value;
           span1.innerHTML = bar1.value + "%";
           if (bar1.value == 0){
             span1.innerHTML = "0%";
-            bar2.value = 100 - bar3.value;
-            span2.innerHTML = bar2.value + "%";
+            bar3.value = 100 - bar2.value;
+            span3.innerHTML = bar3.value + "%";
           }
-          prop = (bar1.value)/(100-bar2.value);
+          prop = (bar1.value)/(100-bar3.value);
 
         } else {
 
-          span2.innerHTML = bar2.value + "%";
-          var diff = 100 - bar2.value;
+          span3.innerHTML = bar3.value + "%";
+          var diff = 100 - bar3.value;
           bar1.value = Math.floor(diff*prop);
           span1.innerHTML = bar1.value + "%";
-          bar3.value = 100 - bar1.value - bar2.value;
-          span3.innerHTML = bar3.value + "%";
-          if (bar3.value == 0){
-            span3.innerHTML = "0%";
-            bar1.value = 100 - bar2.value;
+          bar2.value = 100 - bar1.value - bar3.value;
+          span2.innerHTML = bar2.value + "%";
+          if (bar2.value == 0){
+            span2.innerHTML = "0%";
+            bar1.value = 100 - bar3.value;
             span1.innerHTML = bar1.value + "%";
           }
           if (bar1.value == 0){
             span1.innerHTML = "0%";
-            bar3.value = 100 - bar2.value;
-            span3.innerHTML = bar3.value + "%";
+            bar2.value = 100 - bar3.value;
+            span2.innerHTML = bar2.value + "%";
           }
 
 

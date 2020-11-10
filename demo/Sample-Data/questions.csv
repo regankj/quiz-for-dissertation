@@ -1,4 +1,4 @@
-key,year,mean,sd,sdmean,sdsd,score1,score2,score3,Max,difficulty,Option1,Option2,Option3,Question
+key,year,mean,sd,sdmean,sdsd,score1,score3,score2,Max,difficulty,Option1,Option3,Option2,Question
 redistrb,2018,46.336617,24.039211,0.251005,0.154073,42,28,29,192.917613,hard,Agree,Neither agree nor disagree,Disagree,Government should redistribute income from the better-off to less well-off
 bigbusnn,2018,66.734079,29.810543,0.267145,0.181497,60,27,12,223.693682,hard,Agree,Neither agree nor disagree,Disagree,Big business benefits owners at the expense of workers 
 richlaw,2018,65.846894,29.560532,0.293858,0.156298,60,21,17,222.963541,hard,Agree,Neither agree nor disagree,Disagree,There is one law for the rich and one for the poor 
@@ -10,12 +10,12 @@ sochelp,2018,47.792031,24.834656,0.245336,0.186416,21,38,39,192.085552,hard,Agre
 welffeet,2018,45.250694,23.723584,0.231432,0.19351,40,27,32,191.083613,hard,Agree,Neither agree nor disagree,Disagree,"If welfare benefits werent so generous, people would learn to stand on their own two feet"
 homsbult,2018,62.95845,28.862746,0.318029,0.174234,14,11,36,218.099538,hard,Oppose,Neither support nor oppose,Support,Would you support or oppose more homes being built in your local area? 
 plnuppri,2017,49.725093,25.168508,0.260846,0.179756,9,5,5,197.621192,hard,Agree,Neither agree nor disagree,Disagree,"The price of a plane ticket should reflect the environmental damage that flying causes, even if this makes air travel much more expensive"
-tstgov,2018,41.453384,29.509425,0.311015,0.186796,21,30,,140.470997,moderate,Trust,Distrust,,Do you tend to trust or tend not to trust the Government? 
-trstmed,2018,64.599869,41.153431,0.414848,0.246277,10,40,,156.881245,moderate,Trust,Distrust,,Do you tend to trust or tend not to trust the media? 
-trstpol,2018,68.19574,42.503271,0.45892,0.213768,42,9,,160.782949,moderate,Trust,Distrust,,Do you tend to trust or tend not to trust the police? 
-trstbank,2018,43.033833,30.443274,0.291013,0.166332,30,19,,141.277101,moderate,Trust,Distrust,,Do you tend to trust or tend not to trust high street banks and financial institutions? 
-prevfr,2017,39.487638,28.389069,0.291626,0.157743,39,32,,139.190248,moderate,Responsibility to protect free speech on campus,Responsibility to protect students from hearing extremist views,,Which of these statements comes closest to your view about extremism vs free speech in universities and colleges? 
-bodimr,2017,43.155431,30.513531,0.254731,0.176326,22,35,,141.289891,moderate,How I look doesn`t really affect how I feel about myself,I feel much better about myself when I think I look good,,Does how you look affect how you feel about yourself? 
+tstgov,2018,41.453384,29.509425,0.311015,0.186796,21,,30,140.470997,moderate,Trust,,Distrust,Do you tend to trust or tend not to trust the Government? 
+trstmed,2018,64.599869,41.153431,0.414848,0.246277,10,,40,156.881245,moderate,Trust,,Distrust,Do you tend to trust or tend not to trust the media? 
+trstpol,2018,68.19574,42.503271,0.45892,0.213768,42,,9,160.782949,moderate,Trust,,Distrust,Do you tend to trust or tend not to trust the police? 
+trstbank,2018,43.033833,30.443274,0.291013,0.166332,30,,19,141.277101,moderate,Trust,,Distrust,Do you tend to trust or tend not to trust high street banks and financial institutions? 
+prevfr,2017,39.487638,28.389069,0.291626,0.157743,39,,32,139.190248,moderate,Responsibility to protect free speech on campus,Responsibility to protect students from hearing extremist views,Responsibility to protect students from hearing extremist views,Which of these statements comes closest to your view about extremism vs free speech in universities and colleges? 
+bodimr,2017,43.155431,30.513531,0.254731,0.176326,22,,35,141.289891,moderate,How I look doesn`t really affect how I feel about myself,I feel much better about myself when I think I look good,I feel much better about myself when I think I look good,Does how you look affect how you feel about yourself? 
 gpaysup,2018,47.173653,24.506836,0.226039,0.174168,29,16,24,192.510649,hard,Wrong,Neither right nor wrong,Right,How right or wrong it is for men to be paid more on average than women in a supermarket where most of the check out workers a women and most of the managers are men?
 tranneed,2018,72.081635,30.802119,0.271869,0.185449,9,15,45,234.116499,hard,Agree,Neither agree nor disagree,Disagree,Do you agree or disagree that most people who are transgender have gone through this process because of a very superficial and temporary need?
 remlea,2018,53.056654,26.596166,0.27668,0.178972,26,13,36,199.395206,hard,Leaver,I do not think of myself as either remainer or leaver,Remainer,"Considering Brexit, do you think of yourself as a Remainer or a Leaver?"
