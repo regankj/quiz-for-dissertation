@@ -21,45 +21,6 @@ if ($("body").is(".consent")){
   setCookie();
 }
 
-// Functionality for initial page
-const contBtn = document.getElementById('continue');
-if (contBtn){
-  var classBox = document.getElementById('classSurvey');
-  contBtn.addEventListener('click', function(){
-    var classBracket = classBox.options[classBox.selectedIndex].text;
-
-    if (classBracket == "Choose..."){
-      document.getElementById("infoErr").style.display = "inline-block";
-      classBox.disabled = false;
-    } else {
-      var fail;
-      var uid = getCookie();
-      saveClassSurvey(uid, classBracket);
-      classBox.disabled = true;
-      contBtn.disabled = true;
-      document.getElementById("infoErr").style.display = "none";
-      if (classBracket == "International Elite" || classBracket == "London Middle Class" || classBracket == "Old Affluent Workers" || classBracket == "Managerial Working Class" || classBracket == "Self Employed Service Workers"){
-            fail = "Yes";
-      } else {
-            fail = "No";
-      }
-      alertnessTest(uid, "Class_Survey", fail);
-    }
-
-  });
-  /*
-  delaying a link
-  taken from https://stackoverflow.com/a/14434682/12239467
-  accessed 22-10-20
-  */
-  contBtn.onclick = function(){
-    setTimeout(function(){
-      window.location.href = "knowledge.html";
-    }, 500);
-  };
-  // end of referenced code
-};
-
 
 var t1 = 0;
 var testValues = [];
@@ -72,6 +33,8 @@ if ($('body').is(".knowledge")){
   var noSite = document.getElementById('noNewsSite');
   var yesTV = document.getElementById('yesTV');
   var noTV = document.getElementById('noTV');
+  var yesSM = document.getElementById('yesSM');
+  var noSM = document.getElementById('noSM');
   var testForm = document.getElementById('test');
   var interestBox = document.getElementById("pol_interest");
   var partyBox = document.getElementById("pol_party");
@@ -109,6 +72,16 @@ if ($('body').is(".knowledge")){
   noTV.addEventListener('click', function(){
     yesTV.checked = false;
     testValues[4] = "No";
+  })
+
+  yesSM.addEventListener('click', function(){
+    noSM.checked = false;
+    testValues[5] = "Yes";
+  })
+
+  noSM.addEventListener('click', function(){
+    yesSM.checked = false;
+    testValues[5] = "No";
   })
 
   d3.csv('Sample-Data/test.csv').then(function(data){
@@ -151,7 +124,7 @@ if ($('body').is(".knowledge")){
           var theRad = this;
           var str = theRad.id;
           var radNum = parseInt(str.substr(10), 10);
-          var ind = Math.floor((radNum/4.1)) + 7;
+          var ind = Math.floor((radNum/4.1)) + 8;
           var newStr = str.replace("rad", "radLbl");
           testValues[ind] = document.getElementById(newStr).innerHTML;
           for (var t3 = 0; t3 < testRads.length; t3++){
@@ -179,12 +152,6 @@ if ($('body').is(".knowledge")){
 
 
     });
-    var alertInput = document.createElement("input");
-    alertInput.type = "text";
-    alertInput.className = "form-control";
-    alertInput.id = "alertInput";
-    testForm.appendChild(alertInput);
-    alertInput.style.display = "none";
 
     var testBtn = document.createElement("button");
     testBtn.type = "button";
@@ -213,33 +180,23 @@ if ($('body').is(".knowledge")){
       var interest = interestBox.options[interestBox.selectedIndex].text;
       var party = partyBox.options[partyBox.selectedIndex].text;
 
-      if (checkedRads != 12 || interest == "Choose..." || party == "Choose..."){
+      if (checkedRads != 7 || interest == "Choose..." || party == "Choose..."){
         testErr.style.display = "inline-block";
       } else {
         testValues[1] = document.getElementById("whatPaper").value;
         testValues[3] = document.getElementById("whichNewsSite").value;
-        testValues[5] = interest;
-        testValues[6] = party;
-        testValues[16] = document.getElementById('alertInput').value;
+        testValues[6] = interest;
+        testValues[7] = party;
         var radios = document.querySelectorAll('.radio');
         for (var t5 = 0; t5 < radios.length; t5++){
           radios[t5].disabled = true;
         };
         document.getElementById("whatPaper").disabled = true;
         document.getElementById("whichNewsSite").disabled = true;
-        document.getElementById('alertInput').disabled = true;
         testErr.style.display = "none";
         var uid = getCookie();
         saveTest(uid, testValues);
-        var fail;
-        var alertString = document.getElementById("alertInput").value;
-        var newString = alertString.replace(/[^A-Z0-9]+/ig, "");
-        if ((newString.toLowerCase()) != "alert"){
-          fail = "Yes";
-        } else {
-          fail = "No";
-        }
-        alertnessTest(uid, "political_knowledge_test", fail);
+
 
         setTimeout(function(){
           window.location.href = "quiz.html";
@@ -248,13 +205,7 @@ if ($('body').is(".knowledge")){
     });
 
 
-    document.getElementById("radForTest36").addEventListener('click', function(){
-      document.getElementById("alertInput").style.display = "inline-block";
-    });
 
-    document.getElementById("radLblForTest36").addEventListener('click', function(){
-      document.getElementById("alertInput").style.display = "inline-block";
-    });
 
   });
 
@@ -287,6 +238,8 @@ var qs = [];
 var qcodes = [];
 var worstAns = [];
 var sworstAns = [];
+var maxScores = [];
+var diffs = [];
 
 function addRow(slide){
   const newRow = document.createElement('div');
@@ -402,7 +355,7 @@ function readData(file, section){
       var ansIndexNum = "answers" + i;
 
 
-      d3.select(slideID).append("label").text("( " + i + " / 39 ). " + d.Question);
+      d3.select(slideID).append("label").text("( " + i + " / 21 ). " + d.Question);
       qs.push(d.Question);
       addRow(slide);
       d3.select(slideID).append("label").text("Your Answer:");
@@ -429,6 +382,7 @@ function readData(file, section){
       }
 
       var qcode = d.key;
+      var year = d.year;
       qcodes.push(qcode);
 
       var count = Math.floor(100/numOfOpts);
@@ -441,7 +395,10 @@ function readData(file, section){
 
       if (qcode != "covid19" ){
         addRow(slide);
-        d3.select(slideID).append("label").text("What did the public think?:");
+        d3.select(slideID).append("label").text("What percentage of the British public do you think chose each answer? ");
+        var yearlbl = document.createElement("i");
+        yearlbl.innerHTML = " (Data from the year " + year + ")";
+        slide.appendChild(yearlbl);
         addRow(slide);
 
         d3.select(slideID).append("label").text(d.Option1);
@@ -632,10 +589,6 @@ function readData(file, section){
         }
 
 
-
-        for (var r1 = 0; r1 < rads[radsNum].length; r1++){
-          document.getElementById(rads[radsNum][r1]).disabled = true;
-        }
         var selected = 0;
         for (var r2 = 0; r2 < rads[radsNum].length; r2++){
           if (document.getElementById(rads[radsNum][r2]).checked == true){
@@ -693,7 +646,7 @@ function showNextSlide(slideNo, currentSlideID){
   currentSlideID = "slide" + slideNo;
 }
 
-for (var num = 0; num < 39; num++){
+for (var num = 0; num < 21; num++){
   var v = "values" + (num + 1);
   var barsNum = "bars" + (num + 1);
   var o = "options" + (num + 1);
@@ -786,9 +739,13 @@ function createChart(data, qIndex){
   }
 
   var oNum = "options" + (qIndex);
+  var qNum = "question" + qIndex;
 
   var qlblID = "questionLbl" + (qIndex);
   document.getElementById(qlblID).innerHTML = qIndex + ". " + qs[qIndex - 1];
+
+  var rLblID = "resultLbl" + qIndex;
+  document.getElementById(rLblID).innerHTML = "Question difficulty: " + diffs[qIndex - 1] + ". Points available: " + maxScores[qIndex-1] + ". You scored: " + userScores[qNum];
 
   xscale.domain(options[oNum]);
   yscale.domain([0, maxValue]);
@@ -853,9 +810,9 @@ accessed 29-10-20
 
 function finalSlides(){
   var uid = getCookie();
-  var slideID = "slide39";
+  var slideID = "slide21";
   var theSlide = document.getElementById(slideID);
-  var conID = "confirm39";
+  var conID = "confirm21";
   document.getElementById(conID).addEventListener('click', function(){
     document.getElementById("nextBtn").style.display = "none";
     var num = 0;
@@ -869,7 +826,17 @@ function finalSlides(){
     theSlide.appendChild(heading);
     addRow(theSlide);
     var demoDiv = document.createElement("div");
+    var link = document.createElement('a');
+    var linkTxt = document.createTextNode(" https://www.bbc.co.uk/news/magazine-22000973")
+    link.appendChild(linkTxt);
+    link.title = " https://www.bbc.co.uk/news/magazine-22000973";
+    link.href = "https://www.bbc.co.uk/news/magazine-22000973";
+    link.target = "_blank";
+    var classLbl = document.createElement("label");
+    classLbl.innerHTML = "Please take the Great British Class Survey available at the following link [open in new tab] ";
     theSlide.appendChild(demoDiv);
+    demoDiv.appendChild(classLbl);
+    demoDiv.append(link);
     d3.csv("Sample-Data/demographics.csv").then(function(data){
       data.forEach(function(d){
         num++;
@@ -902,6 +869,24 @@ function finalSlides(){
         if (d.Option6 != ""){
           d3.select(boxID).append("option").text(d.Option6);
         };
+        if (d.Option7 != ""){
+          d3.select(boxID).append("option").text(d.Option7);
+        };
+        if (d.Option8 != ""){
+          d3.select(boxID).append("option").text(d.Option8);
+        };
+        if (d.Option9 != ""){
+          d3.select(boxID).append("option").text(d.Option9);
+        };
+        if (d.Option10 != ""){
+          d3.select(boxID).append("option").text(d.Option10);
+        };
+        if (d.Option11 != ""){
+          d3.select(boxID).append("option").text(d.Option11);
+        };
+        if (d.Option12 != ""){
+          d3.select(boxID).append("option").text(d.Option12);
+        };
 
         addRow(demoDiv);
       });
@@ -930,23 +915,32 @@ function finalSlides(){
     addRow(theSlide);
 
     document.getElementById("demographicBtn").onclick =  function(){
-      var genderBox = document.getElementById("dropdown1");
-      var ageBox = document.getElementById("dropdown2");
-      var raceBox = document.getElementById('dropdown3');
-      var eduBox = document.getElementById("dropdown4");
-      var houseBox = document.getElementById('dropdown5');
+      var classBox = document.getElementById("dropdown1");
+      var genderBox = document.getElementById("dropdown2");
+      var ageBox = document.getElementById("dropdown3");
+      var raceBox = document.getElementById('dropdown4');
+      var eduBox = document.getElementById("dropdown5");
+      var houseBox = document.getElementById('dropdown6');
 
+      var classBracket = classBox.options[classBox.selectedIndex].text;
       var gender = genderBox.options[genderBox.selectedIndex].text;
       var age = ageBox.options[ageBox.selectedIndex].text;
       var race = raceBox.options[raceBox.selectedIndex].text;
       var edu = eduBox.options[eduBox.selectedIndex].text;
       var house = houseBox.options[houseBox.selectedIndex].text;
+      var fail;
 
-      if (gender == "Choose..." || age == "Choose..." || race == "Choose..." || edu == "Choose..." ||house == "Choose..."){
+      if (classBracket == "Choose..." || gender == "Choose..." || age == "Choose..." || race == "Choose..." || edu == "Choose..." ||house == "Choose..."){
         document.getElementById("demoErr").style.display = "inline-block";
       } else {
+        if (classBracket == "International Elite" || classBracket == "London Middle Class" || classBracket == "Old Affluent Workers" || classBracket == "Managerial Working Class" || classBracket == "Self Employed Service Workers"){
+              fail = "Yes";
+        } else {
+              fail = "No";
+        }
+        alertnessTest(uid, "Class_Survey", fail);
         document.getElementById("demoErr").style.display = "none";
-        saveUserData(uid, age, gender, race, edu, house);
+        saveUserData(uid, classBracket, age, gender, race, edu, house);
 
         location.href = "#top";
         theSlide.className = "active-slide";
@@ -958,21 +952,23 @@ function finalSlides(){
         addRow(theSlide);
         document.getElementById("nextBtn").style.display = "inline-block";
         var totalScore = 0;
-        for (var s1 = 1; s1 < 39; s1++){
+        var totalMax = 0;
+        for (var s1 = 1; s1 < 21; s1++){
           var qnum = "question" + (s1);
           totalScore += userScores[qnum];
+          totalMax += maxScores[s1-1];
         }
 
-        var meanScore = Math.round(totalScore / 38);
+        var roundScore = Math.round(totalScore);
         theSlide.innerHTML = "";
         var scoreLbl = document.createElement("h5");
-        var theScore = document.createElement("h4");
-        scoreLbl.innerHTML = "Your Mean Score: ";
+        var theScore = document.createElement("label");
+        scoreLbl.innerHTML = "Interested to know how you did? ";
         theSlide.appendChild(scoreLbl);
-        theScore.innerHTML = meanScore;
+        theScore.innerHTML = "Your total score was " + roundScore + " out of a possible " + totalMax + " (" + Math.round((roundScore/totalMax)*100) + "%). Below you can see how your guesses compared to the real data, ordered from worst to best.";
         theSlide.appendChild(theScore);
 
-        delete userScores.question39;
+        delete userScores.question21;
         /*
         sorting js object
         taken from https://stackoverflow.com/a/1069840/12239467
@@ -1007,7 +1003,11 @@ function finalSlides(){
           var q = sortable[ind][0];
           var num = parseInt(q.replace("question", ""), 10);
           qlbl.id = "questionLbl" + num;
+          var resultLbl = document.createElement("label");
+          resultLbl.id = "resultLbl" + num;
           vis.appendChild(qlbl);
+          addRow(vis);
+          vis.appendChild(resultLbl);
           addRow(vis);
           addRow(vis);
           createChart(values, num);
@@ -1033,12 +1033,12 @@ function finalSlides(){
             var secondWorstOnum = "options" + secondWorstNum;
             var swQcode = qcodes[secondWorstNum];
 
-            worstQs(theSlide, worstNum, 39, worstAns);
+            worstQs(theSlide, worstNum, 21, worstAns);
 
 
             document.getElementById(worstConf).onclick = function(){
               writeData(uid, "re_assessment", worstQcode, worstAns.length, worstAns);
-              worstQs(theSlide, secondWorstNum, 39, sworstAns);
+              worstQs(theSlide, secondWorstNum, 21, sworstAns);
               document.getElementById(secondWorstConf).onclick =  function(){
                 writeData(uid, "re_assessment", swQcode, sworstAns.length, sworstAns);
                 setTimeout(function(){
@@ -1203,6 +1203,7 @@ function readTrueAns(file){
       ansIndexNum++;
       var ansIndex = "answers" + ansIndexNum;
       var qIndex = "question" + ansIndexNum;
+      var ind = ansIndexNum - 1;
 
       trueAnswers[ansIndex][0] = parseInt(d.score1);
       trueAnswers[ansIndex][1] = parseInt(d.score2);
@@ -1212,6 +1213,8 @@ function readTrueAns(file){
 
       means[qIndex] = parseFloat(d.mean);
       stanDs[qIndex] = parseFloat(d.sd);
+      maxScores[ind] = Math.round(parseFloat(d.Max));
+      diffs[ind] = d.difficulty;
 
       var sum = trueAnswers[ansIndex].reduce((a,b) => a+b, 0);
 
@@ -1296,24 +1299,20 @@ function saveTest(uid, vals){
     webYN: vals[2],
     web: vals[3],
     tvYN: vals[4],
-    political_interest: vals[5],
-    party_vote: vals[6],
-    speaker_HOC: vals[7],
-    brexit: vals[8],
-    sci_advisor: vals[9],
-    unemployment: vals[10],
-    seats_HOC: vals[11],
-    fiveG: vals[12],
-    elec_source: vals[13],
-    party_HOC: vals[14],
-    alert: vals[15],
-    alert_text: vals[16]
+    smYN: vals[5],
+    political_interest: vals[6],
+    party_vote: vals[7],
+    prop_of_seats_HOC: vals[8],
+    electricity: vals[9],
+    party_with_most_seats: vals[10]
+
   });
 };
 
 // function to save user details
-function saveUserData(uid, age, gender, race, edu, house){
+function saveUserData(uid, classBracket, age, gender, race, edu, house){
   firebase.database().ref('/' + uid + '/details/').set({
+    class_bracket: classBracket,
     age: age,
     gender: gender,
     race: race,

@@ -1,40 +1,22 @@
-key,year,mean,sd,sdmean,sdsd,score1,score2,score3,Option1,Option2,Option3,Question
-redistrb,2018,46.336617,24.039211,0.251005,0.154073,42,28,29,Agree,Neither agree nor disagree,Disagree,Government should redistribute income from the better-off to less well-off
-bigbusnn,2018,66.734079,29.810543,0.267145,0.181497,60,27,12,Agree,Neither agree nor disagree,Disagree,Big business benefits owners at the expense of workers 
-wealth,2018,70.652181,30.587538,0.249451,0.191802,62,26,10,Agree,Neither agree nor disagree,Disagree,Ordinary working people do not get their fair share of the nation's wealth
-richlaw,2018,65.846894,29.560532,0.293858,0.156298,60,21,17,Agree,Neither agree nor disagree,Disagree,There is one law for the rich and one for the poor 
-indust4,2018,56.311583,27.304545,0.232269,0.157663,52,28,18,Agree,Neither agree nor disagree,Disagree,Management will always try to get the better of employees if it gets the chance 
-tradvals,2018,61.186386,28.538006,0.293022,0.161339,56,26,16,Agree,Neither agree nor disagree,Disagree,Young people today don't have enough respect for traditional British values 
-stifsent,2018,74.902919,31.312979,0.30415,0.180148,65,24,9,Agree,Neither agree nor disagree,Disagree,People who break the law should be given stiffer sentences 
-deathapp,2018,54.031975,27.102281,0.295087,0.190688,46,15,38,Agree,Neither agree nor disagree,Disagree,"For some crimes, the death penalty is the most appropriate sentence"
-obey,2018,81.605857,32.365592,0.34345,0.174593,70,18,10,Agree,Neither agree nor disagree,Disagree,Schools should teach children to obey authority 
-wronglaw,2018,44.529513,23.478868,0.223397,0.209167,37,35,27,Agree,Neither agree nor disagree,Disagree,"The law should always be obeyed, even if a particular law is wrong"
-censor,2018,55.504889,26.937113,0.256254,0.160557,52,24,22,Agree,Neither agree nor disagree,Disagree,Censorship of films and magazines is necessary to uphold moral standards 
-welfhelp,2018,46.016831,24.086948,0.239203,0.183849,24,36,39,Agree,Neither agree nor disagree,Disagree,The welfare state encourages people to stop helping each other 
-morewelf,2018,45.633382,23.813048,0.254292,0.173101,41,31,27,Agree,Neither agree nor disagree,Disagree,The government should spend more money on welfare benefits for the poor 
-unempjob,2018,60.037644,28.194231,0.267297,0.180883,56,25,18,Agree,Neither agree nor disagree,Disagree,"Around here, most unemployed people could find a job if they really wanted one "
-sochelp,2018,47.792031,24.834656,0.245336,0.186416,21,38,39,Agree,Neither agree nor disagree,Disagree,Many people who get social security dont really deserve any help 
-dolefidl,2018,44.375716,23.420913,0.229346,0.188679,27,35,36,Agree,Neither agree nor disagree,Disagree,Most people on the dole are fiddling in one way or another 
-welffeet,2018,45.250694,23.723584,0.231432,0.19351,40,27,32,Agree,Neither agree nor disagree,Disagree,"If welfare benefits werent so generous, people would learn to stand on their own two feet"
-damlives,2018,60.508861,28.520436,0.268591,0.173219,55,30,14,Agree,Neither agree nor disagree,Disagree,Cutting benefits would damage too many peoples lives 
-proudwlf,2018,64.467202,29.509698,0.319232,0.203089,56,32,10,Agree,Neither agree nor disagree,Disagree,The creation of the welfare state is one of Britain's proudest achievements 
-poverty1,2018,52.238059,35.671777,0.325106,0.199629,21,51,,"Yes, in poverty","No, not in poverty",,"Is someone in Britain in poverty if they had enough to buy the things they really needed, but not enough to buy the things most people take for granted"
-poverty2,2018,40.362741,28.888414,0.294063,0.1721,41,31,,"Yes, in poverty","No, not in poverty",,"Is someone in Britain in poverty if they had enough to eat and live, but not enough to buy other things they needed"
-homsbult,2018,62.95845,28.862746,0.318029,0.174234,14,11,36,Oppose,Neither support nor oppose,Support,Would you support or oppose more homes being built in your local area? 
-plnuppri,2017,49.725093,25.168508,0.260846,0.179756,9,5,5,Agree,Neither agree nor disagree,Disagree,"The price of a plane ticket should reflect the environmental damage that flying causes, even if this makes air travel much more expensive"
-tstgov,2018,41.453384,29.509425,0.311015,0.186796,21,30,,Trust,Distrust,,Do you tend to trust or tend not to trust the Government? 
-trstmed,2018,64.599869,41.153431,0.414848,0.246277,10,40,,Trust,Distrust,,Do you tend to trust or tend not to trust the media? 
-trstpol,2018,68.19574,42.503271,0.45892,0.213768,42,9,,Trust,Distrust,,Do you tend to trust or tend not to trust the police? 
-trstbank,2018,43.033833,30.443274,0.291013,0.166332,30,19,,Trust,Distrust,,Do you tend to trust or tend not to trust high street banks and financial institutions? 
-peoptrst,2018,39.834393,28.580386,0.279297,0.176115,39,31,,Yes,No,,"Generally speaking, would you say that people can be trusted?"
-prevfr,2017,39.487638,28.389069,0.291626,0.157743,39,32,,Responsibility to protect free speech on campus,Responsibility to protect students from hearing extremist views,,Which of these statements comes closest to your view about extremism vs free speech in universities and colleges? 
-unisubj,2018,66.342748,41.832724,0.421921,0.26014,13,56,,...how much they are likely to earn after graduating,...how interested they are in the subject?,,Should students choose a university course based on 
-sexrole2,2018,75.804205,31.471637,0.280818,0.183035,5,11,33,Agree,Neither agree or disagree,Disagree,Do you agree or disagree a husband`s job is to earn money
-relprob1,2018,71.87338,30.760354,0.329402,0.178559,32,10,7,Agree,Neither agree or disagree,Disagree,"Please consider and tell me if you agree or disagree: looking around the world,  religions bring more conflict than peace? "
-bodimr,2017,43.155431,30.513531,0.254731,0.176326,22,35,,How I look doesn`t really affect how I feel about myself,I feel much better about myself when I think I look good,,Does how you look affect how you feel about yourself? 
-gpaysup,2018,47.173653,24.506836,0.226039,0.174168,29,16,24,Wrong,Neither right nor wrong,Right,How right or wrong it is for men to be paid more on average than women in a supermarket where most of the check out workers a women and most of the managers are men?
-tranneed,2018,72.081635,30.802119,0.271869,0.185449,9,15,45,Agree,Neither agree nor disagree,Disagree,Do you agree or disagree that most people who are transgender have gone through this process because of a very superficial and temporary need?
-homosex,2018,93.152849,33.715336,0.342711,0.215035,11,4,54,Always or mostly wrong,Sometimes wrong,Rarely or never wrong,Are sexual relations between two adults of the same sex
-ruhappy,2018,81.12862,45.84904,0.455808,0.260211,5,45,,Not happy,Happy,,"If you were to consider your life in general these days, how happy would you say you are on the whole?"
-remlea,2018,53.056654,26.596166,0.27668,0.178972,26,13,36,Leaver,I do not think of myself as either remainer or leaver,Remainer,"Considering Brexit, do you think of yourself as a Remainer or a Leaver?"
-covid19,,0,0,0,0,0,0,0,It’s important to follow the rules completely,It’s important to follow the rules for the most part,It doesn’t matter whether or not the rules are followed,"Thinking of the restrictions imposed during coronavirus (COVID-19) lockdown, do you think"
+key,year,mean,sd,sdmean,sdsd,score1,score2,score3,Max,difficulty,Option1,Option2,Option3,Question
+redistrb,2018,46.336617,24.039211,0.251005,0.154073,42,28,29,192.917613,hard,Agree,Neither agree nor disagree,Disagree,Government should redistribute income from the better-off to less well-off
+bigbusnn,2018,66.734079,29.810543,0.267145,0.181497,60,27,12,223.693682,hard,Agree,Neither agree nor disagree,Disagree,Big business benefits owners at the expense of workers 
+richlaw,2018,65.846894,29.560532,0.293858,0.156298,60,21,17,222.963541,hard,Agree,Neither agree nor disagree,Disagree,There is one law for the rich and one for the poor 
+deathapp,2018,54.031975,27.102281,0.295087,0.190688,46,15,38,199.780513,hard,Agree,Neither agree nor disagree,Disagree,"For some crimes, the death penalty is the most appropriate sentence"
+obey,2018,81.605857,32.365592,0.34345,0.174593,70,18,10,252.00671,hard,Agree,Neither agree nor disagree,Disagree,Schools should teach children to obey authority 
+wronglaw,2018,44.529513,23.478868,0.223397,0.209167,37,35,27,189.568883,moderate,Agree,Neither agree nor disagree,Disagree,"The law should always be obeyed, even if a particular law is wrong"
+morewelf,2018,45.633382,23.813048,0.254292,0.173101,41,31,27,191.695694,hard,Agree,Neither agree nor disagree,Disagree,The government should spend more money on welfare benefits for the poor 
+sochelp,2018,47.792031,24.834656,0.245336,0.186416,21,38,39,192.085552,hard,Agree,Neither agree nor disagree,Disagree,Many people who get social security dont really deserve any help 
+welffeet,2018,45.250694,23.723584,0.231432,0.19351,40,27,32,191.083613,hard,Agree,Neither agree nor disagree,Disagree,"If welfare benefits werent so generous, people would learn to stand on their own two feet"
+homsbult,2018,62.95845,28.862746,0.318029,0.174234,14,11,36,218.099538,hard,Oppose,Neither support nor oppose,Support,Would you support or oppose more homes being built in your local area? 
+plnuppri,2017,49.725093,25.168508,0.260846,0.179756,9,5,5,197.621192,hard,Agree,Neither agree nor disagree,Disagree,"The price of a plane ticket should reflect the environmental damage that flying causes, even if this makes air travel much more expensive"
+tstgov,2018,41.453384,29.509425,0.311015,0.186796,21,30,,140.470997,moderate,Trust,Distrust,,Do you tend to trust or tend not to trust the Government? 
+trstmed,2018,64.599869,41.153431,0.414848,0.246277,10,40,,156.881245,moderate,Trust,Distrust,,Do you tend to trust or tend not to trust the media? 
+trstpol,2018,68.19574,42.503271,0.45892,0.213768,42,9,,160.782949,moderate,Trust,Distrust,,Do you tend to trust or tend not to trust the police? 
+trstbank,2018,43.033833,30.443274,0.291013,0.166332,30,19,,141.277101,moderate,Trust,Distrust,,Do you tend to trust or tend not to trust high street banks and financial institutions? 
+prevfr,2017,39.487638,28.389069,0.291626,0.157743,39,32,,139.190248,moderate,Responsibility to protect free speech on campus,Responsibility to protect students from hearing extremist views,,Which of these statements comes closest to your view about extremism vs free speech in universities and colleges? 
+bodimr,2017,43.155431,30.513531,0.254731,0.176326,22,35,,141.289891,moderate,How I look doesn`t really affect how I feel about myself,I feel much better about myself when I think I look good,,Does how you look affect how you feel about yourself? 
+gpaysup,2018,47.173653,24.506836,0.226039,0.174168,29,16,24,192.510649,hard,Wrong,Neither right nor wrong,Right,How right or wrong it is for men to be paid more on average than women in a supermarket where most of the check out workers a women and most of the managers are men?
+tranneed,2018,72.081635,30.802119,0.271869,0.185449,9,15,45,234.116499,hard,Agree,Neither agree nor disagree,Disagree,Do you agree or disagree that most people who are transgender have gone through this process because of a very superficial and temporary need?
+remlea,2018,53.056654,26.596166,0.27668,0.178972,26,13,36,199.395206,hard,Leaver,I do not think of myself as either remainer or leaver,Remainer,"Considering Brexit, do you think of yourself as a Remainer or a Leaver?"
+covid19,,0,0,0,0,0,0,0,,,It’s important to follow the rules completely,It’s important to follow the rules for the most part,It doesn’t matter whether or not the rules are followed,"Thinking of the restrictions imposed during coronavirus (COVID-19) lockdown, do you think"
