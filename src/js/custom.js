@@ -1044,7 +1044,6 @@ function finalSlides(){
                 setTimeout(function(){
                   window.location.href = "feedback.html";
                 }, 500);
-
               };
             }
           };
@@ -1055,9 +1054,9 @@ function finalSlides(){
 
 };
 
-function worstQs(theSlide, worstNum, n, array){
+function worstQs(theSlide, theNum, n, array){
   document.getElementById("nextBtn").style.display = "none";
-  var oNum = "options" + worstNum;
+  var oNum = "options" + theNum;
   var barNum = "bars" + n;
   theSlide.innerHTML = ""
   document.querySelector("#top h6").innerHTML = "";
@@ -1066,7 +1065,7 @@ function worstQs(theSlide, worstNum, n, array){
   theSlide.appendChild(heading);
   addRow(theSlide);
   var qlbl = document.createElement("label");
-  qlbl.innerHTML = qs[worstNum-1];
+  qlbl.innerHTML = qs[theNum-1];
   theSlide.appendChild(qlbl);
   addRow(theSlide);
   for (var o = 0; o < options[oNum].length; o++){
@@ -1095,13 +1094,13 @@ function worstQs(theSlide, worstNum, n, array){
   wConfBtn.className = "btn btn-primary my-md-3";
   wConfBtn.type = "button";
   wConfBtn.innerHTML = "Confirm & Next";
-  wConfBtn.id = "wConf" + worstNum;
+  wConfBtn.id = "wConf" + theNum;
   theSlide.appendChild(wConfBtn);
 
   if (options[oNum].length == 2){
     array[0] = 50;
     array[1] = 50;
-    for (var b = 0; b < hbars[barNum].length; b++){
+    for (var b = 0; b < options[oNum].length; b++){
       document.getElementById(hbars[barNum][b]).addEventListener('input', function(){
         var str = this.id;
         var ind = parseInt(str.substr(6), 10) - 1;
@@ -1266,6 +1265,12 @@ function writeData(uid, section, qcode, num, answers){
     firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/guess_of_public/').set({
       opt1: answers[num-2],
       opt2: answers[num-1]
+    }, function(error) {
+      if (error){
+        console.log("write failed");
+      } else {
+        console.log("write successful");
+      }
     });
   }
   if (num == 3){
@@ -1273,6 +1278,12 @@ function writeData(uid, section, qcode, num, answers){
       opt1: answers[num-3],
       opt2: answers[num-2],
       opt3: answers[num-1]
+    }, function(error) {
+      if (error){
+        console.log("write failed");
+      } else {
+        console.log("write successful");
+      }
     });
   }
 };
