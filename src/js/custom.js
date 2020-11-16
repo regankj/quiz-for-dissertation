@@ -7,12 +7,17 @@ accessed 26-10-20
 */
 function setCookie(){
   var id = Date.now();
-  document.cookie = "userid=" + id;
+  var d = new Date();
+  d.setTime(d.getTime() + (7*24*60*60*1000));
+  var expires = "expires=" + d.toUTCString();
+  document.cookie = "userid=" + id + ";" + expires + ";path=/";
+
 }
 
 function getCookie(){
   var decodedCookie = decodeURIComponent(document.cookie);
-  var c = decodedCookie.replace("userid=", "");
+  var a = decodedCookie.split(";");
+  var c = a[0].replace("userid=", "");
   return c;
 }
 // end of referenced code
@@ -27,6 +32,7 @@ var testValues = [];
 
 // political knowledge test section
 if ($('body').is(".knowledge")){
+  var uid = getCookie();
   var noPaper = document.getElementById('noPaper');
   var yesPaper = document.getElementById('yesPaper');
   var yesSite = document.getElementById('yesNewsSite');
@@ -194,13 +200,10 @@ if ($('body').is(".knowledge")){
         document.getElementById("whatPaper").disabled = true;
         document.getElementById("whichNewsSite").disabled = true;
         testErr.style.display = "none";
-        var uid = getCookie();
         saveTest(uid, testValues);
-
-
         setTimeout(function(){
           window.location.href = "quiz.html";
-        }, 500);
+        }, 600);
       }
     });
 
