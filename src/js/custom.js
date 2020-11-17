@@ -193,14 +193,14 @@ if ($('body').is(".knowledge")){
       };
       var interest = interestBox.options[interestBox.selectedIndex].text;
       var party = partyBox.options[partyBox.selectedIndex].text;
+      testValues[1] = document.getElementById("whatPaper").value;
+      testValues[3] = document.getElementById("whichNewsSite").value;
+      testValues[6] = interest;
+      testValues[7] = party;
 
       if (checkedRads != 7 || interest == "Choose..." || party == "Choose..."){
         testErr.style.display = "inline-block";
       } else {
-        testValues[1] = document.getElementById("whatPaper").value;
-        testValues[3] = document.getElementById("whichNewsSite").value;
-        testValues[6] = interest;
-        testValues[7] = party;
         saveTest(uid, testValues);
         testErr.style.display = "none";
         setTimeout(function(){
