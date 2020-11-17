@@ -683,11 +683,17 @@ function createChart(data, qIndex){
   var vis = document.getElementById("vis");
 
   var width = 500;
-  var height = 750;
+  var height = 600;
+  var bottomMar = 200;
+
+  if (qIndex == 5 || qIndex == 17 || qIndex == 20){
+    height = 760;
+    bottomMar = 340;
+  }
 
   if (window.matchMedia("(max-width: 500px)").matches){
     width = 300;
-    height = 750;
+
   }
 
   var maxValue = 100;
@@ -696,7 +702,7 @@ function createChart(data, qIndex){
     top: 30,
     left: 70,
     right: 30,
-    bottom: 370
+    bottom: bottomMar
   };
 
   var svg = d3.select('#vis')
@@ -945,7 +951,6 @@ function finalSlides(){
         document.querySelector("#top h2").innerHTML = "Well Done!"
         document.querySelector("#top h6").innerHTML = "";
         var heading = document.createElement("h6");
-        heading.innerHTML = "You have completed the quiz. If you're interested, below is your mean score and also your answers compared to the actual ones, sorted by lowest to highest score (reading this is optional).";
         theSlide.appendChild(heading);
         addRow(theSlide);
         document.getElementById("nextBtn").style.display = "inline-block";
@@ -963,7 +968,7 @@ function finalSlides(){
         var theScore = document.createElement("label");
         scoreLbl.innerHTML = "Interested to know how you did? ";
         theSlide.appendChild(scoreLbl);
-        theScore.innerHTML = "Your total score was " + Math.round(roundScore/10) + " out of a possible " + Math.round(totalMax/10) + " (" + Math.round((roundScore/totalMax)*100) + "%). Below you can see how your guesses compared to the real data, ordered from worst to best.";
+        theScore.innerHTML = "Your total score was " + Math.round(roundScore/10) + " out of a possible " + Math.round(totalMax/10) + " (" + Math.round((roundScore/totalMax)*100) + "%). Below you can see how your guesses for each question compared to the real data, ordered from worst to best. Feel free to save or print this page if desired (once you click 'Next', you will not be able to retrieve these results).";
         saveFinalScore(uid, Math.round((roundScore/totalMax)*100));
         theSlide.appendChild(theScore);
 
@@ -1004,6 +1009,17 @@ function finalSlides(){
           qlbl.id = "questionLbl" + num;
           var resultLbl = document.createElement("label");
           resultLbl.id = "resultLbl" + num;
+          if (ind == 0){
+            var aLbl = document.createElement("label");
+            aLbl.innerHTML = "Your lowest scoring answer: ";
+            vis.appendChild(aLbl);
+            addRow(vis);
+          } else if (ind == 1){
+            var aLbl = document.createElement("label");
+            aLbl.innerHTML = "Your second lowest scoring answer: ";
+            vis.appendChild(aLbl);
+            addRow(vis);
+          }
           vis.appendChild(qlbl);
           addRow(vis);
           vis.appendChild(resultLbl);
@@ -1067,12 +1083,16 @@ function worstQs(theSlide, theNum, n, array){
   theSlide.innerHTML = ""
   document.querySelector("#top h6").innerHTML = "";
   var heading = document.createElement("h6");
-  heading.innerHTML = "We will now test you again on the two questions you scored lowest on. Use the sliders to predict the percentage of what the public thought.";
+  heading.innerHTML = "We will now test you again on the two questions you scored lowest on. You will not be penalized in any way if you get these wrong.";
   theSlide.appendChild(heading);
   addRow(theSlide);
   var qlbl = document.createElement("label");
   qlbl.innerHTML = qs[theNum-1];
   theSlide.appendChild(qlbl);
+  addRow(theSlide);
+  var perc = document.createElement("label");
+  perc.innerHTML = "What percentage of the British public do you think chose each answer?";
+  theSlide.appendChild(perc);
   addRow(theSlide);
   for (var o = 0; o < options[oNum].length; o++){
     var lbl = document.createElement("label");
@@ -1468,6 +1488,7 @@ if ($('body').is('.feedback')){
       document.getElementById("fbErrText").className = "alert alert-success";
       document.getElementById("fbErrText").innerHTML = "Survey Code: " + uid;
       document.getElementById("fbErrText").style.display = "inline-block";
+      document.getElementById("c_and_p").style.display = "inline-block";
       document.getElementById("mturk").innerHTML = "Survey Code: " + uid;
       document.getElementById("mturk").style.display = "inline-block";
       var txt = txtArea.value;

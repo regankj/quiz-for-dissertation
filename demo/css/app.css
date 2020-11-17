@@ -11931,6 +11931,9 @@ textarea {
   box-sizing: border-box;
   width: 100%; }
 
+#c_and_p {
+  display: none; }
+
 .key {
   float: right;
   display: inline-block; }
