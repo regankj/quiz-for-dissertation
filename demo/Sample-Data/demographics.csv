@@ -1,7 +1,7 @@
-Question,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8,Option9,Option10,Option11,Option12
-What is your own result?,Elite,International Elite,Established Middle Class,London Middle Class,Technical Middle Class,Old Affluent Workers,New Affluent Workers,Managerial Working Class,Traditional Working Class,Self Employed Service Workers ,Emergent Service Workers,Precariat
-Your gender,Female,Male,Other,,,,,,,,,
-Your age,18-25,26-35,36-45,46-55,56-65,>66,,,,,,
-To which of these racial groups do you consider you belong?,Asian origin,Black origin,Mixed/other origin,White origin,,,,,,,,
-What is your highest educational qualification?,Degree level or higher,Higher education below degree level,A level or equivalent,"GCSE, O level or equivalent",No qualification,,,,,,,
-Besides yourself are there any other adults in your household?,Yes,No,,,,,,,,,,
+Question,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8,Option9,Option10,Option11,Option12,Option13
+What is your own result?,Elite,International Elite,Established Middle Class,Traditional Middle Class,Technical Middle Class,Established Affluent Workers,New Affluent Workers,Technical Affluent Workers,Managerial Working Class,Traditional Working Class,Self Employed Service Workers ,Emergent Service Workers,Precariat
+Your gender,Female,Male,Other,,,,,,,,,,
+Your age,18-25,26-35,36-45,46-55,56-65,>66,,,,,,,
+To which of these racial groups do you consider you belong?,Asian origin,Black origin,Mixed/other origin,White origin,,,,,,,,,
+What is your highest educational qualification?,Degree level or higher,Higher education below degree level,A level or equivalent,"GCSE, O level or equivalent",No qualification,,,,,,,,
+Besides yourself are there any other adults in your household?,Yes,No,,,,,,,,,,,

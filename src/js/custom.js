@@ -47,7 +47,6 @@ if ($('body').is(".knowledge")){
   var yesSM = document.getElementById('yesSM');
   var noSM = document.getElementById('noSM');
   var testForm = document.getElementById('test');
-  var interestBox = document.getElementById("pol_interest");
   var partyBox = document.getElementById("pol_party");
 
 
@@ -78,21 +77,25 @@ if ($('body').is(".knowledge")){
   yesTV.addEventListener('click', function(){
     noTV.checked = false;
     testValues[4] = "Yes";
+    document.getElementById("whatTV").style.display = "block";
   })
 
   noTV.addEventListener('click', function(){
     yesTV.checked = false;
     testValues[4] = "No";
+    document.getElementById("whatTV").style.display = "none";
   })
 
   yesSM.addEventListener('click', function(){
     noSM.checked = false;
-    testValues[5] = "Yes";
+    testValues[6] = "Yes";
+    document.getElementById("whatSM").style.display = "block";
   })
 
   noSM.addEventListener('click', function(){
     yesSM.checked = false;
-    testValues[5] = "No";
+    testValues[6] = "No";
+    document.getElementById("whatSM").style.display = "none";
   })
 
   d3.csv('Sample-Data/test.csv').then(function(data){
@@ -100,18 +103,20 @@ if ($('body').is(".knowledge")){
       t1++;
 
 
-      var radLblA = "radLblForTest" + (1 + 4*(t1 - 1));
-      var radLblB = "radLblForTest" + (2 + 4*(t1 - 1));
-      var radLblC = "radLblForTest" + (3 + 4*(t1 - 1));
-      var radLblD = "radLblForTest" + (4 + 4*(t1 - 1));
+      var radLblA = "radLblForTest" + (1 + 5*(t1 - 1));
+      var radLblB = "radLblForTest" + (2 + 5*(t1 - 1));
+      var radLblC = "radLblForTest" + (3 + 5*(t1 - 1));
+      var radLblD = "radLblForTest" + (4 + 5*(t1 - 1));
+      var radLblE = "radLblForTest" + (5 + 5*(t1 - 1));
 
-      var radA = "radForTest" + (1 + 4*(t1 - 1));
-      var radB = "radForTest" + (2 + 4*(t1 - 1));
-      var radC = "radForTest" + (3 + 4*(t1 - 1));
-      var radD = "radForTest" + (4 + 4*(t1 - 1));
+      var radA = "radForTest" + (1 + 5*(t1 - 1));
+      var radB = "radForTest" + (2 + 5*(t1 - 1));
+      var radC = "radForTest" + (3 + 5*(t1 - 1));
+      var radD = "radForTest" + (4 + 5*(t1 - 1));
+      var radE = "radForTest" + (5 + 5*(t1 - 1));
 
-      var testRads = [radA, radB, radC, radD];
-      var testRadLbls = [radLblA, radLblB, radLblC, radLblD];
+      var testRads = [radA, radB, radC, radD, radE];
+      var testRadLbls = [radLblA, radLblB, radLblC, radLblD, radLblE];
 
       d3.select('#test').append("label").text(d.Question);
       addRow(testForm);
@@ -128,6 +133,10 @@ if ($('body').is(".knowledge")){
 
       addTestRads(test);
       document.getElementById(radLblD).innerHTML = d.Option4;
+      addRow(testForm);
+
+      addTestRads(test);
+      document.getElementById(radLblE).innerHTML = d.Option5;
       addRow(testForm);
 
       for (var t2 = 0; t2 < testRads.length; t2++){
@@ -148,7 +157,7 @@ if ($('body').is(".knowledge")){
           var theRadLbl = this;
           var str = theRadLbl.id;
           var radNum = parseInt(str.substr(13), 10);
-          var ind = Math.floor((radNum/4.1)) + 8;
+          var ind = Math.floor((radNum/5.1)) + 9;
           testValues[ind] = theRadLbl.innerHTML;
           var newStr = str.replace("radLbl", "rad");
           var activeRad = document.getElementById(newStr);
@@ -188,14 +197,14 @@ if ($('body').is(".knowledge")){
           checkedRads++;
         }
       };
-      var interest = interestBox.options[interestBox.selectedIndex].text;
       var party = partyBox.options[partyBox.selectedIndex].text;
       testValues[1] = document.getElementById("whatPaper").value;
       testValues[3] = document.getElementById("whichNewsSite").value;
-      testValues[6] = interest;
-      testValues[7] = party;
+      testValues[5] = document.getElementById("whatTV").value;
+      testValues[7] = document.getElementById("whatSM").value;
+      testValues[8] = party;
 
-      if (checkedRads != 7 || interest == "Choose..." || party == "Choose..."){
+      if (checkedRads != 8 || party == "Choose..."){
         testErr.style.display = "inline-block";
       } else {
         testErr.style.display = "none";
@@ -885,6 +894,9 @@ function finalSlides(){
         if (d.Option12 != ""){
           d3.select(boxID).append("option").text(d.Option12);
         };
+        if (d.Option13 != ""){
+          d3.select(boxID).append("option").text(d.Option12);
+        };
 
         addRow(demoDiv);
       });
@@ -931,7 +943,7 @@ function finalSlides(){
       if (classBracket == "Choose..." || gender == "Choose..." || age == "Choose..." || race == "Choose..." || edu == "Choose..." ||house == "Choose..."){
         document.getElementById("demoErr").style.display = "inline-block";
       } else {
-        if (classBracket == "International Elite" || classBracket == "London Middle Class" || classBracket == "Old Affluent Workers" || classBracket == "Managerial Working Class" || classBracket == "Self Employed Service Workers"){
+        if (classBracket == "International Elite" || classBracket == "Traditional Middle Class" || classBracket == "Established Affluent Workers" || classBracket == "Managerial Working Class" || classBracket == "Self Employed Service Workers" || classBracket == "Technical Affluent Workers"){
               fail = "Yes";
         } else {
               fail = "No";
@@ -941,6 +953,7 @@ function finalSlides(){
         saveUserData(uid, classBracket, age, gender, race, edu, house);
 
         location.href = "#top";
+        window.scrollBy(0, -200);
         theSlide.className = "active-slide";
         document.querySelector("#top h2").innerHTML = "Well Done!"
         document.querySelector("#top h6").innerHTML = "";
@@ -1029,7 +1042,6 @@ function finalSlides(){
         for (var item = 0; item < btnarray.length; item++){
           btnarray[item].onclick = function(){
             var uid = getCookie();
-            window.scrollBy(0, -200);
             var worst = sortable[0][0];
             var secondWorst = sortable[1][0];
             var worstNum = parseInt(worst.replace("question", ""), 10);
@@ -1045,7 +1057,7 @@ function finalSlides(){
             var secondWorstOnum = "options" + secondWorstNum;
             var swQcode = qcodes[secondWorstNum-1];
             var swQnum = "question" + secondWorstNum;
-            var swQA = "answers" + worstNum;
+            var swQA = "answers" + secondWorstNum;
 
             worstQs(theSlide, worstNum, 21, worstAns);
 
@@ -1284,7 +1296,7 @@ function writeData(uid, section, qcode, num, answers){
       opt2: answers[num-1]
     }, function(error) {
       if (error){
-        console.log("write failed");
+        alert("Data could not be saved" + error);
       } else {
         console.log("write successful");
       }
@@ -1297,7 +1309,7 @@ function writeData(uid, section, qcode, num, answers){
       opt3: answers[num-1]
     }, function(error) {
       if (error){
-        console.log("write failed");
+        alert("Data could not be saved" + error);
       } else {
         console.log("write successful");
       }
@@ -1327,12 +1339,14 @@ function saveTest(uid, vals){
     webYN: vals[2],
     web: vals[3],
     tvYN: vals[4],
-    smYN: vals[5],
-    political_interest: vals[6],
-    party_vote: vals[7],
-    prop_of_seats_HOC: vals[8],
-    electricity: vals[9],
-    party_with_most_seats: vals[10]
+    tv: vals[5],
+    smYN: vals[6],
+    smSite: vals[7],
+    political_interest: vals[9],
+    party_vote: vals[8],
+    prop_of_seats_HOC: vals[10],
+    electricity: vals[11],
+    party_with_most_seats: vals[12]
 
   }, function(error){
     if (error){

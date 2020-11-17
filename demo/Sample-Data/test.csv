@@ -1,4 +1,5 @@
-Question,Option1,Option2,Option3,Option4
-What proportion of seats is required to pass a Bill in the House of Commons?,Just over half (326 of 650 seats),60% (390 of 650 seats),66% (429 of 650 seats),76% (494 of 650 seats)
-What is the leading source of electricity in the United Kingdom? ,"Renewables (wind, solar, hydro)",Coal,Natural Gas,Nuclear
-Which party currently has the most seats in the House of Commons? ,Conservative Party,Labour Party,Liberal Democratic Party,Scottish National Party
+Question,Option1,Option2,Option3,Option4,Option5
+How much interest would you say you have in politics?,"... a great deal,","quite a lot,","some,","not very much,","or, none at all?"
+What proportion of seats is required to pass a Bill in the House of Commons?,Just over half (326 of 650 seats),60% (390 of 650 seats),66% (429 of 650 seats),76% (494 of 650 seats),I don't know
+What is the leading source of electricity in the United Kingdom? ,"Renewables (wind, solar, hydro)",Coal,Natural Gas,Nuclear,I don't know
+Which party currently has the most seats in the House of Commons? ,Conservative Party,Labour Party,Liberal Democratic Party,Scottish National Party,I don't know
