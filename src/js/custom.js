@@ -28,9 +28,6 @@ if ($("body").is(".consent")){
     var uid = getCookie();
     var d = new Date();
     setTimestamp(uid, String(d));
-    setTimeout(function(){
-      window.location.href = "knowledge.html";
-    }, 500);
   }
 }
 
@@ -201,11 +198,8 @@ if ($('body').is(".knowledge")){
       if (checkedRads != 7 || interest == "Choose..." || party == "Choose..."){
         testErr.style.display = "inline-block";
       } else {
-        saveTest(uid, testValues);
         testErr.style.display = "none";
-        setTimeout(function(){
-          window.location.href = "quiz.html";
-        }, 750);
+        saveTest(uid, testValues);
       }
     });
 
@@ -1063,9 +1057,6 @@ function finalSlides(){
               document.getElementById(secondWorstConf).onclick =  function(){
                 writeData(uid, "re_assessment", swQcode, sworstAns.length, sworstAns);
                 changeInScore(uid, sworstAns, trueAnswers[swQA], swQcode, swQnum);
-                setTimeout(function(){
-                  window.location.href = "feedback.html";
-                }, 500);
               };
             }
           };
@@ -1343,6 +1334,12 @@ function saveTest(uid, vals){
     electricity: vals[9],
     party_with_most_seats: vals[10]
 
+  }, function(error){
+    if (error){
+      alert("Data could not be saved" + error);
+    } else {
+      window.location.href = "quiz.html";
+    }
   });
 };
 
@@ -1392,6 +1389,12 @@ function alertnessTest(uid, test, fail){
 function setTimestamp(uid, time){
   firebase.database().ref('/' + uid + '/timestamp/').set({
     timestamp: time
+  }, function(error){
+    if (error){
+      console.log('fail');
+    } else {
+      window.location.href = "knowledge.html";
+    }
   });
 };
 
@@ -1407,6 +1410,16 @@ function changeInScore(uid, newscores, true_answers, qcode, qnum){
   var change = normScore - userScores[qnum];
   firebase.database().ref('/' + uid + '/re_assessment/' + qcode + '/change_in_score/').set({
     difference: change
+  }, function(error){
+    if (error){
+      alert("Data could not be saved" + error);
+    } else {
+      if( newscores == sworstAns){
+        window.location.href = "feedback.html";
+      } else {
+        console.log("write successful");
+      }
+    }
   });
 };
 
