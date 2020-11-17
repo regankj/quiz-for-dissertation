@@ -1,7 +1,6 @@
 .app-header{
   width: 100%;
   background-color: $primary-hex;
-  position: absolute;
   color: white;
   position: fixed;
   z-index: 3;
@@ -10,4 +9,11 @@
 .app-header h2 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+@media(max-width: 500px){
+
+  .app-header {
+    position: absolute;
+  }
 }

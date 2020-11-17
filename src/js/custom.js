@@ -24,6 +24,14 @@ function getCookie(){
 
 if ($("body").is(".consent")){
   setCookie();
+  document.getElementById("agreeBtn").onclick = function(){
+    var uid = getCookie();
+    var d = new Date();
+    setTimestamp(uid, String(d));
+    setTimeout(function(){
+      window.location.href = "knowledge.html";
+    }, 500);
+  }
 }
 
 
@@ -159,14 +167,6 @@ if ($('body').is(".knowledge")){
 
     });
 
-    var testBtn = document.createElement("button");
-    testBtn.type = "button";
-    testBtn.className = "btn btn-primary my-md-3";
-    testBtn.innerHTML = "Submit & Next";
-    testBtn.id = "testBtn";
-    testForm.appendChild(testBtn);
-    addRow(testForm);
-
     var testErr = document.createElement("div");
     testErr.style.display = "none";
     testErr.className = "alert alert-danger";
@@ -174,6 +174,14 @@ if ($('body').is(".knowledge")){
     testErr.innerHTML = "*Please complete all questions";
     testErr.id = "testErr";
     testForm.appendChild(testErr);
+    addRow(testForm);
+
+    var testBtn = document.createElement("button");
+    testBtn.type = "button";
+    testBtn.className = "btn btn-primary my-md-3";
+    testBtn.innerHTML = "Submit & Next";
+    testBtn.id = "testBtn";
+    testForm.appendChild(testBtn);
 
     testBtn.addEventListener('click', function(){
       var checkedRads = 0;
@@ -423,26 +431,6 @@ function readData(file, section){
 
       // end of referenced code
 
-
-      var confBtn = document.createElement('button');
-      confBtn.type = "button";
-      confBtn.innerHTML = "Confirm";
-      confBtn.id = "confirm" + i;
-      confBtn.className = "btn btn-primary my-md-3";
-      slide.appendChild(confBtn);
-      var conBtnID = "confirm" + i;
-
-      var errText = document.createElement('div');
-      errText.innerHTML = "*Bars must add up to 100%";
-      errText.id = "errText" + i;
-      errText.className = "alert alert-danger";
-      errText.role = "alert";
-      errText.style.display = "none";
-      slide.appendChild(errText);
-      var errTextID = "errText" + i;
-
-      addRow(slide);
-
       var radErrText = document.createElement("div");
       radErrText.innerHTML = "*Please select your answer to the question";
       radErrText.id = "radErrText" + i;
@@ -453,6 +441,18 @@ function readData(file, section){
       var radErrTextID = "radErrText" + i;
 
       addRow(slide);
+
+      var confBtn = document.createElement('button');
+      confBtn.type = "button";
+      confBtn.innerHTML = "Confirm";
+      confBtn.id = "confirm" + i;
+      confBtn.className = "btn btn-primary my-md-3";
+      slide.appendChild(confBtn);
+      var conBtnID = "confirm" + i;
+
+
+      addRow(slide);
+
 
       // ensuring only one radio button can be checked at a time
       for (var r3 = 0; r3 < rads[radsNum].length; r3++){
@@ -581,7 +581,7 @@ function readData(file, section){
 
       // submitting data and disabling buttons after the confirm button is clicked
       document.getElementById(conBtnID).addEventListener('click', function(){
-        document.getElementById(errTextID).style.display = "none";
+
         document.getElementById(conBtnID).disabled = true;
         var endTime = Date.now();
         var difference = (endTime - startTime)/1000;
@@ -816,6 +816,7 @@ function finalSlides(){
   var slideID = "slide21";
   var theSlide = document.getElementById(slideID);
   var conID = "confirm21";
+  document.querySelector('#top h6').innerHTML = "No sliders for this question! Please select your answer: "
   document.getElementById(conID).addEventListener('click', function(){
     document.getElementById("nextBtn").style.display = "none";
     var num = 0;
@@ -900,14 +901,6 @@ function finalSlides(){
     btnDiv.id = "btnDiv";
     theSlide.appendChild(btnDiv);
 
-    var demoBtn = document.createElement("button");
-    demoBtn.type = "button";
-    demoBtn.className = "btn btn-primary my-md-3";
-    demoBtn.id = "demographicBtn";
-    demoBtn.innerHTML = "Confirm & Next";
-    btnDiv.appendChild(demoBtn);
-    addRow(btnDiv);
-
     var demoErr = document.createElement("div");
     demoErr.className = "alert alert-danger";
     demoErr.role = "alert";
@@ -915,7 +908,15 @@ function finalSlides(){
     demoErr.style.display = "none";
     demoErr.innerHTML = "*Please complete the whole form.";
     btnDiv.appendChild(demoErr);
-    addRow(theSlide);
+    addRow(btnDiv);
+
+    var demoBtn = document.createElement("button");
+    demoBtn.type = "button";
+    demoBtn.className = "btn btn-primary my-md-3";
+    demoBtn.id = "demographicBtn";
+    demoBtn.innerHTML = "Confirm & Next";
+    btnDiv.appendChild(demoBtn);
+    addRow(btnDiv);
 
     document.getElementById("demographicBtn").onclick =  function(){
       var classBox = document.getElementById("dropdown1");
@@ -969,6 +970,7 @@ function finalSlides(){
         scoreLbl.innerHTML = "Interested to know how you did? ";
         theSlide.appendChild(scoreLbl);
         theScore.innerHTML = "Your total score was " + Math.round(roundScore/10) + " out of a possible " + Math.round(totalMax/10) + " (" + Math.round((roundScore/totalMax)*100) + "%). Below you can see how your guesses compared to the real data, ordered from worst to best.";
+        saveFinalScore(uid, Math.round((roundScore/totalMax)*100));
         theSlide.appendChild(theScore);
 
         delete userScores.question21;
@@ -1023,6 +1025,7 @@ function finalSlides(){
         for (var item = 0; item < btnarray.length; item++){
           btnarray[item].onclick = function(){
             var uid = getCookie();
+            window.scrollBy(0, -200);
             var worst = sortable[0][0];
             var secondWorst = sortable[1][0];
             var worstNum = parseInt(worst.replace("question", ""), 10);
@@ -1030,20 +1033,26 @@ function finalSlides(){
             var worstOnum = "options" + worstNum;
             var worstQcode = qcodes[worstNum-1];
             var worstConf = "wConf" + worstNum;
+            var worstQnum = "question" + worstNum;
+            var worstQA = "answers" + worstNum;
 
 
             var secondWorstConf = "wConf" + secondWorstNum;
             var secondWorstOnum = "options" + secondWorstNum;
             var swQcode = qcodes[secondWorstNum-1];
+            var swQnum = "question" + secondWorstNum;
+            var swQA = "answers" + worstNum;
 
             worstQs(theSlide, worstNum, 21, worstAns);
 
 
             document.getElementById(worstConf).onclick = function(){
               writeData(uid, "re_assessment", worstQcode, worstAns.length, worstAns);
+              changeInScore(uid, worstAns, trueAnswers[worstQA], worstQcode, worstQnum);
               worstQs(theSlide, secondWorstNum, 21, sworstAns);
               document.getElementById(secondWorstConf).onclick =  function(){
                 writeData(uid, "re_assessment", swQcode, sworstAns.length, sworstAns);
+                changeInScore(uid, sworstAns, trueAnswers[swQA], swQcode, swQnum);
                 setTimeout(function(){
                   window.location.href = "feedback.html";
                 }, 500);
@@ -1064,7 +1073,7 @@ function worstQs(theSlide, theNum, n, array){
   theSlide.innerHTML = ""
   document.querySelector("#top h6").innerHTML = "";
   var heading = document.createElement("h6");
-  heading.innerHTML = "We will now test you again on the two questions you scored lowest on.";
+  heading.innerHTML = "We will now test you again on the two questions you scored lowest on. Use the sliders to predict the percentage of what the public thought.";
   theSlide.appendChild(heading);
   addRow(theSlide);
   var qlbl = document.createElement("label");
@@ -1363,6 +1372,27 @@ function saveFeedback(uid, vals, text){
 function alertnessTest(uid, test, fail){
   firebase.database().ref('/' + uid + '/alertness_tests/' + test + '/').set({
     failed: fail
+  });
+};
+
+function setTimestamp(uid, time){
+  firebase.database().ref('/' + uid + '/timestamp/').set({
+    timestamp: time
+  });
+};
+
+function saveFinalScore(uid, score){
+  firebase.database().ref('/' + uid + '/final_score/').set({
+    score_as_percentage: score
+  });
+};
+
+function changeInScore(uid, newscores, true_answers, qcode, qnum){
+  var userScore = sumDiff(newscores, true_answers);
+  var normScore = Math.round(100*(means[qnum] - userScore)/stanDs[qnum])
+  var change = normScore - userScores[qnum];
+  firebase.database().ref('/' + uid + '/re_assessment/' + qcode + '/change_in_score/').set({
+    difference: change
   });
 };
 

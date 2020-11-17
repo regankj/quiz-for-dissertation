@@ -11898,7 +11898,6 @@ button {
 .app-header {
   width: 100%;
   background-color: #5680E9;
-  position: absolute;
   color: white;
   position: fixed;
   z-index: 3; }
@@ -11906,6 +11905,10 @@ button {
 .app-header h2 {
   padding-top: 1rem;
   padding-bottom: 1rem; }
+
+@media (max-width: 500px) {
+  .app-header {
+    position: absolute; } }
 
 .radio {
   border: 0px;
