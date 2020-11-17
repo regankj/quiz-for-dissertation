@@ -201,17 +201,11 @@ if ($('body').is(".knowledge")){
         testValues[3] = document.getElementById("whichNewsSite").value;
         testValues[6] = interest;
         testValues[7] = party;
-        var radios = document.querySelectorAll('.radio');
-        for (var t5 = 0; t5 < radios.length; t5++){
-          radios[t5].disabled = true;
-        };
-        document.getElementById("whatPaper").disabled = true;
-        document.getElementById("whichNewsSite").disabled = true;
-        testErr.style.display = "none";
         saveTest(uid, testValues);
+        testErr.style.display = "none";
         setTimeout(function(){
           window.location.href = "quiz.html";
-        }, 600);
+        }, 750);
       }
     });
 
