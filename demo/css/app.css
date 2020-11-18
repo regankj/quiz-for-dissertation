@@ -11897,7 +11897,7 @@ button {
 
 .app-header {
   width: 100%;
-  background-color: #5680E9;
+  background-color: black;
   color: white;
   position: fixed;
   z-index: 3; }
