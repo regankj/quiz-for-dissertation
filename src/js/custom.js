@@ -38,6 +38,7 @@ var testValues = [];
 // political knowledge test section
 if ($('body').is(".knowledge")){
   var uid = getCookie();
+  var startTime = Date.now();
   var noPaper = document.getElementById('noPaper');
   var yesPaper = document.getElementById('yesPaper');
   var yesSite = document.getElementById('yesNewsSite');
@@ -208,7 +209,9 @@ if ($('body').is(".knowledge")){
         testErr.style.display = "inline-block";
       } else {
         testErr.style.display = "none";
-        saveTest(uid, testValues);
+        var endTime = Date.now();
+        var difference = (endTime - startTime)/1000;
+        saveTest(uid, testValues, difference);
       }
     });
 
@@ -610,7 +613,7 @@ function readData(file, section){
             showSlide(nextSlide, currentSlideID, slideNo);
             currentSlideID = "slide" + slideNo;
             startTime = Date.now();
-            location.href = "#top";
+            window.scrollBy(0, -500);
           }
         }
 
@@ -821,6 +824,7 @@ function finalSlides(){
   var conID = "confirm21";
   document.querySelector('#top h6').innerHTML = "No sliders for this question! Please select your answer: "
   document.getElementById(conID).addEventListener('click', function(){
+    var startTime = Date.now();
     document.getElementById("nextBtn").style.display = "none";
     var num = 0;
     theSlide.innerHTML = "";
@@ -840,10 +844,11 @@ function finalSlides(){
     link.href = "https://www.bbc.co.uk/news/magazine-22000973";
     link.target = "_blank";
     var classLbl = document.createElement("label");
-    classLbl.innerHTML = "Please take the Great British Class Survey available at the following link (5 questions, opens in new window) [open in new window/tab] ";
+    classLbl.innerHTML = "Please take the Great British Class Survey available at the following link (5 questions, opens in new window)";
     theSlide.appendChild(demoDiv);
     demoDiv.appendChild(classLbl);
     demoDiv.append(link);
+    addRow(demoDiv);
     d3.csv("Sample-Data/demographics.csv").then(function(data){
       data.forEach(function(d){
         num++;
@@ -895,7 +900,7 @@ function finalSlides(){
           d3.select(boxID).append("option").text(d.Option12);
         };
         if (d.Option13 != ""){
-          d3.select(boxID).append("option").text(d.Option12);
+          d3.select(boxID).append("option").text(d.Option13);
         };
 
         addRow(demoDiv);
@@ -950,11 +955,14 @@ function finalSlides(){
         }
         alertnessTest(uid, "Class_Survey", fail);
         document.getElementById("demoErr").style.display = "none";
-        saveUserData(uid, classBracket, age, gender, race, edu, house);
+        var endTime = Date.now();
+        var difference = (endTime - startTime)/1000;
+        saveUserData(uid, classBracket, age, gender, race, edu, house, difference);
 
         location.href = "#top";
         window.scrollBy(0, -200);
         theSlide.className = "active-slide";
+        var startTime1 = Date.now();
         document.querySelector("#top h2").innerHTML = "Well Done!"
         document.querySelector("#top h6").innerHTML = "";
         var heading = document.createElement("h6");
@@ -1059,14 +1067,25 @@ function finalSlides(){
             var swQnum = "question" + secondWorstNum;
             var swQA = "answers" + secondWorstNum;
 
-            worstQs(theSlide, worstNum, 21, worstAns);
+            var endTime1 = Date.now();
+            var difference = (endTime1 - startTime1)/1000;
+            saveTime(uid, "results_timer", "", difference);
 
+            worstQs(theSlide, worstNum, 21, worstAns);
+            var startTime2 = Date.now();
 
             document.getElementById(worstConf).onclick = function(){
+              var endTime2 = Date.now();
+              var difference = (endTime2 - startTime2)/1000;
+              saveTime(uid, "re_assessment", worstQcode, difference);
               writeData(uid, "re_assessment", worstQcode, worstAns.length, worstAns);
               changeInScore(uid, worstAns, trueAnswers[worstQA], worstQcode, worstQnum);
               worstQs(theSlide, secondWorstNum, 21, sworstAns);
+              var startTime3 = Date.now();
               document.getElementById(secondWorstConf).onclick =  function(){
+                var endTime3 = Date.now();
+                var difference = (endTime3 - startTime3)/1000;
+                saveTime(uid, "re_assessment", swQcode, difference);
                 writeData(uid, "re_assessment", swQcode, sworstAns.length, sworstAns);
                 changeInScore(uid, sworstAns, trueAnswers[swQA], swQcode, swQnum);
               };
@@ -1319,9 +1338,16 @@ function writeData(uid, section, qcode, num, answers){
 
 // time stamp for each question
 function saveTime(uid, section, qcode, time){
-  firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/timer/').set({
-    Timer: time
-  });
+  if (qcode == ""){
+    firebase.database().ref('/' + uid + '/' + section + '/timer/').set({
+      Timer: time
+    });
+  } else {
+    firebase.database().ref('/' + uid + '/' + section + '/' + qcode + '/timer/').set({
+      Timer: time
+    });
+  }
+
 }
 
 // save the user's actual answer
@@ -1332,7 +1358,7 @@ function writeAnswer(uid, section, qcode, ans){
 };
 
 // save political knowledge test results
-function saveTest(uid, vals){
+function saveTest(uid, vals, time){
   firebase.database().ref('/' + uid + '/political_knowledge_test/').set({
     paperYN: vals[0],
     paper: vals[1],
@@ -1346,7 +1372,8 @@ function saveTest(uid, vals){
     party_vote: vals[8],
     prop_of_seats_HOC: vals[10],
     electricity: vals[11],
-    party_with_most_seats: vals[12]
+    party_with_most_seats: vals[12],
+    Timer: time
 
   }, function(error){
     if (error){
@@ -1358,14 +1385,15 @@ function saveTest(uid, vals){
 };
 
 // function to save user details
-function saveUserData(uid, classBracket, age, gender, race, edu, house){
+function saveUserData(uid, classBracket, age, gender, race, edu, house, time){
   firebase.database().ref('/' + uid + '/details/').set({
     class_bracket: classBracket,
     age: age,
     gender: gender,
     race: race,
     education: edu,
-    adults_in_house: house
+    adults_in_house: house,
+    Timer: time
   });
 };
 
