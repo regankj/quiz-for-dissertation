@@ -690,8 +690,8 @@ function createChart(data, qIndex){
   var bottomMar = 200;
 
   if (qIndex == 5 || qIndex == 17 || qIndex == 20){
-    height = 760;
-    bottomMar = 340;
+    height = 700;
+    bottomMar = 380;
   }
 
   if (window.matchMedia("(max-width: 500px)").matches){
@@ -840,7 +840,7 @@ function finalSlides(){
     link.href = "https://www.bbc.co.uk/news/magazine-22000973";
     link.target = "_blank";
     var classLbl = document.createElement("label");
-    classLbl.innerHTML = "Please take the Great British Class Survey available at the following link [open in new tab] ";
+    classLbl.innerHTML = "Please take the Great British Class Survey available at the following link (5 questions, opens in new window) [open in new window/tab] ";
     theSlide.appendChild(demoDiv);
     demoDiv.appendChild(classLbl);
     demoDiv.append(link);
