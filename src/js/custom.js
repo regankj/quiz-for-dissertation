@@ -144,7 +144,7 @@ if ($('body').is(".knowledge")){
           var theRad = this;
           var str = theRad.id;
           var radNum = parseInt(str.substr(10), 10);
-          var ind = Math.floor((radNum/4.1)) + 8;
+          var ind = Math.floor((radNum/5.1)) + 9;
           var newStr = str.replace("rad", "radLbl");
           testValues[ind] = document.getElementById(newStr).innerHTML;
           for (var t3 = 0; t3 < testRads.length; t3++){
