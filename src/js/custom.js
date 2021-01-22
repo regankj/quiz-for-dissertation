@@ -1478,7 +1478,7 @@ function saveFinalScore(uid, score){
 
 function changeInScore(uid, newscores, true_answers, qcode, qnum){
   var userScore = sumDiff(newscores, true_answers);
-  var normScore = Math.round(100*(means[qnum] - userScore)/stanDs[qnum])
+  var normScore = Math.round(100*(means[qnum] - userScore)/stanDs[qnum]);
   var change = normScore - userScores[qnum];
   firebase.database().ref('/' + uid + '/re_assessment/' + qcode + '/change_in_score/').set({
     difference: change
@@ -1502,8 +1502,8 @@ function sumDiff(a,b){
   var sdiff = 0;
   for (var v = 0; v < a.length; v++){
     sdiff += Math.abs(a[v] - b[v]);
-    return sdiff;
   }
+  return sdiff;
 }
 
 
