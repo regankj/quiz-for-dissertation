@@ -366,6 +366,111 @@ function addTestRads(slide){
 var slideNo = 1;
 var currentSlideID = "slide" + slideNo;
 
+function sliderFunctionality(numOfOpts, barsNum, array, valuesNum, splice){
+  if (numOfOpts == 2){
+    for (var b = 0; b < hbars[barsNum].length; b++){
+      document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
+        var str = this.id;
+        var ind = parseInt(str.substr(splice), 10) - 1;
+        var bar1 = document.getElementById(hbars[barsNum][0]);
+        var bar2 = document.getElementById(hbars[barsNum][1]);
+        var span1 = document.getElementById(barSpans[barsNum][0]);
+        var span2 = document.getElementById(barSpans[barsNum][1]);
+        if (ind == 0){
+          span1.innerHTML = bar1.value + "%";
+          bar2.value = 100 - bar1.value;
+          span2.innerHTML = bar2.value + "%";
+        } else {
+          span2.innerHTML = bar2.value + "%";
+          bar1.value = 100 - bar2.value;
+          span1.innerHTML = bar1.value + "%";
+        }
+        if (valuesNum !== ""){
+          array[valuesNum][0] = bar1.value;
+          array[valuesNum][1] = bar2.value;
+        } else {
+          array[0] = bar1.value;
+          array[1] = bar2.value;
+        }
+
+      })
+    }
+  } else {
+    var prop = 0.5;
+    for (var b = 0; b < hbars[barsNum].length; b++){
+      document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
+        var str = this.id;
+        var ind = parseInt(str.substr(splice), 10) - 1;
+        var bar1 = document.getElementById(hbars[barsNum][0]);
+        var bar2 = document.getElementById(hbars[barsNum][1]);
+        var bar3 = document.getElementById(hbars[barsNum][2]);
+        var span1 = document.getElementById(barSpans[barsNum][0]);
+        var span2 = document.getElementById(barSpans[barsNum][1]);
+        var span3 = document.getElementById(barSpans[barsNum][2]);
+
+
+
+
+        if (ind == 0){
+          span1.innerHTML = bar1.value + "%";
+          bar2.value = 100 - bar1.value - bar3.value;
+          span2.innerHTML = bar2.value + "%";
+          if (bar2.value == 0){
+            span2.innerHTML = "0%";
+            bar3.value = 100 - bar1.value;
+            span3.innerHTML = bar3.value + "%";
+          }
+          prop = (bar1.value)/(100-bar3.value);
+
+
+
+        } else if (ind == 1){
+          span2.innerHTML = bar2.value + "%";
+          bar1.value = 100 - bar2.value - bar3.value;
+          span1.innerHTML = bar1.value + "%";
+          if (bar1.value == 0){
+            span1.innerHTML = "0%";
+            bar3.value = 100 - bar2.value;
+            span3.innerHTML = bar3.value + "%";
+          }
+          prop = (bar1.value)/(100-bar3.value);
+
+        } else {
+
+          span3.innerHTML = bar3.value + "%";
+          var diff = 100 - bar3.value;
+          bar1.value = Math.floor(diff*prop);
+          span1.innerHTML = bar1.value + "%";
+          bar2.value = 100 - bar1.value - bar3.value;
+          span2.innerHTML = bar2.value + "%";
+          if (bar2.value == 0){
+            span2.innerHTML = "0%";
+            bar1.value = 100 - bar3.value;
+            span1.innerHTML = bar1.value + "%";
+          }
+          if (bar1.value == 0){
+            span1.innerHTML = "0%";
+            bar2.value = 100 - bar3.value;
+            span2.innerHTML = bar2.value + "%";
+          }
+
+
+        }
+        if (valuesNum !== ""){
+          array[valuesNum][0] = bar1.value;
+          array[valuesNum][1] = bar2.value;
+          array[valuesNum][2] = bar3.value;
+        } else {
+          array[0] = bar1.value;
+          array[1] = bar2.value;
+          array[2] = bar3.value;
+        }
+
+      });
+    }
+  }
+}
+
 /*
 loading in questions from a csv file and calling other functions to create the quiz
 code taken and adapted from https://stackoverflow.com/questions/29259938/how-to-load-csv-file-to-use-with-d3
@@ -515,96 +620,7 @@ function readData(file, section){
 
       if (qcode != "covid19"){
         // keeping the sliders at 100%
-        if (numOfOpts == 2){
-          for (var b = 0; b < hbars[barsNum].length; b++){
-            document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
-              var str = this.id;
-              var ind = parseInt(str.substr(splice), 10) - 1;
-              var bar1 = document.getElementById(hbars[barsNum][0]);
-              var bar2 = document.getElementById(hbars[barsNum][1]);
-              var span1 = document.getElementById(barSpans[barsNum][0]);
-              var span2 = document.getElementById(barSpans[barsNum][1]);
-              if (ind == 0){
-                span1.innerHTML = bar1.value + "%";
-                bar2.value = 100 - bar1.value;
-                span2.innerHTML = bar2.value + "%";
-              } else {
-                span2.innerHTML = bar2.value + "%";
-                bar1.value = 100 - bar2.value;
-                span1.innerHTML = bar1.value + "%";
-              }
-              values[valuesNum][0] = bar1.value;
-              values[valuesNum][1] = bar2.value;
-            })
-          }
-        } else {
-          var prop = 0.5;
-          for (var b = 0; b < hbars[barsNum].length; b++){
-            document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
-              var str = this.id;
-              var ind = parseInt(str.substr(splice), 10) - 1;
-              var bar1 = document.getElementById(hbars[barsNum][0]);
-              var bar2 = document.getElementById(hbars[barsNum][1]);
-              var bar3 = document.getElementById(hbars[barsNum][2]);
-              var span1 = document.getElementById(barSpans[barsNum][0]);
-              var span2 = document.getElementById(barSpans[barsNum][1]);
-              var span3 = document.getElementById(barSpans[barsNum][2]);
-
-
-
-
-              if (ind == 0){
-                span1.innerHTML = bar1.value + "%";
-                bar2.value = 100 - bar1.value - bar3.value;
-                span2.innerHTML = bar2.value + "%";
-                if (bar2.value == 0){
-                  span2.innerHTML = "0%";
-                  bar3.value = 100 - bar1.value;
-                  span3.innerHTML = bar3.value + "%";
-                }
-                prop = (bar1.value)/(100-bar3.value);
-
-
-
-              } else if (ind == 1){
-                span2.innerHTML = bar2.value + "%";
-                bar1.value = 100 - bar2.value - bar3.value;
-                span1.innerHTML = bar1.value + "%";
-                if (bar1.value == 0){
-                  span1.innerHTML = "0%";
-                  bar3.value = 100 - bar2.value;
-                  span3.innerHTML = bar3.value + "%";
-                }
-                prop = (bar1.value)/(100-bar3.value);
-
-              } else {
-
-                span3.innerHTML = bar3.value + "%";
-                var diff = 100 - bar3.value;
-                bar1.value = Math.floor(diff*prop);
-                span1.innerHTML = bar1.value + "%";
-                bar2.value = 100 - bar1.value - bar3.value;
-                span2.innerHTML = bar2.value + "%";
-                if (bar2.value == 0){
-                  span2.innerHTML = "0%";
-                  bar1.value = 100 - bar3.value;
-                  span1.innerHTML = bar1.value + "%";
-                }
-                if (bar1.value == 0){
-                  span1.innerHTML = "0%";
-                  bar2.value = 100 - bar3.value;
-                  span2.innerHTML = bar2.value + "%";
-                }
-
-
-              }
-
-              values[valuesNum][0] = bar1.value;
-              values[valuesNum][1] = bar2.value;
-              values[valuesNum][2] = bar3.value;
-            });
-          }
-        }
+        sliderFunctionality(numOfOpts, barsNum, values, valuesNum, splice);
       }
 
       // submitting data and disabling buttons after the confirm button is clicked
@@ -1174,101 +1190,7 @@ function worstQs(theSlide, theNum, n, array){
   wConfBtn.id = "wConf" + theNum;
   theSlide.appendChild(wConfBtn);
 
-  if (options[oNum].length == 2){
-    array[0] = 50;
-    array[1] = 50;
-    for (var b = 0; b < options[oNum].length; b++){
-      document.getElementById(hbars[barNum][b]).addEventListener('input', function(){
-        var str = this.id;
-        var ind = parseInt(str.substr(6), 10) - 1;
-        var bar1 = document.getElementById(hbars[barNum][0]);
-        var bar2 = document.getElementById(hbars[barNum][1]);
-        var span1 = document.getElementById(barSpans[barNum][0]);
-        var span2 = document.getElementById(barSpans[barNum][1]);
-        if (ind == 0){
-          span1.innerHTML = bar1.value + "%";
-          bar2.value = 100 - bar1.value;
-          span2.innerHTML = bar2.value + "%";
-        } else {
-          span2.innerHTML = bar2.value + "%";
-          bar1.value = 100 - bar2.value;
-          span1.innerHTML = bar1.value + "%";
-        }
-        array[0] = bar1.value;
-        array[1] = bar2.value;
-      })
-    }
-  } else {
-    array[0] = 34;
-    array[1] = 33;
-    array[2] = 33;
-    var prop = 0.5;
-    for (var b = 0; b < hbars[barNum].length; b++){
-      document.getElementById(hbars[barNum][b]).addEventListener('input', function(){
-        var str = this.id;
-        var ind = parseInt(str.substr(6), 10) - 1;
-        var bar1 = document.getElementById(hbars[barNum][0]);
-        var bar2 = document.getElementById(hbars[barNum][1]);
-        var bar3 = document.getElementById(hbars[barNum][2]);
-        var span1 = document.getElementById(barSpans[barNum][0]);
-        var span2 = document.getElementById(barSpans[barNum][1]);
-        var span3 = document.getElementById(barSpans[barNum][2]);
-
-
-
-
-        if (ind == 0){
-          span1.innerHTML = bar1.value + "%";
-          bar2.value = 100 - bar1.value - bar3.value;
-          span2.innerHTML = bar2.value + "%";
-          if (bar2.value == 0){
-            span2.innerHTML = "0%";
-            bar3.value = 100 - bar1.value;
-            span3.innerHTML = bar3.value + "%";
-          }
-          prop = (bar1.value)/(100-bar3.value);
-
-
-
-        } else if (ind == 1){
-          span2.innerHTML = bar2.value + "%";
-          bar1.value = 100 - bar2.value - bar3.value;
-          span1.innerHTML = bar1.value + "%";
-          if (bar1.value == 0){
-            span1.innerHTML = "0%";
-            bar3.value = 100 - bar2.value;
-            span3.innerHTML = bar3.value + "%";
-          }
-          prop = (bar1.value)/(100-bar3.value);
-
-        } else {
-
-          span3.innerHTML = bar3.value + "%";
-          var diff = 100 - bar3.value;
-          bar1.value = Math.floor(diff*prop);
-          span1.innerHTML = bar1.value + "%";
-          bar2.value = 100 - bar1.value - bar3.value;
-          span2.innerHTML = bar2.value + "%";
-          if (bar2.value == 0){
-            span2.innerHTML = "0%";
-            bar1.value = 100 - bar3.value;
-            span1.innerHTML = bar1.value + "%";
-          }
-          if (bar1.value == 0){
-            span1.innerHTML = "0%";
-            bar2.value = 100 - bar3.value;
-            span2.innerHTML = bar2.value + "%";
-          }
-
-
-        }
-
-        array[0] = bar1.value;
-        array[1] = bar2.value;
-        array[2] = bar3.value;
-      });
-    }
-  }
+  sliderFunctionality(options[oNum].length, barNum, array, "", 6)
 }
 
 // reads in scoring csv file and adds the original BSAS results into arrays
