@@ -289,7 +289,7 @@ function addRow(slide){
   newRow.appendChild(col);
 };
 
-function addSliders(slide, num){
+function addSlider(slide, num){
   const col = document.createElement("div");
   col.className = "col-md-6";
   slide.append(col);
@@ -366,16 +366,16 @@ function addTestRads(slide){
 var slideNo = 1;
 var currentSlideID = "slide" + slideNo;
 
-function sliderFunctionality(numOfOpts, barsNum, array, valuesNum, splice){
+function addSliderEventListeners(numOfOpts, keyForBars, arrayOfValues, keyForValues , splice){
   if (numOfOpts == 2){
-    for (var b = 0; b < hbars[barsNum].length; b++){
-      document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
+    for (var b = 0; b < hbars[keyForBars].length; b++){
+      document.getElementById(hbars[keyForBars][b]).addEventListener('input', function(){
         var str = this.id;
         var ind = parseInt(str.substr(splice), 10) - 1;
-        var bar1 = document.getElementById(hbars[barsNum][0]);
-        var bar2 = document.getElementById(hbars[barsNum][1]);
-        var span1 = document.getElementById(barSpans[barsNum][0]);
-        var span2 = document.getElementById(barSpans[barsNum][1]);
+        var bar1 = document.getElementById(hbars[keyForBars][0]);
+        var bar2 = document.getElementById(hbars[keyForBars][1]);
+        var span1 = document.getElementById(barSpans[keyForBars][0]);
+        var span2 = document.getElementById(barSpans[keyForBars][1]);
         if (ind == 0){
           span1.innerHTML = bar1.value + "%";
           bar2.value = 100 - bar1.value;
@@ -385,28 +385,28 @@ function sliderFunctionality(numOfOpts, barsNum, array, valuesNum, splice){
           bar1.value = 100 - bar2.value;
           span1.innerHTML = bar1.value + "%";
         }
-        if (valuesNum !== ""){
-          array[valuesNum][0] = bar1.value;
-          array[valuesNum][1] = bar2.value;
+        if (keyForValues !== ""){
+          arrayOfValues[keyForValues][0] = bar1.value;
+          arrayOfValues[keyForValues][1] = bar2.value;
         } else {
-          array[0] = bar1.value;
-          array[1] = bar2.value;
+          arrayOfValues[0] = bar1.value;
+          arrayOfValues[1] = bar2.value;
         }
 
       })
     }
   } else {
     var prop = 0.5;
-    for (var b = 0; b < hbars[barsNum].length; b++){
-      document.getElementById(hbars[barsNum][b]).addEventListener('input', function(){
+    for (var b = 0; b < hbars[keyForBars].length; b++){
+      document.getElementById(hbars[keyForBars][b]).addEventListener('input', function(){
         var str = this.id;
         var ind = parseInt(str.substr(splice), 10) - 1;
-        var bar1 = document.getElementById(hbars[barsNum][0]);
-        var bar2 = document.getElementById(hbars[barsNum][1]);
-        var bar3 = document.getElementById(hbars[barsNum][2]);
-        var span1 = document.getElementById(barSpans[barsNum][0]);
-        var span2 = document.getElementById(barSpans[barsNum][1]);
-        var span3 = document.getElementById(barSpans[barsNum][2]);
+        var bar1 = document.getElementById(hbars[keyForBars][0]);
+        var bar2 = document.getElementById(hbars[keyForBars][1]);
+        var bar3 = document.getElementById(hbars[keyForBars][2]);
+        var span1 = document.getElementById(barSpans[keyForBars][0]);
+        var span2 = document.getElementById(barSpans[keyForBars][1]);
+        var span3 = document.getElementById(barSpans[keyForBars][2]);
 
 
 
@@ -456,14 +456,14 @@ function sliderFunctionality(numOfOpts, barsNum, array, valuesNum, splice){
 
 
         }
-        if (valuesNum !== ""){
-          array[valuesNum][0] = bar1.value;
-          array[valuesNum][1] = bar2.value;
-          array[valuesNum][2] = bar3.value;
+        if (keyForValues !== ""){
+          arrayOfValues[keyForValues][0] = bar1.value;
+          arrayOfValues[keyForValues][1] = bar2.value;
+          arrayOfValues[keyForValues][2] = bar3.value;
         } else {
-          array[0] = bar1.value;
-          array[1] = bar2.value;
-          array[2] = bar3.value;
+          arrayOfValues[0] = bar1.value;
+          arrayOfValues[1] = bar2.value;
+          arrayOfValues[2] = bar3.value;
         }
 
       });
@@ -546,16 +546,16 @@ function readData(file, section){
         addRow(slide);
 
         d3.select(slideID).append("label").text(d.Option1);
-        addSliders(slide, (count + extra));
+        addSlider(slide, (count + extra));
         addRow(slide);
 
         d3.select(slideID).append("label").text(d.Option2);
-        addSliders(slide, count);
+        addSlider(slide, count);
         addRow(slide);
 
         if (d.Option3 != ""){
           d3.select(slideID).append("label").text(d.Option3);
-          addSliders(slide, count);
+          addSlider(slide, count);
           addRow(slide);
         }
       }
@@ -620,7 +620,7 @@ function readData(file, section){
 
       if (qcode != "covid19"){
         // keeping the sliders at 100%
-        sliderFunctionality(numOfOpts, barsNum, values, valuesNum, splice);
+        addSliderEventListeners(numOfOpts, barsNum, values, valuesNum, splice);
       }
 
       // submitting data and disabling buttons after the confirm button is clicked
@@ -686,17 +686,10 @@ if ($('body').is('.quiz1')){
 
 };
 
-function showNextSlide(slideNo, currentSlideID){
-  slideNo++;
-  var nextSlide = "slide" + slideNo;
-  showSlide(nextSlide, currentSlideID, slideNo);
-  currentSlideID = "slide" + slideNo;
-}
-
 for (var num = 0; num < 21; num++){
   var v = "values" + (num + 1);
   var barsNum = "bars" + (num + 1);
-  var o = "options" + (num + 1);
+  var opt = "options" + (num + 1);
   var r = "rads" + (num + 1);
   var rl = "radLbls" + (num + 1);
   var tr = "answers" + (num + 1);
@@ -704,7 +697,7 @@ for (var num = 0; num < 21; num++){
   values[v] = [];
   hbars[barsNum] = [];
   barSpans[barsNum] = [];
-  options[o] = [];
+  options[opt] = [];
   rads[r] = [];
   radLbls[rl] = [];
   trueAnswers[tr] = [];
@@ -1161,23 +1154,23 @@ function worstQs(theSlide, theNum, n, array){
   perc.innerHTML = "What percentage of the British public do you think chose each answer?";
   theSlide.appendChild(perc);
   addRow(theSlide);
-  for (var o = 0; o < options[oNum].length; o++){
+  for (var opt = 0; opt < options[oNum].length; opt++){
     var lbl = document.createElement("label");
-    lbl.innerHTML = options[oNum][o];
+    lbl.innerHTML = options[oNum][opt];
     theSlide.appendChild(lbl);
     addRow(theSlide);
     var count = Math.floor(100/options[oNum].length);
     var extra = 0;
-    if (count == 100){
+    if (count*(options[oNum].length) == 100){
       extra = 0;
     } else {
       extra = 100 - (count*(options[oNum].length));
     }
-    if (o == 0){
-      addSliders(theSlide, count + extra);
+    if (opt == 0){
+      addSlider(theSlide, count + extra);
     }
     else {
-    addSliders(theSlide, count);
+    addSlider(theSlide, count);
     }
 
     addRow(theSlide);
@@ -1190,7 +1183,7 @@ function worstQs(theSlide, theNum, n, array){
   wConfBtn.id = "wConf" + theNum;
   theSlide.appendChild(wConfBtn);
 
-  sliderFunctionality(options[oNum].length, barNum, array, "", 6)
+  addSliderEventListeners(options[oNum].length, barNum, array, "", 6);
 }
 
 // reads in scoring csv file and adds the original BSAS results into arrays
