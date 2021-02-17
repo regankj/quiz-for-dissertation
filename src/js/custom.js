@@ -48,6 +48,15 @@ function get_browser() {
   };
 }
 
+function arraySize(array) {
+  var size = 0,
+    item;
+  for (item in array) {
+    size++;
+  }
+  return size;
+}
+
 if ($("body").is(".consent")) {
   setCookie();
   document.getElementById("agreeBtn").onclick = function () {
@@ -219,7 +228,7 @@ if ($("body").is(".knowledge")) {
     testBtn.addEventListener("click", function () {
       var checkedRads = 0;
       var radios = document.querySelectorAll(".radio");
-      for (var t4 = 0; t4 < radios.length; t4++) {
+      for (var t4 = 0; t4 < arraySize(radios); t4++) {
         if (radios[t4].checked == true) {
           checkedRads++;
         }
@@ -548,7 +557,6 @@ function readData(file, section) {
 
       var questionNum = "question" + i;
       var valuesNum = "values" + i;
-      var barsNum = "bars" + i;
       var optionsNum = "options" + i;
       var radsNum = "rads" + i;
       var radLblsNum = "radLbls" + i;
@@ -625,12 +633,12 @@ function readData(file, section) {
       addRow(slide);
 
       // ensuring only one radio button can be checked at a time
-      for (var r3 = 0; r3 < rads[radsNum].length; r3++) {
+      for (var r3 = 0; r3 < arraySize(rads[radsNum]); r3++) {
         document
           .getElementById(rads[radsNum][r3])
           .addEventListener("click", function () {
             var theRad = this;
-            for (var r4 = 0; r4 < rads[radsNum].length; r4++) {
+            for (var r4 = 0; r4 < arraySize(rads[radsNum]); r4++) {
               if (theRad != document.getElementById(rads[radsNum][r4])) {
                 document.getElementById(rads[radsNum][r4]).checked = false;
               }
@@ -644,7 +652,7 @@ function readData(file, section) {
             var newStr = str.replace("radLbl", "radio");
             var activeRad = document.getElementById(newStr);
             activeRad.checked = true;
-            for (var r5 = 0; r5 < rads[radsNum].length; r5++) {
+            for (var r5 = 0; r5 < arraySize(rads[radsNum]); r5++) {
               if (activeRad != document.getElementById(rads[radsNum][r5])) {
                 document.getElementById(rads[radsNum][r5]).checked = false;
               }
@@ -663,7 +671,7 @@ function readData(file, section) {
             uid,
             section,
             qcode,
-            options[optionsNum].length,
+            arraySize(options[optionsNum]),
             values[valuesNum]
           );
           saveUserScore(
@@ -677,7 +685,7 @@ function readData(file, section) {
         }
 
         var selected = 0;
-        for (var r2 = 0; r2 < rads[radsNum].length; r2++) {
+        for (var r2 = 0; r2 < arraySize(rads[radsNum]); r2++) {
           if (document.getElementById(rads[radsNum][r2]).checked == true) {
             selected++;
             var ans = document.getElementById(radLbls[radLblsNum][r2])
@@ -1128,7 +1136,7 @@ function finalSlides() {
         vis.id = "vis";
         theSlide.appendChild(vis);
 
-        for (var ind = 0; ind < sortable.length; ind++) {
+        for (var ind = 0; ind < arraySize(sortable); ind++) {
           var qlbl = document.createElement("label");
           var q = sortable[ind][0];
           var num = parseInt(q.replace("question", ""), 10);
@@ -1158,7 +1166,7 @@ function finalSlides() {
 
         window.onbeforeunload = null;
         var btnarray = [nextBtn, topNextBtn];
-        for (var item = 0; item < btnarray.length; item++) {
+        for (var item = 0; item < arraySize(btnarray); item++) {
           btnarray[item].onclick = function () {
             var uid = getCookie();
             var worst = sortable[0][0];
@@ -1288,7 +1296,7 @@ function readTrueAns(file) {
       var sum = trueAnswers[ansIndex].reduce((a, b) => a + b, 0);
 
       if (sum != 100) {
-        for (var a = 0; a < trueAnswers[ansIndex].length; a++) {
+        for (var a = 0; a < arraySize(trueAnswers[ansIndex]); a++) {
           trueAnswers[ansIndex][a] = (trueAnswers[ansIndex][a] / sum) * 100;
         }
       }
@@ -1544,7 +1552,7 @@ function changeInScore(uid, newscores, true_answers, qcode, qnum) {
 
 function sumDiff(a, b) {
   var sdiff = 0;
-  for (var v = 0; v < a.length; v++) {
+  for (var v = 0; v < arraySize(a); v++) {
     sdiff += Math.abs(a[v] - b[v]);
   }
   return sdiff;
