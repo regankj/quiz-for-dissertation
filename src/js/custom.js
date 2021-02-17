@@ -52,7 +52,7 @@ function arraySize(array) {
   var size = 0,
     item;
   for (item in array) {
-    if (array[item]) {
+    if (array.hasOwnProperty(item)) {
       size++;
     }
   }
@@ -175,7 +175,7 @@ if ($("body").is(".knowledge")) {
       document.getElementById(radLblE).innerHTML = d.Option5;
       addRow(testForm);
 
-      for (var t2 = 0; t2 < testRads.length; t2++) {
+      for (var t2 = 0; t2 < arraySize(testRads); t2++) {
         document
           .getElementById(testRads[t2])
           .addEventListener("click", function () {
@@ -185,7 +185,7 @@ if ($("body").is(".knowledge")) {
             var ind = Math.floor(radNum / 5.1) + 9;
             var newStr = str.replace("rad", "radLbl");
             testValues[ind] = document.getElementById(newStr).innerHTML;
-            for (var t3 = 0; t3 < testRads.length; t3++) {
+            for (var t3 = 0; t3 < arraySize(testRads); t3++) {
               if (theRad != document.getElementById(testRads[t3])) {
                 document.getElementById(testRads[t3]).checked = false;
               }
@@ -202,7 +202,7 @@ if ($("body").is(".knowledge")) {
             var newStr = str.replace("radLbl", "rad");
             var activeRad = document.getElementById(newStr);
             activeRad.checked = true;
-            for (var t5 = 0; t5 < testRads.length; t5++) {
+            for (var t5 = 0; t5 < arraySize(testRads); t5++) {
               if (activeRad != document.getElementById(testRads[t5])) {
                 document.getElementById(testRads[t5]).checked = false;
               }
@@ -1205,7 +1205,7 @@ function finalSlides() {
                 uid,
                 "re_assessment",
                 worstQcode,
-                worstAns.length,
+                arraySize(worstAns),
                 worstAns
               );
               changeInScore(
@@ -1225,7 +1225,7 @@ function finalSlides() {
                   uid,
                   "re_assessment",
                   swQcode,
-                  sworstAns.length,
+                  arraySize(sworstAns),
                   sworstAns
                 );
                 changeInScore(
@@ -1265,7 +1265,7 @@ function worstQs(theSlide, theNum, n, array) {
   theSlide.appendChild(perc);
   addRow(theSlide);
 
-  addSliders(theSlide, options[oNum].length, options[oNum], array, "");
+  addSliders(theSlide, arraySize(options[oNum]), options[oNum], array, "");
   j = 1;
   var wConfBtn = document.createElement("button");
   wConfBtn.className = "btn btn-primary my-md-3";
