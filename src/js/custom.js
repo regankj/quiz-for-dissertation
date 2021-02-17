@@ -52,7 +52,9 @@ function arraySize(array) {
   var size = 0,
     item;
   for (item in array) {
-    size++;
+    if (array[item]) {
+      size++;
+    }
   }
   return size;
 }
@@ -227,7 +229,8 @@ if ($("body").is(".knowledge")) {
 
     testBtn.addEventListener("click", function () {
       var checkedRads = 0;
-      var radios = document.querySelectorAll(".radio");
+      var radiosList = document.querySelectorAll(".radio");
+      var radios = Array.from(radiosList);
       for (var t4 = 0; t4 < arraySize(radios); t4++) {
         if (radios[t4].checked == true) {
           checkedRads++;
