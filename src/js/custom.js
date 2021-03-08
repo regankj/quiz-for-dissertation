@@ -1127,7 +1127,7 @@ function finalSlides() {
         // end of referenced code
 
         var topNextBtn = document.createElement("button");
-        topNextBtn.innerHTML = "next >>";
+        topNextBtn.innerHTML = "finish viewing results and continue >>>";
         topNextBtn.style.float = "right";
         topNextBtn.className = "btn btn-primary my-md-3";
         topNextBtn.type = "button";
