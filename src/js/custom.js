@@ -933,8 +933,10 @@ function finalSlides() {
       " https://www.bbc.co.uk/news/magazine-22000973"
     );
     link.appendChild(linkTxt);
-    link.title = " https://www.bbc.co.uk/news/magazine-22000973";
-    link.href = "https://www.bbc.co.uk/news/magazine-22000973";
+    link.title =
+      " http://www.bbc.co.uk/news/special/2013/newsspec_5093/index.stm";
+    link.href =
+      "http://www.bbc.co.uk/news/special/2013/newsspec_5093/index.stm";
     link.target = "_blank";
     var classLbl = document.createElement("label");
     classLbl.innerHTML =
