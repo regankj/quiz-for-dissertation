@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/quiz-for-dissertation/demo/css/app.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/quiz-for-dissertation/demo/css/app.css" />
     <title>Quiz - How Well Do You Know The British Public?</title>
   </head>
   <body class="feedback">
@@ -22,16 +22,19 @@
           <form id="userFeedback" class="justify-content-center">
             <div class="form-row my-md-3">
               <div class="col-md-12">
-                <label>Do you think anything you've learned will change your opinion?</label>
+                <label
+                  >Do you think anything you've learned will change your
+                  opinion?</label
+                >
               </div>
             </div>
             <div class="form-row my-md-3">
               <div class="col-md-6">
-                <input type="radio" class="radio" id="yesChange">
+                <input type="radio" class="radio" id="yesChange" />
                 <label for="yesChange">Yes</label>
               </div>
               <div class="col-md-6">
-                <input type="radio" class="radio" id="noChange">
+                <input type="radio" class="radio" id="noChange" />
                 <label for="noChange">No</label>
               </div>
             </div>
@@ -42,21 +45,21 @@
             </div>
             <div class="form-row my-md-3">
               <div class="col-md-6">
-                <input type="radio" class="radio" id="intNo">
+                <input type="radio" class="radio" id="intNo" />
                 <label for="intNo">Not at all</label>
               </div>
               <div class="col-md-6">
-                <input type="radio" class="radio" id="intLittle">
+                <input type="radio" class="radio" id="intLittle" />
                 <label for="intLittle">A little</label>
               </div>
             </div>
             <div class="form-row my-md-3">
               <div class="col-md-6">
-                <input type="radio" class="radio" id="intQuite">
+                <input type="radio" class="radio" id="intQuite" />
                 <label for="intQuite">Quite interesting</label>
               </div>
               <div class="col-md-6">
-                <input type="radio" class="radio" id="intVery">
+                <input type="radio" class="radio" id="intVery" />
                 <label for="intVery">Very interesting</label>
               </div>
             </div>
@@ -66,57 +69,79 @@
               </div>
             </div>
             <div class="form-row my-md-3">
-              <div class="col-md-2">
-              </div>
+              <div class="col-md-2"></div>
               <div class="col-md-6">
                 <textarea id="openFeedback" rows="8" cols="60"></textarea>
               </div>
             </div>
             <div class="form-row my-md-3">
               <div class="col-md-6">
-                <button class="btn btn-primary my-md-3" data-toggle="modal" data-target="#exampleModal" type="button" id="fbackConfirm">Confirm</button>
+                <button
+                  class="btn btn-primary my-md-3"
+                  data-toggle="modal"
+                  data-target="#exampleModal"
+                  type="button"
+                  id="fbackConfirm"
+                >
+                  Confirm
+                </button>
               </div>
             </div>
             <div class="form-row my-md-3">
               <div class="col-md-6">
                 <div class="alert alert-danger" role="alert" id="fbErrText">
-                  *Please Complete all questions
+                  *Please Complete the entire form
                 </div>
                 <div class="form-row my-md-3">
-                  <label id="c_and_p">Please copy and paste the code into the entry box on the mturk page.</label>
+                  <label id="c_and_p"
+                    >Please copy and paste the code into the entry box on the
+                    mturk page.</label
+                  >
                 </div>
               </div>
             </div>
           </form>
         </div>
-        <div class="card-footer">
-        </div>
+        <div class="card-footer"></div>
       </div>
       <!-- Modal
           taken from https://getbootstrap.com/docs/4.5/components/modal/
           accessed 2-11-20
           end of referenced code
      -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Thank You</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div  class="modal-body">
-              <p>The survey code is below. Copy and paste this into the input box on the mturk page.
-                 Thank you for taking the time to complete this quiz. </p>
+            <div class="modal-body">
+              <p>
+                The survey code is below. Copy and paste this into the input box
+                on the mturk page. Thank you for taking the time to complete
+                this quiz.
+              </p>
               <p id="mturk"></p>
             </div>
-            <div class="modal-footer">
-
-            </div>
+            <div class="modal-footer"></div>
           </div>
         </div>
       </div>
     </div>
     <script src="js/app.js"></script>
   </body>
+</html>
