@@ -930,7 +930,7 @@ function finalSlides() {
     var demoDiv = document.createElement("div");
     var link = document.createElement("a");
     var linkTxt = document.createTextNode(
-      " https://www.bbc.co.uk/news/magazine-22000973"
+      " http://www.bbc.co.uk/news/special/2013/newsspec_5093/index.stm"
     );
     link.appendChild(linkTxt);
     link.title =
