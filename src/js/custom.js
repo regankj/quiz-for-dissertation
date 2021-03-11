@@ -1546,7 +1546,7 @@ function changeInScore(uid, newscores, true_answers, qcode, qnum) {
           if (newscores == sworstAns) {
             window.location.href = "feedback.html";
           } else {
-            console.log("write successful");
+            console.log("successful");
           }
         }
       }
